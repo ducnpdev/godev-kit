@@ -34,3 +34,9 @@ migrations
 
 internal_test
 
+# docker
+docker-compose-integration-test.yml
+docker-compose.yml
+Dockerfile
+README_CN.md
+README_RU.md
