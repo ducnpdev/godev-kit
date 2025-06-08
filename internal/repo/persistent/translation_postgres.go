@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ducnpdev/godev-kit/internal/entity"
+	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
 )
 
@@ -53,7 +54,7 @@ func (r *TranslationRepo) GetHistory(ctx context.Context) ([]entity.Translation,
 }
 
 // Store -.
-func (r *TranslationRepo) Store(ctx context.Context, t entity.Translation) error {
+func (r *TranslationRepo) Store(ctx context.Context, t models.TranslationModel) error {
 	sql, args, err := r.Builder.
 		Insert("history").
 		Columns("source, destination, original, translation").

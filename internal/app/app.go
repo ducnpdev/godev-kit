@@ -11,8 +11,8 @@ import (
 	amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
 	"github.com/ducnpdev/godev-kit/internal/controller/grpc"
 	"github.com/ducnpdev/godev-kit/internal/controller/http"
+	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
-	"github.com/ducnpdev/godev-kit/internal/repo/webapi"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/pkg/grpcserver"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
@@ -35,7 +35,7 @@ func Run(cfg *config.Config) {
 	// Use-Case
 	translationUseCase := translation.New(
 		persistent.New(pg),
-		webapi.New(),
+		externalapi.New(),
 	)
 
 	// RabbitMQ RPC Server

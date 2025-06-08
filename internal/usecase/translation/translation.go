@@ -6,6 +6,7 @@ import (
 
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/ducnpdev/godev-kit/internal/repo"
+	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
 )
 
 // UseCase -.
@@ -39,7 +40,12 @@ func (uc *UseCase) Translate(ctx context.Context, t entity.Translation) (entity.
 		return entity.Translation{}, fmt.Errorf("TranslationUseCase - Translate - s.webAPI.Translate: %w", err)
 	}
 
-	err = uc.repo.Store(ctx, translation)
+	err = uc.repo.Store(ctx, models.TranslationModel{
+		Source:      t.Source,
+		Destination: t.Destination,
+		Original:    t.Original,
+		Translation: t.Translation,
+	})
 	if err != nil {
 		return entity.Translation{}, fmt.Errorf("TranslationUseCase - Translate - s.repo.Store: %w", err)
 	}

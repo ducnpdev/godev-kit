@@ -5,6 +5,7 @@ import (
 	"context"
 
 	"github.com/ducnpdev/godev-kit/internal/entity"
+	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
 )
 
 //go:generate mockgen -source=contracts.go -destination=../usecase/mocks_repo_test.go -package=usecase_test
@@ -12,7 +13,7 @@ import (
 type (
 	// TranslationRepo -.
 	TranslationRepo interface {
-		Store(context.Context, entity.Translation) error
+		Store(context.Context, models.TranslationModel) error
 		GetHistory(context.Context) ([]entity.Translation, error)
 	}
 
