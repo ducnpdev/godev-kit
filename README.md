@@ -1,6 +1,6 @@
-![Go Clean Template](docs/img/logo.svg)
+![Go Dev Kit Template](docs/img/godevkit-logo.svg)
 
-# Go Clean template
+# Go Dev Kit template
 
 [🇨🇳 中文](README_CN.md)
 [🇷🇺 RU](README_RU.md)
