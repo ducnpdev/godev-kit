@@ -1,9 +1,9 @@
 ![Go Dev Kit Template](docs/img/godevkit-logo.svg)
-
+- copy from: go-clean-template
 # Go Dev Kit template
 
-[🇨🇳 中文](README_CN.md)
-[🇷🇺 RU](README_RU.md)
+<!-- [🇨🇳 中文](README_CN.md)
+[🇷🇺 RU](README_RU.md) -->
 
 Clean Architecture template for Golang services
 

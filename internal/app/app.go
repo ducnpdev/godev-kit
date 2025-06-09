@@ -8,7 +8,6 @@ import (
 	"syscall"
 
 	"github.com/ducnpdev/godev-kit/config"
-	amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
 	"github.com/ducnpdev/godev-kit/internal/controller/grpc"
 	"github.com/ducnpdev/godev-kit/internal/controller/http"
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
@@ -19,6 +18,8 @@ import (
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
 	"github.com/ducnpdev/godev-kit/pkg/rabbitmq/rmq_rpc/server"
+
+	amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
 )
 
 // Run creates objects via constructors.

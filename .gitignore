@@ -40,3 +40,6 @@ docker-compose.yml
 Dockerfile
 README_CN.md
 README_RU.md
+
+# 
+cmd/app/config/config.yaml
