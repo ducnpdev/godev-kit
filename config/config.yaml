@@ -22,7 +22,8 @@ RMQ:
   URL: amqp://guest:guest@localhost:5672/
 
 METRICS:
-  ENABLED: false
-
+  ENABLED: true
+  SKIP_PATHS: "/swagger/*;/metrics"
+  PATH: "/metrics"
 SWAGGER:
-  ENABLED: false
+  ENABLED: true

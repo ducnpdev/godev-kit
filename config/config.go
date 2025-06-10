@@ -60,6 +60,11 @@ type (
 	// Metrics -.
 	Metrics struct {
 		Enabled bool `mapstructure:"ENABLED"`
+		// SetSkipPaths type array string,
+		// Declare string, handle split sep ";"
+		SetSkipPaths string `mapstructure:"SKIP_PATHS"`
+		// Path metrics, default /metrics
+		Path string `mapstructure:"PATH"`
 	}
 
 	// Swagger -.
