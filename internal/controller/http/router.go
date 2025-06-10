@@ -3,6 +3,7 @@ package http
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/ducnpdev/godev-kit/config"
@@ -29,9 +30,19 @@ func NewRouter(app *fiber.App, cfg *config.Config, t usecase.Translation, l logg
 
 	// Prometheus metrics
 	if cfg.Metrics.Enabled {
-		prometheus := fiberprometheus.New("godev-kit")
-		prometheus.RegisterAt(app, "/metrics")
+		registerAt := func() string {
+			if cfg.Metrics.Path != "" {
+				return cfg.Metrics.Path
+			}
+			return "/metrics"
+		}
+
+		prometheus := fiberprometheus.New(cfg.App.Name)
+
+		prometheus.SetSkipPaths(strings.Split(cfg.Metrics.SetSkipPaths, ";"))
 		app.Use(prometheus.Middleware)
+
+		prometheus.RegisterAt(app, registerAt())
 	}
 
 	// Swagger
