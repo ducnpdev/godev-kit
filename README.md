@@ -13,3 +13,9 @@ todo
 todo
 
 ## Quick start
+
+## Feature
+### Config data: 
+- handle load env from yaml file.
+  - config struct into file `config/config.go`
+  - value yaml into file `config/config.yaml`
