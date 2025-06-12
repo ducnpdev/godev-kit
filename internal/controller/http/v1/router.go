@@ -18,3 +18,18 @@ func NewTranslationRoutes(apiV1Group fiber.Router, t usecase.Translation, l logg
 		translationGroup.Post("/do-translate", r.doTranslate)
 	}
 }
+
+// NewUserRoutes -.
+func NewUserRoutes(apiV1Group fiber.Router, u usecase.User, l logger.Interface) {
+	r := &V1{user: u, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+	userGroup := apiV1Group.Group("/user")
+
+	{
+		userGroup.Post("", r.createUser)
+		userGroup.Get("", r.listUsers)
+		userGroup.Get("/:id", r.getUser)
+		userGroup.Put("/:id", r.updateUser)
+		userGroup.Delete("/:id", r.deleteUser)
+	}
+}

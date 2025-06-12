@@ -7,12 +7,28 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/entity"
 )
 
-//go:generate mockgen -source=interfaces.go -destination=./mocks_usecase_test.go -package=usecase_test
+//go:generate mockgen -source=contracts.go -destination=./mocks_usecase_test.go -package=usecase_test
 
 type (
 	// Translation -.
 	Translation interface {
-		Translate(context.Context, entity.Translation) (entity.Translation, error)
-		History(context.Context) (entity.TranslationHistory, error)
+		// Translate translates text from one language to another
+		Translate(ctx context.Context, t entity.Translation) (entity.Translation, error)
+		// History gets translation history
+		History(ctx context.Context) (entity.TranslationHistory, error)
+	}
+
+	// User -.
+	User interface {
+		// Create creates a new user
+		Create(ctx context.Context, user entity.User) (entity.User, error)
+		// GetByID gets user by ID
+		GetByID(ctx context.Context, id int64) (entity.User, error)
+		// Update updates user
+		Update(ctx context.Context, user entity.User) error
+		// Delete deletes user
+		Delete(ctx context.Context, id int64) error
+		// List gets all users
+		List(ctx context.Context) (entity.UserHistory, error)
 	}
 )

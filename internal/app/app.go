@@ -13,6 +13,7 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
+	"github.com/ducnpdev/godev-kit/internal/usecase/user"
 	"github.com/ducnpdev/godev-kit/pkg/grpcserver"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
@@ -39,6 +40,10 @@ func Run(cfg *config.Config) {
 		externalapi.New(),
 	)
 
+	userUseCase := user.New(
+		persistent.NewUserRepo(pg),
+	)
+
 	// RabbitMQ RPC Server
 	rmqRouter := amqprpc.NewRouter(translationUseCase, l)
 
@@ -53,7 +58,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(httpserver.Port(cfg.HTTP.Port), httpserver.Prefork(cfg.HTTP.UsePreforkMode))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, l)
 
 	// Start servers
 	rmqServer.Start()

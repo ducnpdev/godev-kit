@@ -21,4 +21,13 @@ type (
 	TranslationWebAPI interface {
 		Translate(entity.Translation) (entity.Translation, error)
 	}
+
+	// UserRepo -.
+	UserRepo interface {
+		Create(context.Context, models.UserModel) (entity.User, error)
+		GetByID(context.Context, int64) (entity.User, error)
+		Update(context.Context, models.UserModel) error
+		Delete(context.Context, int64) error
+		List(context.Context) ([]entity.User, error)
+	}
 )
