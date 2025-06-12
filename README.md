@@ -8,6 +8,35 @@ Godev Kit template for Golang services
 
 todo
 
+## Table of Contents
+- [Quick Start](#quick-start)
+- [Features](#features)
+  - [Configuration](#configuration)
+    - [Environment Variables](#environment-variables)
+    - [YAML Configuration](#yaml-configuration)
+  - [Prometheus Metrics](#prometheus-metrics)
+    - [Enable/Disable Metrics](#enable-disable-metrics)
+    - [Configure Skip Paths](#configure-skip-paths)
+    - [Example Output](#example-output)
+  - [Swagger Documentation](#swagger)
+    - [Installation](#installation)
+    - [Generate Documentation](#generate-documentation)
+    - [Access Swagger UI](#access-swagger-ui)
+    - [Writing Annotations](#writing-swagger-annotations)
+    - [Available Endpoints](#available-endpoints)
+    - [Update Documentation](#update-documentation)
+    - [Swagger UI Features](#swagger-ui-features)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+  - [Building](#building)
+  - [Running](#running)
+  - [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Content
 
 todo
@@ -61,3 +90,167 @@ http_requests_total{method="GET",path="/metrics",service="godev-kit",status_code
 SWAGGER:
   ENABLED: true|false
 ```
+
+2. Installation
+```bash
+# Install Swagger CLI tool
+go install github.com/swaggo/swag/cmd/swag@latest
+
+# Verify installation
+swag --version
+```
+
+3. Generate Documentation
+```bash
+# Generate Swagger docs
+swag init -g cmd/app/main.go -o docs
+
+# This will create:
+# - docs/docs.go
+# - docs/swagger.json
+# - docs/swagger.yaml
+```
+
+4. Access Swagger UI
+- Start your application:
+```bash
+go run cmd/app/main.go
+```
+- Open your browser and navigate to: `http://localhost:8080/swagger/`
+
+5. Writing Swagger Annotations
+```go
+// @Summary     Create user
+// @Description Create a new user
+// @ID          create-user
+// @Tags  	    user
+// @Accept      json
+// @Produce     json
+// @Param       request body request.CreateUser true "Create user"
+// @Success     201 {object} entity.User
+// @Failure     400 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /user [post]
+func (r *V1) createUser(ctx *fiber.Ctx) error {
+    // ... handler implementation
+}
+```
+
+6. Available Endpoints
+- User Management:
+  - POST /v1/user - Create user
+  - GET /v1/user - List users
+  - GET /v1/user/{id} - Get user by ID
+  - PUT /v1/user/{id} - Update user
+  - DELETE /v1/user/{id} - Delete user
+- Translation Service:
+  - POST /v1/translation/do-translate - Translate text
+  - GET /v1/translation/history - Show translation history
+
+7. Update Documentation
+- After making changes to your API endpoints or models, regenerate the Swagger docs:
+```bash
+swag init -g cmd/app/main.go -o docs
+```
+
+8. Swagger UI Features
+- Interactive API documentation
+- Try out API endpoints directly from the browser
+- View request/response schemas
+- Download OpenAPI specification (JSON/YAML)
+```
+
+## Project Structure
+```
+.
+├── cmd/                    # Application entry points
+│   └── app/               # Main application
+│       ├── config/        # Configuration
+│       └── main.go        # Application entry point
+├── config/                # Configuration files
+│   ├── config.go         # Configuration structure
+│   └── config.yaml       # Configuration values
+├── docs/                  # Documentation
+│   ├── img/              # Images
+│   ├── docs.go           # Swagger documentation
+│   ├── swagger.json      # OpenAPI JSON
+│   └── swagger.yaml      # OpenAPI YAML
+├── internal/             # Private application code
+│   ├── controller/       # API handlers
+│   ├── entity/          # Business entities
+│   ├── repo/            # Repository layer
+│   └── usecase/         # Business logic
+├── migrations/           # Database migrations
+├── pkg/                  # Public library code
+├── vendor/              # Application dependencies
+├── .github/             # GitHub templates and workflows
+├── .vscode/             # VS Code settings
+├── nginx/               # Nginx configuration
+├── .dockerignore        # Docker ignore file
+├── .gitignore          # Git ignore file
+├── .golangci.yml       # Golang linter config
+├── go.mod              # Go module file
+├── go.sum              # Go module checksum
+├── LICENSE             # License file
+├── Makefile            # Build automation
+└── README.md           # Project documentation
+```
+
+## API Documentation
+The API documentation is available through Swagger UI when the application is running. See the [Swagger Documentation](#swagger) section for details.
+
+## Development
+
+### Prerequisites
+- Go 1.21 or higher
+- PostgreSQL
+- RabbitMQ (for RPC)
+- Make (optional, for using Makefile)
+
+### Building
+```bash
+# Build the application
+make build
+
+# Or manually
+go build -o bin/app cmd/app/main.go
+```
+
+### Running
+```bash
+# Run the application
+make run
+
+# Or manually
+go run cmd/app/main.go
+```
+
+### Testing
+```bash
+# Run all tests
+make test
+
+# Run tests with coverage
+make test-coverage
+```
+
+## Deployment
+The application can be deployed using Docker:
+
+```bash
+# Build Docker image
+make docker-build
+
+# Run Docker container
+make docker-run
+```
+
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
