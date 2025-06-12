@@ -19,7 +19,7 @@ import (
 // NewRouter -.
 // Swagger spec:
 // @title       Go Dev Kit Template API
-// @description Using a translation service as an example
+// @description Using a translation service and user management as examples
 // @version     1.0
 // @host        localhost:8080
 // @BasePath    /v1

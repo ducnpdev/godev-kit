@@ -1,4 +1,3 @@
-basePath: /v1
 definitions:
   entity.Translation:
     properties:
@@ -22,13 +21,51 @@ definitions:
           $ref: '#/definitions/entity.Translation'
         type: array
     type: object
+  entity.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  entity.UserHistory:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/entity.User'
+        type: array
+    type: object
+  request.CreateUser:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: password123
+        minLength: 6
+        type: string
+      username:
+        example: johndoe
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
   request.Translate:
     properties:
       destination:
         example: en
         type: string
       original:
-        example: текст для перевода
+        example: godev
         type: string
       source:
         example: auto
@@ -38,18 +75,34 @@ definitions:
     - original
     - source
     type: object
+  request.UpdateUser:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: password123
+        minLength: 6
+        type: string
+      username:
+        example: johndoe
+        minLength: 3
+        type: string
+    type: object
   response.Error:
     properties:
       error:
         example: message
         type: string
     type: object
-host: localhost:8080
+  response.Success:
+    properties:
+      message:
+        example: operation completed successfully
+        type: string
+    type: object
 info:
   contact: {}
-  description: Using a translation service as an example
-  title: Go Dev Kit Template API
-  version: "1.0"
 paths:
   /translation/do-translate:
     post:
@@ -102,4 +155,160 @@ paths:
       summary: Show history
       tags:
       - translation
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Get all users
+      operationId: list-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.UserHistory'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: List users
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      operationId: create-user
+      parameters:
+      - description: Create user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Create user
+      tags:
+      - user
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user by ID
+      operationId: delete-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Delete user
+      tags:
+      - user
+    get:
+      consumes:
+      - application/json
+      description: Get user by ID
+      operationId: get-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Get user
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: Update user by ID
+      operationId: update-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Update user
+      tags:
+      - user
 swagger: "2.0"

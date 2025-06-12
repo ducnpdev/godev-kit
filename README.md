@@ -54,3 +54,10 @@ http_requests_in_progress_total{method="GET",service="godev-kit"} 1
 # TYPE http_requests_total counter
 http_requests_total{method="GET",path="/metrics",service="godev-kit",status_code="200"} 1
 ```
+
+### Swagger
+1. On|Off
+```yaml
+SWAGGER:
+  ENABLED: true|false
+```
