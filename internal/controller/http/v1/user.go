@@ -16,11 +16,13 @@ import (
 // @Tags  	    user
 // @Accept      json
 // @Produce     json
+// @Security    BearerAuth
 // @Param       request body request.CreateUser true "Create user"
 // @Success     201 {object} entity.User
 // @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
 // @Failure     500 {object} response.Error
-// @Router      /user [post]
+// @Router      /v1/user [post]
 func (r *V1) CreateUser(c *gin.Context) {
 	var body request.CreateUser
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -58,12 +60,14 @@ func (r *V1) CreateUser(c *gin.Context) {
 // @Tags  	    user
 // @Accept      json
 // @Produce     json
+// @Security    BearerAuth
 // @Param       id path int true "User ID"
 // @Success     200 {object} entity.User
 // @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
-// @Router      /user/{id} [get]
+// @Router      /v1/user/{id} [get]
 func (r *V1) GetUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -93,9 +97,11 @@ func (r *V1) GetUser(c *gin.Context) {
 // @Tags  	    user
 // @Accept      json
 // @Produce     json
+// @Security    BearerAuth
 // @Success     200 {object} entity.UserHistory
+// @Failure     401 {object} response.Error
 // @Failure     500 {object} response.Error
-// @Router      /user [get]
+// @Router      /v1/user [get]
 func (r *V1) ListUsers(c *gin.Context) {
 	userHistory, err := r.user.List(c.Request.Context())
 	if err != nil {
@@ -118,13 +124,15 @@ func (r *V1) ListUsers(c *gin.Context) {
 // @Tags  	    user
 // @Accept      json
 // @Produce     json
+// @Security    BearerAuth
 // @Param       id path int true "User ID"
 // @Param       request body request.UpdateUser true "Update user"
 // @Success     200 {object} response.Success
 // @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
-// @Router      /user/{id} [put]
+// @Router      /v1/user/{id} [put]
 func (r *V1) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -170,12 +178,14 @@ func (r *V1) UpdateUser(c *gin.Context) {
 // @Tags  	    user
 // @Accept      json
 // @Produce     json
+// @Security    BearerAuth
 // @Param       id path int true "User ID"
 // @Success     200 {object} response.Success
 // @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
-// @Router      /user/{id} [delete]
+// @Router      /v1/user/{id} [delete]
 func (r *V1) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -197,7 +207,7 @@ func (r *V1) DeleteUser(c *gin.Context) {
 // @Summary     Login user
 // @Description Login user with email and password
 // @ID          login-user
-// @Tags  	    user
+// @Tags  	    auth
 // @Accept      json
 // @Produce     json
 // @Param       request body request.LoginUser true "Login user"
@@ -205,7 +215,7 @@ func (r *V1) DeleteUser(c *gin.Context) {
 // @Failure     400 {object} response.Error
 // @Failure     401 {object} response.Error
 // @Failure     500 {object} response.Error
-// @Router      /user/login [post]
+// @Router      /v1/auth/login [post]
 func (r *V1) LoginUser(c *gin.Context) {
 	var body request.LoginUser
 	if err := c.ShouldBindJSON(&body); err != nil {

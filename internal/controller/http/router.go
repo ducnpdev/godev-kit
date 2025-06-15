@@ -23,6 +23,10 @@ import (
 // @version     1.0
 // @host        localhost:8080
 // @BasePath    /v1
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, l logger.Interface) {
 	// Middleware
 	app.Use(middleware.Logger(l))
