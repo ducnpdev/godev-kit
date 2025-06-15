@@ -2,23 +2,29 @@ package user
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"time"
 
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/ducnpdev/godev-kit/internal/repo"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/jackc/pgx/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // UseCase -.
 type UseCase struct {
-	repo repo.UserRepo
+	repo      repo.UserRepo
+	jwtSecret []byte
 }
 
 // New -.
-func New(r repo.UserRepo) *UseCase {
+func New(r repo.UserRepo, jwtSecret string) *UseCase {
 	return &UseCase{
-		repo: r,
+		repo:      r,
+		jwtSecret: []byte(jwtSecret),
 	}
 }
 
@@ -106,4 +112,70 @@ func (uc *UseCase) List(ctx context.Context) (entity.UserHistory, error) {
 	}
 
 	return entity.UserHistory{Users: users}, nil
+}
+
+// JWTClaims represents the claims in a JWT token
+type JWTClaims struct {
+	UserID int64  `json:"user_id"`
+	Email  string `json:"email"`
+	jwt.RegisteredClaims
+}
+
+// Login authenticates a user and returns a JWT token
+func (uc *UseCase) Login(ctx context.Context, email, password string) (string, entity.User, error) {
+	// Validate input
+	if email == "" {
+		return "", entity.User{}, fmt.Errorf("UserUseCase - Login - email is required")
+	}
+	if password == "" {
+		return "", entity.User{}, fmt.Errorf("UserUseCase - Login - password is required")
+	}
+
+	// Get user by email
+	user, err := uc.repo.GetByEmail(ctx, email)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return "", entity.User{}, fmt.Errorf("UserUseCase - Login - invalid email or password")
+		}
+		return "", entity.User{}, fmt.Errorf("UserUseCase - Login - failed to get user: %w", err)
+	}
+
+	// Compare passwords
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return "", entity.User{}, fmt.Errorf("UserUseCase - Login - invalid email or password")
+		}
+		return "", entity.User{}, fmt.Errorf("UserUseCase - Login - failed to compare passwords: %w", err)
+	}
+
+	// Set token expiration (24 hours from now)
+	expirationTime := time.Now().Add(24 * time.Hour)
+
+	// Create JWT claims
+	claims := &JWTClaims{
+		UserID: user.ID,
+		Email:  user.Email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			NotBefore: jwt.NewNumericDate(time.Now()),
+			Issuer:    "godev-kit",
+			Subject:   fmt.Sprintf("%d", user.ID),
+		},
+	}
+
+	// Create token with claims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Generate encoded token
+	tokenString, err := token.SignedString(uc.jwtSecret)
+	if err != nil {
+		return "", entity.User{}, fmt.Errorf("UserUseCase - Login - failed to sign token: %w", err)
+	}
+
+	// Clear password from user entity before returning
+	user.Password = ""
+
+	return tokenString, user, nil
 }

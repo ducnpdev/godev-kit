@@ -22,6 +22,7 @@ type (
 		RMQ     RMQ     `mapstructure:"RMQ"`
 		Metrics Metrics `mapstructure:"METRICS"`
 		Swagger Swagger `mapstructure:"SWAGGER"`
+		JWT     JWT     `mapstructure:"JWT"`
 	}
 
 	// App -.
@@ -80,6 +81,10 @@ type (
 	// Swagger -.
 	Swagger struct {
 		Enabled bool `mapstructure:"ENABLED"`
+	}
+	// JWTConfig -.
+	JWT struct {
+		Secret string `mapstructure:"SECRET"`
 	}
 )
 

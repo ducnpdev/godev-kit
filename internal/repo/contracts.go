@@ -4,8 +4,10 @@ package repo
 import (
 	"context"
 
+	"github.com/Masterminds/squirrel"
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 //go:generate mockgen -source=contracts.go -destination=../usecase/mocks_repo_test.go -package=usecase_test
@@ -26,8 +28,12 @@ type (
 	UserRepo interface {
 		Create(context.Context, models.UserModel) (entity.User, error)
 		GetByID(context.Context, int64) (entity.User, error)
+		GetByEmail(context.Context, string) (entity.User, error)
 		Update(context.Context, models.UserModel) error
 		Delete(context.Context, int64) error
 		List(context.Context) ([]entity.User, error)
+		// Database access methods
+		GetBuilder() squirrel.StatementBuilderType
+		GetPool() *pgxpool.Pool
 	}
 )

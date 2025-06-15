@@ -33,3 +33,6 @@ METRICS:
   PATH: "/metrics"
 SWAGGER:
   ENABLED: true
+
+JWT:
+  SECRET: "123"

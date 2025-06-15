@@ -26,10 +26,26 @@ func NewUserRoutes(apiV1Group *gin.RouterGroup, u usecase.User, l logger.Interfa
 	userGroup := apiV1Group.Group("/user")
 
 	{
-		userGroup.POST("", r.createUser)
-		userGroup.GET("", r.listUsers)
-		userGroup.GET("/:id", r.getUser)
-		userGroup.PUT("/:id", r.updateUser)
-		userGroup.DELETE("/:id", r.deleteUser)
+		userGroup.POST("", r.CreateUser)
+		userGroup.GET("", r.ListUsers)
+		userGroup.GET("/:id", r.GetUser)
+		userGroup.PUT("/:id", r.UpdateUser)
+		userGroup.DELETE("/:id", r.DeleteUser)
 	}
+	apiV1Group.POST("auth/login", r.LoginUser)
 }
+
+// // NewUserRoutes -.
+// func NewAuthRoutes(apiV1Group *gin.RouterGroup, u usecase.User, l logger.Interface) {
+// 	r := &V1{user: u, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+// 	userGroup := apiV1Group.Group("/user")
+
+// 	{
+// 		userGroup.POST("", r.CreateUser)
+// 		userGroup.GET("", r.ListUsers)
+// 		userGroup.GET("/:id", r.GetUser)
+// 		userGroup.PUT("/:id", r.UpdateUser)
+// 		userGroup.DELETE("/:id", r.DeleteUser)
+// 	}
+// }

@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +21,7 @@ import (
 // @Failure     400 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user [post]
-func (r *V1) createUser(c *gin.Context) {
+func (r *V1) CreateUser(c *gin.Context) {
 	var body request.CreateUser
 	if err := c.ShouldBindJSON(&body); err != nil {
 		r.l.Error(err, "http - v1 - createUser")
@@ -63,7 +64,7 @@ func (r *V1) createUser(c *gin.Context) {
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user/{id} [get]
-func (r *V1) getUser(c *gin.Context) {
+func (r *V1) GetUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		r.l.Error(err, "http - v1 - getUser")
@@ -95,7 +96,7 @@ func (r *V1) getUser(c *gin.Context) {
 // @Success     200 {object} entity.UserHistory
 // @Failure     500 {object} response.Error
 // @Router      /user [get]
-func (r *V1) listUsers(c *gin.Context) {
+func (r *V1) ListUsers(c *gin.Context) {
 	userHistory, err := r.user.List(c.Request.Context())
 	if err != nil {
 		r.l.Error(err, "http - v1 - listUsers")
@@ -124,7 +125,7 @@ func (r *V1) listUsers(c *gin.Context) {
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user/{id} [put]
-func (r *V1) updateUser(c *gin.Context) {
+func (r *V1) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		r.l.Error(err, "http - v1 - updateUser")
@@ -175,7 +176,7 @@ func (r *V1) updateUser(c *gin.Context) {
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user/{id} [delete]
-func (r *V1) deleteUser(c *gin.Context) {
+func (r *V1) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		r.l.Error(err, "http - v1 - deleteUser")
@@ -191,4 +192,55 @@ func (r *V1) deleteUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "user deleted successfully"})
+}
+
+// @Summary     Login user
+// @Description Login user with email and password
+// @ID          login-user
+// @Tags  	    user
+// @Accept      json
+// @Produce     json
+// @Param       request body request.LoginUser true "Login user"
+// @Success     200 {object} response.LoginResponse
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /user/login [post]
+func (r *V1) LoginUser(c *gin.Context) {
+	var body request.LoginUser
+	if err := c.ShouldBindJSON(&body); err != nil {
+		r.l.Error(err, "http - v1 - loginUser")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	if err := r.v.Struct(body); err != nil {
+		r.l.Error(err, "http - v1 - loginUser")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	token, user, err := r.user.Login(c.Request.Context(), body.Email, body.Password)
+	if err != nil {
+		r.l.Error(err, "http - v1 - loginUser")
+		if err.Error() == "UserUseCase - Login - bcrypt.CompareHashAndPassword: crypto/bcrypt: hashedPassword is not the hash of the given password" {
+			errorResponse(c, http.StatusUnauthorized, "invalid credentials")
+			return
+		}
+		errorResponse(c, http.StatusInternalServerError, "user service problems")
+		return
+	}
+
+	c.JSON(http.StatusOK, response.LoginResponse{
+		Token: token,
+		User: struct {
+			ID       int64  `json:"id"`
+			Email    string `json:"email"`
+			Username string `json:"username"`
+		}{
+			ID:       user.ID,
+			Email:    user.Email,
+			Username: user.Username,
+		},
+	})
 }

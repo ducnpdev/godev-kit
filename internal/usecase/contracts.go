@@ -30,5 +30,7 @@ type (
 		Delete(ctx context.Context, id int64) error
 		// List gets all users
 		List(ctx context.Context) (entity.UserHistory, error)
+		// Login authenticates a user and returns a JWT token
+		Login(ctx context.Context, email, password string) (string, entity.User, error)
 	}
 )

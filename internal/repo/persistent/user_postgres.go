@@ -2,12 +2,16 @@ package persistent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
+	"github.com/Masterminds/squirrel"
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // const _defaultEntityCap = 64
@@ -166,4 +170,44 @@ func (r *UserRepo) List(ctx context.Context) ([]entity.User, error) {
 	}
 
 	return users, nil
+}
+
+// GetByEmail -.
+func (r *UserRepo) GetByEmail(ctx context.Context, email string) (entity.User, error) {
+	sql, args, err := r.Builder.
+		Select("id, email, username, password, created_at, updated_at").
+		From("users").
+		Where("email = ?", email).
+		ToSql()
+	if err != nil {
+		return entity.User{}, fmt.Errorf("UserRepo - GetByEmail - r.Builder: %w", err)
+	}
+
+	var user entity.User
+	err = r.Pool.QueryRow(ctx, sql, args...).Scan(
+		&user.ID,
+		&user.Email,
+		&user.Username,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return entity.User{}, errors.New("user not found")
+		}
+		return entity.User{}, fmt.Errorf("UserRepo - GetByEmail - r.Pool.QueryRow: %w", err)
+	}
+
+	return user, nil
+}
+
+// GetBuilder returns the statement builder
+func (r *UserRepo) GetBuilder() squirrel.StatementBuilderType {
+	return r.Builder
+}
+
+// GetPool returns the database pool
+func (r *UserRepo) GetPool() *pgxpool.Pool {
+	return r.Pool
 }

@@ -38,6 +38,7 @@ func Run(cfg *config.Config) {
 
 	userUseCase := user.New(
 		persistent.NewUserRepo(pg),
+		cfg.JWT.Secret,
 	)
 
 	// RabbitMQ RPC Server
@@ -69,7 +70,7 @@ func Run(cfg *config.Config) {
 
 	select {
 	case s := <-interrupt:
-		l.Info("app - Run - signal: %s", s.String())
+		l.Info("app - Run - signal: " + s.String())
 	case err = <-httpServer.Notify():
 		l.Error(fmt.Errorf("app - Run - httpServer.Notify: %w", err))
 		// case err = <-grpcServer.Notify():
