@@ -23,7 +23,6 @@ import (
 // @Router      /user [post]
 func (r *V1) createUser(ctx *fiber.Ctx) error {
 	var body request.CreateUser
-
 	if err := ctx.BodyParser(&body); err != nil {
 		r.l.Error(err, "http - v1 - createUser")
 		return errorResponse(ctx, http.StatusBadRequest, "invalid request body")

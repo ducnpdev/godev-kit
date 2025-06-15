@@ -1,3 +1,4 @@
+basePath: /v1
 definitions:
   entity.Translation:
     properties:
@@ -101,8 +102,12 @@ definitions:
         example: operation completed successfully
         type: string
     type: object
+host: localhost:8080
 info:
   contact: {}
+  description: Using a translation service and user management as examples
+  title: Go Dev Kit Template API
+  version: "1.0"
 paths:
   /translation/do-translate:
     post:

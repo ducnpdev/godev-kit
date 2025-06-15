@@ -30,7 +30,6 @@ coverage.txt
 # webserver
 nginx
 
-migrations
 
 internal_test
 
