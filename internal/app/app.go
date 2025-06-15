@@ -57,13 +57,15 @@ func Run(cfg *config.Config) {
 	grpc.NewRouter(grpcServer.App, translationUseCase, l)
 
 	// HTTP Server
-	httpServer := httpserver.New(httpserver.Port(cfg.HTTP.Port), httpserver.Prefork(cfg.HTTP.UsePreforkMode))
+	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
 	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, l)
 
 	// Start servers
 	rmqServer.Start()
 	grpcServer.Start()
 	httpServer.Start()
+
+	l.Info("app running at port http:%s", cfg.HTTP.Port)
 
 	// Waiting signal
 	interrupt := make(chan os.Signal, 1)

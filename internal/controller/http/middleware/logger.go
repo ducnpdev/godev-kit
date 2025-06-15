@@ -5,31 +5,31 @@ import (
 	"strings"
 
 	"github.com/ducnpdev/godev-kit/pkg/logger"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 )
 
-func buildRequestMessage(ctx *fiber.Ctx) string {
+func buildRequestMessage(c *gin.Context) string {
 	var result strings.Builder
 
-	result.WriteString(ctx.IP())
+	result.WriteString(c.ClientIP())
 	result.WriteString(" - ")
-	result.WriteString(ctx.Method())
+	result.WriteString(c.Request.Method)
 	result.WriteString(" ")
-	result.WriteString(ctx.OriginalURL())
+	result.WriteString(c.Request.URL.String())
 	result.WriteString(" - ")
-	result.WriteString(strconv.Itoa(ctx.Response().StatusCode()))
+	result.WriteString(strconv.Itoa(c.Writer.Status()))
 	result.WriteString(" ")
-	result.WriteString(strconv.Itoa(len(ctx.Response().Body())))
+	result.WriteString(strconv.Itoa(c.Writer.Size()))
 
 	return result.String()
 }
 
-func Logger(l logger.Interface) func(c *fiber.Ctx) error {
-	return func(ctx *fiber.Ctx) error {
-		err := ctx.Next()
+func Logger(l logger.Interface) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Process request
+		c.Next()
 
-		l.Info(buildRequestMessage(ctx))
-
-		return err
+		// Log after request is processed
+		l.Info(buildRequestMessage(c))
 	}
 }

@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )
 
@@ -25,18 +27,26 @@ type (
 	// App -.
 	App struct {
 		Name    string `mapstructure:"NAME"`
+		MODE    string `mapstructure:"MODE"`
 		Version string `mapstructure:"VERSION"`
 	}
 
 	// HTTP -.
 	HTTP struct {
-		Port           string `mapstructure:"PORT"`
-		UsePreforkMode bool   `mapstructure:"USE_PREFORK_MODE"`
+		Port            string        `mapstructure:"PORT"`
+		ShutdownTimeout time.Duration `mapstructure:"SHUTDOWN_TIMEOUT"`
 	}
 
 	// Log -.
 	Log struct {
-		Level string `mapstructure:"LEVEL"`
+		Level             string       `mapstructure:"LEVEL"`
+		InCommingRequest  InOutRequest `mapstructure:"IN_COMMING_REQUEST"`
+		OutCommingRequest InOutRequest `mapstructure:"OUT_COMMING_REQUEST"`
+	}
+	// IN/Out Request
+	InOutRequest struct {
+		PrintRequest  bool `mapstructure:"PRINT_REQUEST"`
+		PrintResponse bool `mapstructure:"PRINT_RESPONSE"`
 	}
 
 	// PG -.
@@ -123,4 +133,14 @@ func loadConfigYAML() (*Config, error) {
 	})
 
 	return conf, nil
+}
+
+func (c *Config) Validate() error {
+	if c.HTTP.Port == "" {
+		return errors.New("http port is required")
+	}
+	if c.HTTP.ShutdownTimeout == 0 {
+		return errors.New("http shutdown timeout is required")
+	}
+	return nil
 }

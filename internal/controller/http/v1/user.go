@@ -5,9 +5,8 @@ import (
 	"strconv"
 
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
-	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
 	"github.com/ducnpdev/godev-kit/internal/entity"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 )
 
 // @Summary     Create user
@@ -21,20 +20,22 @@ import (
 // @Failure     400 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user [post]
-func (r *V1) createUser(ctx *fiber.Ctx) error {
+func (r *V1) createUser(c *gin.Context) {
 	var body request.CreateUser
-	if err := ctx.BodyParser(&body); err != nil {
+	if err := c.ShouldBindJSON(&body); err != nil {
 		r.l.Error(err, "http - v1 - createUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid request body")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
 	}
 
 	if err := r.v.Struct(body); err != nil {
 		r.l.Error(err, "http - v1 - createUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid request body")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
 	}
 
 	user, err := r.user.Create(
-		ctx.UserContext(),
+		c.Request.Context(),
 		entity.User{
 			Email:    body.Email,
 			Username: body.Username,
@@ -43,10 +44,11 @@ func (r *V1) createUser(ctx *fiber.Ctx) error {
 	)
 	if err != nil {
 		r.l.Error(err, "http - v1 - createUser")
-		return errorResponse(ctx, http.StatusInternalServerError, "user service problems")
+		errorResponse(c, http.StatusInternalServerError, "user service problems")
+		return
 	}
 
-	return ctx.Status(http.StatusCreated).JSON(user)
+	c.JSON(http.StatusCreated, user)
 }
 
 // @Summary     Get user
@@ -61,20 +63,47 @@ func (r *V1) createUser(ctx *fiber.Ctx) error {
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user/{id} [get]
-func (r *V1) getUser(ctx *fiber.Ctx) error {
-	id, err := strconv.ParseInt(ctx.Params("id"), 10, 64)
+func (r *V1) getUser(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		r.l.Error(err, "http - v1 - getUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid user id")
+		errorResponse(c, http.StatusBadRequest, "invalid user id")
+		return
 	}
 
-	user, err := r.user.GetByID(ctx.UserContext(), id)
+	user, err := r.user.GetByID(c.Request.Context(), id)
 	if err != nil {
 		r.l.Error(err, "http - v1 - getUser")
-		return errorResponse(ctx, http.StatusInternalServerError, "user service problems")
+		errorResponse(c, http.StatusInternalServerError, "user service problems")
+		return
 	}
 
-	return ctx.Status(http.StatusOK).JSON(user)
+	if user.ID == 0 {
+		errorResponse(c, http.StatusNotFound, "user not found")
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
+// @Summary     List users
+// @Description Get all users
+// @ID          list-users
+// @Tags  	    user
+// @Accept      json
+// @Produce     json
+// @Success     200 {object} entity.UserHistory
+// @Failure     500 {object} response.Error
+// @Router      /user [get]
+func (r *V1) listUsers(c *gin.Context) {
+	userHistory, err := r.user.List(c.Request.Context())
+	if err != nil {
+		r.l.Error(err, "http - v1 - listUsers")
+		errorResponse(c, http.StatusInternalServerError, "user service problems")
+		return
+	}
+
+	c.JSON(http.StatusOK, userHistory)
 }
 
 // @Summary     Update user
@@ -90,37 +119,43 @@ func (r *V1) getUser(ctx *fiber.Ctx) error {
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user/{id} [put]
-func (r *V1) updateUser(ctx *fiber.Ctx) error {
-	id, err := strconv.ParseInt(ctx.Params("id"), 10, 64)
+func (r *V1) updateUser(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		r.l.Error(err, "http - v1 - updateUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid user id")
+		errorResponse(c, http.StatusBadRequest, "invalid user id")
+		return
 	}
 
 	var body request.UpdateUser
-	if err := ctx.BodyParser(&body); err != nil {
+	if err := c.ShouldBindJSON(&body); err != nil {
 		r.l.Error(err, "http - v1 - updateUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid request body")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
 	}
 
 	if err := r.v.Struct(body); err != nil {
 		r.l.Error(err, "http - v1 - updateUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid request body")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
 	}
 
-	user := entity.User{
-		ID:       id,
-		Email:    body.Email,
-		Username: body.Username,
-		Password: body.Password,
-	}
-
-	if err := r.user.Update(ctx.UserContext(), user); err != nil {
+	err = r.user.Update(
+		c.Request.Context(),
+		entity.User{
+			ID:       id,
+			Email:    body.Email,
+			Username: body.Username,
+			Password: body.Password,
+		},
+	)
+	if err != nil {
 		r.l.Error(err, "http - v1 - updateUser")
-		return errorResponse(ctx, http.StatusInternalServerError, "user service problems")
+		errorResponse(c, http.StatusInternalServerError, "user service problems")
+		return
 	}
 
-	return ctx.Status(http.StatusOK).JSON(response.Success{Message: "user updated successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "user updated successfully"})
 }
 
 // @Summary     Delete user
@@ -135,36 +170,20 @@ func (r *V1) updateUser(ctx *fiber.Ctx) error {
 // @Failure     404 {object} response.Error
 // @Failure     500 {object} response.Error
 // @Router      /user/{id} [delete]
-func (r *V1) deleteUser(ctx *fiber.Ctx) error {
-	id, err := strconv.ParseInt(ctx.Params("id"), 10, 64)
+func (r *V1) deleteUser(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		r.l.Error(err, "http - v1 - deleteUser")
-		return errorResponse(ctx, http.StatusBadRequest, "invalid user id")
+		errorResponse(c, http.StatusBadRequest, "invalid user id")
+		return
 	}
 
-	if err := r.user.Delete(ctx.UserContext(), id); err != nil {
-		r.l.Error(err, "http - v1 - deleteUser")
-		return errorResponse(ctx, http.StatusInternalServerError, "user service problems")
-	}
-
-	return ctx.Status(http.StatusOK).JSON(response.Success{Message: "user deleted successfully"})
-}
-
-// @Summary     List users
-// @Description Get all users
-// @ID          list-users
-// @Tags  	    user
-// @Accept      json
-// @Produce     json
-// @Success     200 {object} entity.UserHistory
-// @Failure     500 {object} response.Error
-// @Router      /user [get]
-func (r *V1) listUsers(ctx *fiber.Ctx) error {
-	users, err := r.user.List(ctx.UserContext())
+	err = r.user.Delete(c.Request.Context(), id)
 	if err != nil {
-		r.l.Error(err, "http - v1 - listUsers")
-		return errorResponse(ctx, http.StatusInternalServerError, "user service problems")
+		r.l.Error(err, "http - v1 - deleteUser")
+		errorResponse(c, http.StatusInternalServerError, "user service problems")
+		return
 	}
 
-	return ctx.Status(http.StatusOK).JSON(users)
+	c.JSON(http.StatusOK, gin.H{"message": "user deleted successfully"})
 }

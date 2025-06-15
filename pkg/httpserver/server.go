@@ -2,6 +2,7 @@
 package httpserver
 
 import (
+	"net"
 	"time"
 
 	"github.com/goccy/go-json"
@@ -9,14 +10,53 @@ import (
 )
 
 const (
-	_defaultAddr            = ":80"
-	_defaultReadTimeout     = 5 * time.Second
-	_defaultWriteTimeout    = 5 * time.Second
-	_defaultShutdownTimeout = 3 * time.Second
+// _defaultAddr            = ":80"
+// _defaultReadTimeout     = 5 * time.Second
+// _defaultWriteTimeout    = 5 * time.Second
+// _defaultShutdownTimeout = 3 * time.Second
 )
 
+// Option -.
+type OptionFiber func(*ServerFiber)
+
+// Port -.
+func PortFiber(port string) OptionFiber {
+	return func(s *ServerFiber) {
+		s.address = net.JoinHostPort("", port)
+	}
+}
+
+// Prefork -.
+// Prefork -.
+func Prefork(prefork bool) OptionFiber {
+	return func(s *ServerFiber) {
+		s.prefork = prefork
+	}
+}
+
+// ReadTimeout -.
+func ReadTimeoutc(timeout time.Duration) OptionFiber {
+	return func(s *ServerFiber) {
+		s.readTimeout = timeout
+	}
+}
+
+// // WriteTimeout -.
+func WriteTimeoutOptionFiber(timeout time.Duration) OptionFiber {
+	return func(s *ServerFiber) {
+		s.writeTimeout = timeout
+	}
+}
+
+// ShutdownTimeout -.
+func ShutdownTimeoutOptionFiber(timeout time.Duration) OptionFiber {
+	return func(s *ServerFiber) {
+		s.shutdownTimeout = timeout
+	}
+}
+
 // Server -.
-type Server struct {
+type ServerFiber struct {
 	App    *fiber.App
 	notify chan error
 
@@ -28,8 +68,8 @@ type Server struct {
 }
 
 // New -.
-func New(opts ...Option) *Server {
-	s := &Server{
+func NewFiber(opts ...OptionFiber) *ServerFiber {
+	s := &ServerFiber{
 		App:             nil,
 		notify:          make(chan error, 1),
 		address:         _defaultAddr,
@@ -57,7 +97,7 @@ func New(opts ...Option) *Server {
 }
 
 // Start -.
-func (s *Server) Start() {
+func (s *ServerFiber) StartFiber() {
 	go func() {
 		s.notify <- s.App.Listen(s.address)
 		close(s.notify)
@@ -65,11 +105,11 @@ func (s *Server) Start() {
 }
 
 // Notify -.
-func (s *Server) Notify() <-chan error {
+func (s *ServerFiber) NotifyFiber() <-chan error {
 	return s.notify
 }
 
 // Shutdown -.
-func (s *Server) Shutdown() error {
+func (s *ServerFiber) ShutdownFiber() error {
 	return s.App.ShutdownWithTimeout(s.shutdownTimeout)
 }

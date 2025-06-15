@@ -1,19 +1,19 @@
-// Package v1 implements routing paths. Each services in own file.
+// Package http implements routing paths. Each services in own file.
 package http
 
 import (
 	"net/http"
-	"strings"
 
-	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/ducnpdev/godev-kit/config"
-	_ "github.com/ducnpdev/godev-kit/docs" // Swagger docs.
+	_ "github.com/ducnpdev/godev-kit/docs" // Swagger docs
 	"github.com/ducnpdev/godev-kit/internal/controller/http/middleware"
 	v1 "github.com/ducnpdev/godev-kit/internal/controller/http/v1"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/swagger"
+	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // NewRouter -.
@@ -23,10 +23,10 @@ import (
 // @version     1.0
 // @host        localhost:8080
 // @BasePath    /v1
-func NewRouter(app *fiber.App, cfg *config.Config, t usecase.Translation, u usecase.User, l logger.Interface) {
-	// Options
+func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, l logger.Interface) {
+	// Middleware
 	app.Use(middleware.Logger(l))
-	app.Use(middleware.Recovery(l))
+	// app.Use(middleware.Recovery(l))
 
 	// Prometheus metrics
 	if cfg.Metrics.Enabled {
@@ -37,21 +37,18 @@ func NewRouter(app *fiber.App, cfg *config.Config, t usecase.Translation, u usec
 			return "/metrics"
 		}
 
-		prometheus := fiberprometheus.New(cfg.App.Name)
-
-		prometheus.SetSkipPaths(strings.Split(cfg.Metrics.SetSkipPaths, ";"))
-		app.Use(prometheus.Middleware)
-
-		prometheus.RegisterAt(app, registerAt())
+		app.GET(registerAt(), gin.WrapH(promhttp.Handler()))
 	}
 
 	// Swagger
 	if cfg.Swagger.Enabled {
-		app.Get("/swagger/*", swagger.HandlerDefault)
+		app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
 	// K8s probe
-	app.Get("/healthz", func(ctx *fiber.Ctx) error { return ctx.SendStatus(http.StatusOK) })
+	app.GET("/healthz", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
 
 	// Routers
 	apiV1Group := app.Group("/v1")
