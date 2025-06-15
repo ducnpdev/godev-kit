@@ -8,19 +8,15 @@ import (
 	"syscall"
 
 	"github.com/ducnpdev/godev-kit/config"
-	"github.com/ducnpdev/godev-kit/internal/controller/grpc"
 	"github.com/ducnpdev/godev-kit/internal/controller/http"
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/internal/usecase/user"
-	"github.com/ducnpdev/godev-kit/pkg/grpcserver"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
-	"github.com/ducnpdev/godev-kit/pkg/rabbitmq/rmq_rpc/server"
-
-	amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
+	// amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
 )
 
 // Run creates objects via constructors.
@@ -45,24 +41,24 @@ func Run(cfg *config.Config) {
 	)
 
 	// RabbitMQ RPC Server
-	rmqRouter := amqprpc.NewRouter(translationUseCase, l)
+	// rmqRouter := amqprpc.NewRouter(translationUseCase, l)
 
-	rmqServer, err := server.New(cfg.RMQ.URL, cfg.RMQ.ServerExchange, rmqRouter, l)
-	if err != nil {
-		l.Fatal(fmt.Errorf("app - Run - rmqServer - server.New: %w", err))
-	}
+	// rmqServer, err := server.New(cfg.RMQ.URL, cfg.RMQ.ServerExchange, rmqRouter, l)
+	// if err != nil {
+	// 	l.Fatal(fmt.Errorf("app - Run - rmqServer - server.New: %w", err))
+	// }
 
 	// gRPC Server
-	grpcServer := grpcserver.New(grpcserver.Port(cfg.GRPC.Port))
-	grpc.NewRouter(grpcServer.App, translationUseCase, l)
+	// grpcServer := grpcserver.New(grpcserver.Port(cfg.GRPC.Port))
+	// grpc.NewRouter(grpcServer.App, translationUseCase, l)
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
 	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, l)
 
 	// Start servers
-	rmqServer.Start()
-	grpcServer.Start()
+	// rmqServer.Start()
+	// grpcServer.Start()
 	httpServer.Start()
 
 	l.Info("app running at port http:%s", cfg.HTTP.Port)
@@ -76,10 +72,10 @@ func Run(cfg *config.Config) {
 		l.Info("app - Run - signal: %s", s.String())
 	case err = <-httpServer.Notify():
 		l.Error(fmt.Errorf("app - Run - httpServer.Notify: %w", err))
-	case err = <-grpcServer.Notify():
-		l.Error(fmt.Errorf("app - Run - grpcServer.Notify: %w", err))
-	case err = <-rmqServer.Notify():
-		l.Error(fmt.Errorf("app - Run - rmqServer.Notify: %w", err))
+		// case err = <-grpcServer.Notify():
+		// 	l.Error(fmt.Errorf("app - Run - grpcServer.Notify: %w", err))
+		// case err = <-rmqServer.Notify():
+		// 	l.Error(fmt.Errorf("app - Run - rmqServer.Notify: %w", err))
 	}
 
 	// Shutdown
@@ -88,13 +84,13 @@ func Run(cfg *config.Config) {
 		l.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
 	}
 
-	err = grpcServer.Shutdown()
-	if err != nil {
-		l.Error(fmt.Errorf("app - Run - grpcServer.Shutdown: %w", err))
-	}
+	// err = grpcServer.Shutdown()
+	// if err != nil {
+	// 	l.Error(fmt.Errorf("app - Run - grpcServer.Shutdown: %w", err))
+	// }
 
-	err = rmqServer.Shutdown()
-	if err != nil {
-		l.Error(fmt.Errorf("app - Run - rmqServer.Shutdown: %w", err))
-	}
+	// err = rmqServer.Shutdown()
+	// if err != nil {
+	// 	l.Error(fmt.Errorf("app - Run - rmqServer.Shutdown: %w", err))
+	// }
 }

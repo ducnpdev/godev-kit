@@ -30,6 +30,6 @@ func Logger(l logger.Interface) gin.HandlerFunc {
 		c.Next()
 
 		// Log after request is processed
-		l.Info(buildRequestMessage(c))
+		// l.Info(buildRequestMessage(c))
 	}
 }

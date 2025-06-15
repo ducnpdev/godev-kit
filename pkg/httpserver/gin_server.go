@@ -126,8 +126,10 @@ func New(cfg *config.Config, opts ...Option) *Server {
 	app := gin.New()
 
 	// Add default middleware
-	// app.Use(gin.Recovery())
-	// app.Use(gin.Logger())
+	app.Use(gin.Recovery())
+	if cfg.App.MODE == "debug" {
+		app.Use(gin.Logger())
+	}
 
 	s.App = app
 
