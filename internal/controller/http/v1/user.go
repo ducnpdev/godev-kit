@@ -1,10 +1,8 @@
 package v1
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
 	"github.com/ducnpdev/godev-kit/internal/entity"
@@ -105,10 +103,10 @@ func (r *V1) listUsers(c *gin.Context) {
 		return
 	}
 
-	for i := 0; i < 5; i++ {
-		time.Sleep(time.Second)
-		fmt.Println(i)
-	}
+	// for i := 0; i < 5; i++ {
+	// 	time.Sleep(time.Second)
+	// 	fmt.Println(i)
+	// }
 
 	c.JSON(http.StatusOK, userHistory)
 }
