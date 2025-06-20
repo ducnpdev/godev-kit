@@ -7,16 +7,22 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/ducnpdev/godev-kit/internal/repo"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+	"github.com/ducnpdev/godev-kit/pkg/logger"
 )
 
 // UseCase -.
 type UseCase struct {
+	logger logger.Interface
+	//
 	repo   repo.TranslationRepo
 	webAPI repo.TranslationWebAPI
 }
 
 // New -.
-func New(r repo.TranslationRepo, w repo.TranslationWebAPI) *UseCase {
+func New(
+	r repo.TranslationRepo,
+	w repo.TranslationWebAPI,
+) *UseCase {
 	return &UseCase{
 		repo:   r,
 		webAPI: w,

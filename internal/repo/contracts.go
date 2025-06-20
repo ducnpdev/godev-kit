@@ -36,4 +36,13 @@ type (
 		GetBuilder() squirrel.StatementBuilderType
 		GetPool() *pgxpool.Pool
 	}
+
+	// KafkaRepo -.
+	KafkaRepo interface {
+		SendMessage(ctx context.Context, topic string, key []byte, value interface{}) error
+		AddConsumer(topic, groupID string, handler func(ctx context.Context, key, value []byte) error) error
+		StartConsumer(ctx context.Context, topic string) error
+		StartAllConsumers(ctx context.Context)
+		Close() error
+	}
 )

@@ -27,7 +27,7 @@ import (
 // @in header
 // @name Authorization
 // @description Type "Bearer" followed by a space and JWT token.
-func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, l logger.Interface) {
+func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, l logger.Interface) {
 	// Middleware
 	app.Use(middleware.Logger(l))
 	// app.Use(middleware.Recovery(l))
@@ -59,5 +59,6 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 	{
 		v1.NewTranslationRoutes(apiV1Group, t, l)
 		v1.NewUserRoutes(apiV1Group, u, l)
+		v1.NewKafkaRoutes(apiV1Group, k, l)
 	}
 }

@@ -100,3 +100,8 @@ func (l *Logger) msg(level string, message interface{}, args ...interface{}) {
 		l.log(fmt.Sprintf("%s message %v has unknown type %v", level, message, msg), args...)
 	}
 }
+
+// Zerolog returns the underlying zerolog.Logger.
+func (l *Logger) Zerolog() zerolog.Logger {
+	return *l.logger
+}

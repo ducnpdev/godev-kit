@@ -49,3 +49,56 @@ func NewUserRoutes(apiV1Group *gin.RouterGroup, u usecase.User, l logger.Interfa
 // 		userGroup.DELETE("/:id", r.DeleteUser)
 // 	}
 // }
+
+// NewKafkaRoutes registers Kafka producer and consumer endpoints.
+func NewKafkaRoutes(apiV1Group *gin.RouterGroup, kafka usecase.Kafka, l logger.Interface) {
+	r := &V1{kafka: kafka, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+	kafkaGroup := apiV1Group.Group("/kafka")
+	{
+		kafkaGroup.POST("/producer/request", r.ProducerRequest)
+		kafkaGroup.GET("/consumer/receiver", r.ConsumerReceiver)
+	}
+}
+
+// // ProducerRequest handles POST /kafka/producer/request
+// func (r *V1) ProducerRequest(c *gin.Context) {
+// 	var req struct {
+// 		Topic string      `json:"topic" binding:"required"`
+// 		Key   string      `json:"key"`
+// 		Value interface{} `json:"value" binding:"required"`
+// 	}
+// 	if err := c.ShouldBindJSON(&req); err != nil {
+// 		c.JSON(400, gin.H{"error": err.Error()})
+// 		return
+// 	}
+
+// 	err := r.kafka.ProduceMessage(c.Request.Context(), req.Topic, req.Key, req.Value)
+// 	if err != nil {
+// 		c.JSON(500, gin.H{"error": err.Error()})
+// 		return
+// 	}
+
+// 	c.JSON(200, gin.H{"status": "message sent"})
+// }
+
+// // ConsumerReceiver handles GET /kafka/consumer/receiver
+// func (r *V1) ConsumerReceiver(c *gin.Context) {
+// 	topic := c.Query("topic")
+// 	group := c.Query("group")
+// 	if topic == "" || group == "" {
+// 		c.JSON(400, gin.H{"error": "topic and group are required"})
+// 		return
+// 	}
+
+// 	key, value, err := r.kafka.ConsumeMessage(c.Request.Context(), topic, group)
+// 	if err != nil {
+// 		c.JSON(500, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	if value == nil {
+// 		c.JSON(504, gin.H{"error": "no message received"})
+// 		return
+// 	}
+// 	c.JSON(200, gin.H{"key": key, "value": string(value)})
+// }

@@ -20,6 +20,7 @@ type (
 		PG      PG      `mapstructure:"PG"`
 		GRPC    GRPC    `mapstructure:"GRPC"`
 		RMQ     RMQ     `mapstructure:"RMQ"`
+		Kafka   Kafka   `mapstructure:"KAFKA"`
 		Metrics Metrics `mapstructure:"METRICS"`
 		Swagger Swagger `mapstructure:"SWAGGER"`
 		JWT     JWT     `mapstructure:"JWT"`
@@ -66,6 +67,19 @@ type (
 		ServerExchange string `mapstructure:"RPC_SERVER"`
 		ClientExchange string `mapstructure:"RPC_CLIENT"`
 		URL            string `mapstructure:"URL"`
+	}
+
+	// Kafka -.
+	Kafka struct {
+		Brokers []string `mapstructure:"BROKERS"`
+		GroupID string   `mapstructure:"GROUP_ID"`
+		Topics  Topics   `mapstructure:"TOPICS"`
+	}
+
+	// Topics -.
+	Topics struct {
+		UserEvents        string `mapstructure:"USER_EVENTS"`
+		TranslationEvents string `mapstructure:"TRANSLATION_EVENTS"`
 	}
 
 	// Metrics -.
