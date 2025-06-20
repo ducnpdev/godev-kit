@@ -27,6 +27,14 @@ RMQ:
   RPC_CLIENT: rpc_client
   URL: amqp://guest:guest@localhost:5672/
 
+KAFKA:
+  BROKERS:
+    - localhost:9092
+  GROUP_ID: godev-kit-group
+  TOPICS:
+    USER_EVENTS: user-events
+    TRANSLATION_EVENTS: translation-events
+
 METRICS:
   ENABLED: true
   SKIP_PATHS: "/swagger/*;/metrics"

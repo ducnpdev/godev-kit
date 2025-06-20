@@ -2,6 +2,7 @@
 package app
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/signal"
@@ -11,6 +12,7 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/controller/http"
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
+	"github.com/ducnpdev/godev-kit/internal/usecase"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/internal/usecase/user"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
@@ -30,6 +32,14 @@ func Run(cfg *config.Config) {
 	}
 	defer pg.Close()
 
+	// Kafka Repository
+	kafkaRepo := persistent.NewKafkaRepo(cfg.Kafka.Brokers, l.Zerolog())
+	defer func() {
+		if err := kafkaRepo.Close(); err != nil {
+			l.Error(fmt.Errorf("app - Run - kafkaRepo.Close: %w", err))
+		}
+	}()
+
 	// Use-Case
 	translationUseCase := translation.New(
 		persistent.New(pg),
@@ -40,6 +50,22 @@ func Run(cfg *config.Config) {
 		persistent.NewUserRepo(pg),
 		cfg.JWT.Secret,
 	)
+
+	// Kafka Event Use Case
+	kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
+
+	// Setup Kafka consumers
+	ctx := context.Background()
+	if err := kafkaEventUseCase.ConsumeUserEvents(ctx); err != nil {
+		l.Error(fmt.Errorf("app - Run - ConsumeUserEvents: %w", err))
+	}
+
+	if err := kafkaEventUseCase.ConsumeTranslationEvents(ctx); err != nil {
+		l.Error(fmt.Errorf("app - Run - ConsumeTranslationEvents: %w", err))
+	}
+
+	// Start Kafka consumers
+	kafkaRepo.StartAllConsumers(ctx)
 
 	// RabbitMQ RPC Server
 	// rmqRouter := amqprpc.NewRouter(translationUseCase, l)
@@ -70,7 +96,7 @@ func Run(cfg *config.Config) {
 
 	select {
 	case s := <-interrupt:
-		l.Info("app - Run - signal: " + s.String())
+		l.Info("%s", "app - Run - signal: "+s.String())
 	case err = <-httpServer.Notify():
 		l.Error(fmt.Errorf("app - Run - httpServer.Notify: %w", err))
 		// case err = <-grpcServer.Notify():
