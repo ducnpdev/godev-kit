@@ -2,7 +2,6 @@
 package app
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"os/signal"
@@ -50,22 +49,23 @@ func Run(cfg *config.Config) {
 		persistent.NewUserRepo(pg),
 		cfg.JWT.Secret,
 	)
+	kafkaUseCase := usecase.NewKafkaUseCase(kafkaRepo)
 
 	// Kafka Event Use Case
-	kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
+	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
 
 	// Setup Kafka consumers
-	ctx := context.Background()
-	if err := kafkaEventUseCase.ConsumeUserEvents(ctx); err != nil {
-		l.Error(fmt.Errorf("app - Run - ConsumeUserEvents: %w", err))
-	}
+	// ctx := context.Background()
+	// if err := kafkaEventUseCase.ConsumeUserEvents(ctx); err != nil {
+	// 	l.Error(fmt.Errorf("app - Run - ConsumeUserEvents: %w", err))
+	// }
 
-	if err := kafkaEventUseCase.ConsumeTranslationEvents(ctx); err != nil {
-		l.Error(fmt.Errorf("app - Run - ConsumeTranslationEvents: %w", err))
-	}
+	// if err := kafkaEventUseCase.ConsumeTranslationEvents(ctx); err != nil {
+	// 	l.Error(fmt.Errorf("app - Run - ConsumeTranslationEvents: %w", err))
+	// }
 
 	// Start Kafka consumers
-	kafkaRepo.StartAllConsumers(ctx)
+	// kafkaRepo.StartAllConsumers(ctx)
 
 	// RabbitMQ RPC Server
 	// rmqRouter := amqprpc.NewRouter(translationUseCase, l)
@@ -81,7 +81,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, l)
 
 	// Start servers
 	// rmqServer.Start()
