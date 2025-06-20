@@ -34,7 +34,8 @@ func NewProducer(brokers []string, logger zerolog.Logger) *Producer {
 }
 
 // SendMessage -.
-func (p *Producer) SendMessage(ctx context.Context, topic string, key []byte, value interface{}) error {
+func (p *Producer) SendMessage(ctx context.Context, topic string,
+	key []byte, value interface{}) error {
 	valueBytes, err := json.Marshal(value)
 	if err != nil {
 		return fmt.Errorf("failed to marshal value: %w", err)

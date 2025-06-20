@@ -20,12 +20,11 @@ func (h *V1) ProducerRequest(c *gin.Context) {
 		return
 	}
 
-	a, b, err := h.kafka.ConsumeMessage(c.Copy(), req.Topic, req.Key)
+	err := h.kafka.ProduceMessage(c.Copy(), req.Topic, req.Key, req.Value)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println(a, b)
 	c.JSON(http.StatusOK, gin.H{"status": "message sent"})
 }
 

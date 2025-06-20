@@ -32,7 +32,7 @@ KAFKA:
     - localhost:9092
   GROUP_ID: godev-kit-group
   TOPICS:
-    USER_EVENTS: dev.usere-vents
+    USER_EVENTS: dev.user-events
     # kafka-topics --create --topic dev.user-events --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
     TRANSLATION_EVENTS: dev.translation-events
     # kafka-topics --create --topic dev.translation-events --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
