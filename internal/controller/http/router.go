@@ -22,7 +22,6 @@ import (
 // @description Using a translation service and user management as examples
 // @version     1.0
 // @host        localhost:8080
-// @BasePath    /v1
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization

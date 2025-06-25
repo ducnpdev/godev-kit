@@ -59,6 +59,17 @@ definitions:
     - password
     - username
     type: object
+  request.KafkaMessage:
+    properties:
+      key:
+        type: string
+      topic:
+        type: string
+      value: {}
+    required:
+    - topic
+    - value
+    type: object
   request.LoginUser:
     properties:
       email:
@@ -71,6 +82,16 @@ definitions:
     required:
     - email
     - password
+    type: object
+  request.RedisValue:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    required:
+    - key
+    - value
     type: object
   request.Translate:
     properties:
@@ -122,14 +143,25 @@ definitions:
             type: string
         type: object
     type: object
+  response.RedisValue:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
   response.Success:
     properties:
       message:
         example: operation completed successfully
         type: string
     type: object
+host: localhost:8080
 info:
   contact: {}
+  description: Using a translation service and user management as examples
+  title: Go Dev Kit Template API
+  version: "1.0"
 paths:
   /translation/do-translate:
     post:
@@ -217,6 +249,164 @@ paths:
       summary: Login user
       tags:
       - auth
+  /v1/kafka/consumer/receiver:
+    get:
+      consumes:
+      - application/json
+      description: Receive a message from a Kafka topic and group
+      parameters:
+      - description: Kafka topic
+        in: query
+        name: topic
+        required: true
+        type: string
+      - description: Kafka group
+        in: query
+        name: group
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "504":
+          description: Gateway Timeout
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Receive a message from a Kafka topic and group
+      tags:
+      - kafka
+  /v1/kafka/producer/request:
+    post:
+      consumes:
+      - application/json
+      description: Send a message to a Kafka topic
+      parameters:
+      - description: Kafka message
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.KafkaMessage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Send a message to a Kafka topic
+      tags:
+      - kafka
+  /v1/redis/get/{key}:
+    get:
+      consumes:
+      - application/json
+      description: Get a value from Redis by key
+      operationId: get-value
+      parameters:
+      - description: Key
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RedisValue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Get value
+      tags:
+      - redis
+  /v1/redis/set:
+    post:
+      consumes:
+      - application/json
+      description: Set a key-value pair in Redis
+      operationId: set-value
+      parameters:
+      - description: Set value
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.RedisValue'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Set value
+      tags:
+      - redis
   /v1/user:
     get:
       consumes:
@@ -403,4 +593,10 @@ paths:
       summary: Update user
       tags:
       - user
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

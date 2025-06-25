@@ -9,6 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary     Set value
+// @Description Set a key-value pair in Redis
+// @ID          set-value
+// @Tags  	    redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       request body request.RedisValue true "Set value"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/set [post]
 func (v1 *V1) setValue(c *gin.Context) {
 	var req request.RedisValue
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -27,9 +40,23 @@ func (v1 *V1) setValue(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, "")
+	c.JSON(http.StatusOK, response.Success{Message: "success"})
 }
 
+// @Summary     Get value
+// @Description Get a value from Redis by key
+// @ID          get-value
+// @Tags  	    redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       key path string true "Key"
+// @Success     200 {object} response.RedisValue
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/get/{key} [get]
 func (v1 *V1) getValue(c *gin.Context) {
 	key := c.Param("key")
 
