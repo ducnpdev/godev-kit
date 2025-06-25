@@ -14,4 +14,5 @@ type V1 struct {
 	t     usecase.Translation
 	user  usecase.User
 	kafka usecase.Kafka
+	redis usecase.Redis
 }

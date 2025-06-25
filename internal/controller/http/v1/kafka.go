@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,17 +15,13 @@ import (
 // @Tags         kafka
 // @Accept       json
 // @Produce      json
-// @Param        request body struct{topic string; key string; value interface{}} true "Kafka message"
+// @Param        request body request.KafkaMessage true "Kafka message"
 // @Success      200  {object}  map[string]string
 // @Failure      400  {object}  map[string]string
 // @Failure      500  {object}  map[string]string
 // @Router       /v1/kafka/producer/request [post]
 func (h *V1) ProducerRequest(c *gin.Context) {
-	var req struct {
-		Topic string      `json:"topic" binding:"required"`
-		Key   string      `json:"key"`
-		Value interface{} `json:"value" binding:"required"`
-	}
+	var req request.KafkaMessage
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

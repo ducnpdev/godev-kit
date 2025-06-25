@@ -18,6 +18,7 @@ type (
 		HTTP    HTTP    `mapstructure:"HTTP"`
 		Log     Log     `mapstructure:"LOG"`
 		PG      PG      `mapstructure:"PG"`
+		Redis   Redis   `mapstructure:"REDIS"`
 		GRPC    GRPC    `mapstructure:"GRPC"`
 		RMQ     RMQ     `mapstructure:"RMQ"`
 		Kafka   Kafka   `mapstructure:"KAFKA"`
@@ -55,6 +56,11 @@ type (
 	PG struct {
 		PoolMax int    `mapstructure:"POOL_MAX"`
 		URL     string `mapstructure:"URL"`
+	}
+
+	// Redis -.
+	Redis struct {
+		URL string `mapstructure:"URL"`
 	}
 
 	// GRPC -.

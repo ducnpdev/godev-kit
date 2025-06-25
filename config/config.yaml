@@ -16,11 +16,14 @@ LOG:
     PRINT_REQUEST: true
     PRINT_RESPONSE: true
 PG:
-  POOL_MAX: 2
-  URL: postgres://postgres:1@localhost:5433/godevkit
+  POOL_MAX: 10
+  URL: "postgres://user:password@localhost:5432/godev"
+
+REDIS:
+  URL: "redis://localhost:6379/0"
 
 GRPC:
-  PORT: 8081
+  PORT: "9000"
 
 RMQ:
   RPC_SERVER: rpc_server

@@ -33,4 +33,12 @@ type (
 		// Login authenticates a user and returns a JWT token
 		Login(ctx context.Context, email, password string) (string, entity.User, error)
 	}
+
+	// Redis -.
+	Redis interface {
+		// SetValue sets a value in Redis
+		SetValue(ctx context.Context, value entity.RedisValue) error
+		// GetValue gets a value from Redis
+		GetValue(ctx context.Context, key string) (entity.RedisValue, error)
+	}
 )

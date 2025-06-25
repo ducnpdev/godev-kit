@@ -37,6 +37,12 @@ type (
 		GetPool() *pgxpool.Pool
 	}
 
+	// RedisRepo -.
+	RedisRepo interface {
+		SetValue(context.Context, entity.RedisValue) error
+		GetValue(context.Context, string) (entity.RedisValue, error)
+	}
+
 	// KafkaRepo -.
 	KafkaRepo interface {
 		SendMessage(ctx context.Context, topic string, key []byte, value interface{}) error
