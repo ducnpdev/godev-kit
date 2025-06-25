@@ -12,11 +12,13 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
+	redisuc "github.com/ducnpdev/godev-kit/internal/usecase/redis"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/internal/usecase/user"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
+	"github.com/ducnpdev/godev-kit/pkg/redis"
 	// amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
 )
 
@@ -30,6 +32,13 @@ func Run(cfg *config.Config) {
 		l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
 	}
 	defer pg.Close()
+
+	// Redis client
+	redisClient, err := redis.New(cfg.Redis.URL)
+	if err != nil {
+		l.Fatal(fmt.Errorf("app - Run - redis.New: %w", err))
+	}
+	defer redisClient.Close()
 
 	// Kafka Repository
 	kafkaRepo := persistent.NewKafkaRepo(cfg.Kafka.Brokers, l.Zerolog())
@@ -50,6 +59,9 @@ func Run(cfg *config.Config) {
 		cfg.JWT.Secret,
 	)
 	kafkaUseCase := usecase.NewKafkaUseCase(kafkaRepo)
+	redisUseCase := redisuc.NewRedisUseCase(
+		persistent.NewRedisRepo(redisClient),
+	)
 
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
@@ -81,7 +93,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, l)
 
 	// Start servers
 	// rmqServer.Start()
