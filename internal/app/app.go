@@ -12,11 +12,13 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
+	natuc "github.com/ducnpdev/godev-kit/internal/usecase/nat"
 	redisuc "github.com/ducnpdev/godev-kit/internal/usecase/redis"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/internal/usecase/user"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
+	"github.com/ducnpdev/godev-kit/pkg/nats"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
 	"github.com/ducnpdev/godev-kit/pkg/redis"
 	// amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
@@ -48,6 +50,13 @@ func Run(cfg *config.Config) {
 		}
 	}()
 
+	// NATS client
+	natsClient, err := nats.New("nats://localhost:4222") // TODO: use cfg.NATS.URL if available
+	if err != nil {
+		l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
+	}
+	defer natsClient.Close()
+
 	// Use-Case
 	translationUseCase := translation.New(
 		persistent.New(pg),
@@ -62,6 +71,7 @@ func Run(cfg *config.Config) {
 	redisUseCase := redisuc.NewRedisUseCase(
 		persistent.NewRedisRepo(redisClient),
 	)
+	natsUseCase := natuc.NewNatsUseCase(persistent.NewNatsRepo(natsClient))
 
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
@@ -93,7 +103,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, l)
 
 	// Start servers
 	// rmqServer.Start()

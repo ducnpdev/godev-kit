@@ -41,4 +41,10 @@ type (
 		// GetValue gets a value from Redis
 		GetValue(ctx context.Context, key string) (entity.RedisValue, error)
 	}
+
+	// Nats -.
+	Nats interface {
+		Publish(subject string, data []byte) error
+		Subscribe(subject string, handler func(msg []byte)) (unsubscribe func() error, err error)
+	}
 )

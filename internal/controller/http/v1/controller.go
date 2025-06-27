@@ -15,4 +15,5 @@ type V1 struct {
 	user  usecase.User
 	kafka usecase.Kafka
 	redis usecase.Redis
+	nats  usecase.Nats
 }

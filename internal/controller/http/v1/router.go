@@ -113,3 +113,14 @@ func NewRedisRoutes(apiV1Group *gin.RouterGroup, r usecase.Redis, l logger.Inter
 		redisGroup.GET("/get/:key", v1.getValue)
 	}
 }
+
+// NewNatsRoutes -.
+func NewNatsRoutes(apiV1Group *gin.RouterGroup, nats usecase.Nats, l logger.Interface) {
+	v1 := &V1{nats: nats, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+	natsGroup := apiV1Group.Group("/nats")
+	{
+		natsGroup.POST("/publish/:subject", v1.NatsPublish)
+		natsGroup.GET("/subscribe/:subject", v1.NatsSubscribe)
+	}
+}

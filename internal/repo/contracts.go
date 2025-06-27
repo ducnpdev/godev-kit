@@ -51,4 +51,10 @@ type (
 		StartAllConsumers(ctx context.Context)
 		Close() error
 	}
+
+	// NatsRepo -.
+	NatsRepo interface {
+		Publish(subject string, data []byte) error
+		Subscribe(subject string, handler func(msg []byte)) (unsubscribe func() error, err error)
+	}
 )
