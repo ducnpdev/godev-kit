@@ -4,9 +4,33 @@
 
 Godev Kit template for Golang services
 
+## Contact
+If you implement a new feature or need support running the project, please contact me!
+- Email: ducnp09081998@gmail.com
+- FB: https://www.facebook.com/phucducdev
+- Linkedin: https://www.linkedin.com/in/phucducktpm/
+- Or open an issue or pull request on GitHub.
+
 ## Overview
 
-todo
+**GoDev Kit** is a modular, production-ready template for building robust Golang microservices and backend applications. It provides a clean architecture foundation, best practices, and ready-to-use integrations for common infrastructure components, allowing you to focus on your business logic instead of boilerplate setup.
+
+### Key Features
+
+- **Clean Architecture**: Separation of concerns between controllers, use cases, repositories, and entities.
+- **Configurable**: Centralized configuration via YAML and environment variables.
+- **Database Integration**: Built-in support for PostgreSQL, Redis, and migration scripts.
+- **Messaging**: Ready-to-use Kafka, RabbitMQ, and NATS integrations for event-driven architectures.
+- **API Ready**: HTTP and gRPC server templates, with Swagger/OpenAPI documentation.
+- **Observability**: Prometheus metrics and structured logging out of the box.
+- **Extensible**: Easily add new features, endpoints, or infrastructure components.
+- **Developer Experience**: Makefile tasks, Docker support, and example code for rapid development.
+
+### Use Cases
+
+- Rapidly bootstrap new Go microservices or backend APIs.
+- Learn and apply best practices for scalable Go service design.
+- Serve as a reference implementation for clean, maintainable Go codebases.
 
 ## Table of Contents
 - [Quick Start](#quick-start)
@@ -105,204 +129,4 @@ swag --version
 ```
 
 3. Generate Documentation
-```bash
-# Generate Swagger docs
-swag init -g cmd/app/main.go -o docs
-
-# This will create:
-# - docs/docs.go
-# - docs/swagger.json
-# - docs/swagger.yaml
 ```
-
-4. Access Swagger UI
-- Start your application:
-```bash
-go run cmd/app/main.go
-```
-- Open your browser and navigate to: `http://localhost:8080/swagger/`
-
-5. Writing Swagger Annotations
-```go
-// @Summary     Create user
-// @Description Create a new user
-// @ID          create-user
-// @Tags  	    user
-// @Accept      json
-// @Produce     json
-// @Param       request body request.CreateUser true "Create user"
-// @Success     201 {object} entity.User
-// @Failure     400 {object} response.Error
-// @Failure     500 {object} response.Error
-// @Router      /user [post]
-func (r *V1) createUser(ctx *fiber.Ctx) error {
-    // ... handler implementation
-}
-```
-
-6. Available Endpoints
-- User Management:
-  - POST /v1/user - Create user
-  - GET /v1/user - List users
-  - GET /v1/user/{id} - Get user by ID
-  - PUT /v1/user/{id} - Update user
-  - DELETE /v1/user/{id} - Delete user
-- Translation Service:
-  - POST /v1/translation/do-translate - Translate text
-  - GET /v1/translation/history - Show translation history
-
-7. Update Documentation
-- After making changes to your API endpoints or models, regenerate the Swagger docs:
-```bash
-swag init -g cmd/app/main.go -o docs
-```
-
-8. Swagger UI Features
-- Interactive API documentation
-- Try out API endpoints directly from the browser
-- View request/response schemas
-- Download OpenAPI specification (JSON/YAML)
-```
-
-## Project Structure
-```
-.
-├── cmd/                    # Application entry points
-│   └── app/               # Main application
-│       ├── config/        # Configuration
-│       └── main.go        # Application entry point
-├── config/                # Configuration files
-│   ├── config.go         # Configuration structure
-│   └── config.yaml       # Configuration values
-├── docs/                  # Documentation
-│   ├── img/              # Images
-│   ├── docs.go           # Swagger documentation
-│   ├── swagger.json      # OpenAPI JSON
-│   └── swagger.yaml      # OpenAPI YAML
-├── internal/             # Private application code
-│   ├── controller/       # API handlers
-│   ├── entity/          # Business entities
-│   ├── repo/            # Repository layer
-│   └── usecase/         # Business logic
-├── migrations/           # Database migrations
-├── pkg/                  # Public library code
-├── vendor/              # Application dependencies
-├── .github/             # GitHub templates and workflows
-├── .vscode/             # VS Code settings
-├── nginx/               # Nginx configuration
-├── .dockerignore        # Docker ignore file
-├── .gitignore          # Git ignore file
-├── .golangci.yml       # Golang linter config
-├── go.mod              # Go module file
-├── go.sum              # Go module checksum
-├── LICENSE             # License file
-├── Makefile            # Build automation
-└── README.md           # Project documentation
-```
-
-## API Documentation
-The API documentation is available through Swagger UI when the application is running. See the [Swagger Documentation](#swagger) section for details.
-
-## Development
-
-### Prerequisites
-- Go 1.21 or higher
-- PostgreSQL
-- RabbitMQ (for RPC)
-- NATS (for messaging, can be run with Docker)
-- Make (optional, for using Makefile)
-
-### Building
-```bash
-# Build the application
-make build
-
-# Or manually
-go build -o bin/app cmd/app/main.go
-```
-
-### Running
-```bash
-# Run the application
-make run
-
-# Or manually
-go run cmd/app/main.go
-```
-
-### Testing
-```bash
-# Run all tests
-make test
-
-# Run tests with coverage
-make test-coverage
-```
-
-## Deployment
-The application can be deployed using Docker:
-
-```bash
-# Build Docker image
-make docker-build
-
-# Run Docker container
-make docker-run
-```
-
-## NATS Integration
-
-### Running a NATS Server
-You can quickly start a local NATS server using Docker:
-
-```bash
-make docker-run-nats
-```
-
-This will run the official NATS server on port 4222.
-
-To stop and remove the container:
-```bash
-docker stop nats-server && docker rm nats-server
-```
-
-### Configuring NATS
-NATS connection settings are managed in `config/config.yaml`:
-
-```yaml
-NATS:
-  URL: nats://localhost:4222
-  TIMEOUT: 3s
-```
-
-### NATS API Usage
-The service exposes HTTP endpoints for publishing and subscribing to NATS subjects:
-
-- **Publish message:**
-  - `POST /v1/nats/publish/{subject}`
-  - Body: `{ "data": "your message" }`
-
-- **Subscribe to subject:**
-  - `GET /v1/nats/subscribe/{subject}`
-  - Returns the first message received on the subject (demo purpose)
-
-You can try these endpoints via Swagger UI at `http://localhost:8080/swagger/` when the app is running.
-
-## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-If you implement a new feature or need support running the project, please contact me!
-
-- Email: ducnp09081998@gmail.com
-- FB: https://www.facebook.com/phucducdev
-- Linkedin: https://www.linkedin.com/in/phucducktpm/
-- Or open an issue or pull request on GitHub.
