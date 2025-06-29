@@ -13,7 +13,7 @@ import (
 // @Accept      json
 // @Produce     json
 // @Param       subject path string true "NATS subject"
-// @Param       request body struct{Data string `json:"data"`} true "Message data"
+// @Param       request body request.NatsPublishRequest true "Message data"
 // @Success     200 {object} map[string]string
 // @Failure     400 {object} map[string]string
 // @Failure     500 {object} map[string]string
