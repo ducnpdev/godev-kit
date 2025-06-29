@@ -20,7 +20,10 @@ If you implement a new feature or need support running the project, please conta
 - **Clean Architecture**: Separation of concerns between controllers, use cases, repositories, and entities.
 - **Configurable**: Centralized configuration via YAML and environment variables.
 - **Database Integration**: Built-in support for PostgreSQL, Redis, and migration scripts.
-- **Messaging**: Ready-to-use Kafka, RabbitMQ, and NATS integrations for event-driven architectures.
+- **Kafka Integration**: Easily produce and consume messages with built-in Kafka support.
+- **NATS Integration**: Built-in support for NATS messaging for event-driven architectures.
+- **Redis Integration**: Use Redis for caching or fast key-value storage with ready-to-use modules.
+- **User Login Module**: Includes JWT-based authentication and user management out of the box.
 - **API Ready**: HTTP and gRPC server templates, with Swagger/OpenAPI documentation.
 - **Observability**: Prometheus metrics and structured logging out of the box.
 - **Extensible**: Easily add new features, endpoints, or infrastructure components.
@@ -50,6 +53,9 @@ If you implement a new feature or need support running the project, please conta
     - [Available Endpoints](#available-endpoints)
     - [Update Documentation](#update-documentation)
     - [Swagger UI Features](#swagger-ui-features)
+  - [Kafka Integration](#kafka-integration)
+  - [Redis Integration](#redis-integration)
+  - [User Login Module](#user-login-module)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
 - [Development](#development)
