@@ -40,6 +40,10 @@ KAFKA:
     TRANSLATION_EVENTS: dev.translation-events
     # kafka-topics --create --topic dev.translation-events --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
 
+NATS:
+  URL: nats://localhost:4222
+  TIMEOUT: 3s
+
 METRICS:
   ENABLED: true
   SKIP_PATHS: "/swagger/*;/metrics"

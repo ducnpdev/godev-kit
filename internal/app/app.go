@@ -51,8 +51,16 @@ func Run(cfg *config.Config) {
 	}()
 
 	// NATS client
-	natsClient, err := nats.New("nats://localhost:4222") // TODO: use cfg.NATS.URL if available
-	if err != nil {
+	var (
+		natsClient *nats.NatsClient
+		errNats    error
+	)
+	if cfg.NATS.Timeout > 0 {
+		natsClient, errNats = nats.New(cfg.NATS.URL, nats.ConnTimeout(cfg.NATS.Timeout))
+	} else {
+		natsClient, errNats = nats.New(cfg.NATS.URL)
+	}
+	if errNats != nil {
 		l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
 	}
 	defer natsClient.Close()

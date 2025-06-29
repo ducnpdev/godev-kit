@@ -22,6 +22,7 @@ type (
 		GRPC    GRPC    `mapstructure:"GRPC"`
 		RMQ     RMQ     `mapstructure:"RMQ"`
 		Kafka   Kafka   `mapstructure:"KAFKA"`
+		NATS    NATS    `mapstructure:"NATS"`
 		Metrics Metrics `mapstructure:"METRICS"`
 		Swagger Swagger `mapstructure:"SWAGGER"`
 		JWT     JWT     `mapstructure:"JWT"`
@@ -105,6 +106,12 @@ type (
 	// JWTConfig -.
 	JWT struct {
 		Secret string `mapstructure:"SECRET"`
+	}
+
+	// NATS -.
+	NATS struct {
+		URL     string        `mapstructure:"URL"`
+		Timeout time.Duration `mapstructure:"TIMEOUT"`
 	}
 )
 
