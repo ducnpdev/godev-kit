@@ -83,6 +83,11 @@ definitions:
     - email
     - password
     type: object
+  request.NatsPublishRequest:
+    properties:
+      data:
+        type: string
+    type: object
   request.RedisValue:
     properties:
       key:
@@ -330,6 +335,78 @@ paths:
       summary: Send a message to a Kafka topic
       tags:
       - kafka
+  /v1/nats/publish/{subject}:
+    post:
+      consumes:
+      - application/json
+      description: Publish a message to a NATS subject
+      operationId: nats-publish
+      parameters:
+      - description: NATS subject
+        in: path
+        name: subject
+        required: true
+        type: string
+      - description: Message data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.NatsPublishRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Publish message
+      tags:
+      - nats
+  /v1/nats/subscribe/{subject}:
+    get:
+      consumes:
+      - application/json
+      description: 'Subscribe to a NATS subject (demo: returns first message)'
+      operationId: nats-subscribe
+      parameters:
+      - description: NATS subject
+        in: path
+        name: subject
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Subscribe to subject
+      tags:
+      - nats
   /v1/redis/get/{key}:
     get:
       consumes:
