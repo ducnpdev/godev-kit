@@ -34,6 +34,10 @@ todo
   - [Running](#running)
   - [Testing](#testing)
 - [Deployment](#deployment)
+- [NATS Integration](#nats-integration)
+  - [Running a NATS Server](#running-a-nats-server)
+  - [Configuring NATS](#configuring-nats)
+  - [NATS API Usage](#nats-api-usage)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -205,6 +209,7 @@ The API documentation is available through Swagger UI when the application is ru
 - Go 1.21 or higher
 - PostgreSQL
 - RabbitMQ (for RPC)
+- NATS (for messaging, can be run with Docker)
 - Make (optional, for using Makefile)
 
 ### Building
@@ -244,6 +249,44 @@ make docker-build
 # Run Docker container
 make docker-run
 ```
+
+## NATS Integration
+
+### Running a NATS Server
+You can quickly start a local NATS server using Docker:
+
+```bash
+make docker-run-nats
+```
+
+This will run the official NATS server on port 4222.
+
+To stop and remove the container:
+```bash
+docker stop nats-server && docker rm nats-server
+```
+
+### Configuring NATS
+NATS connection settings are managed in `config/config.yaml`:
+
+```yaml
+NATS:
+  URL: nats://localhost:4222
+  TIMEOUT: 3s
+```
+
+### NATS API Usage
+The service exposes HTTP endpoints for publishing and subscribing to NATS subjects:
+
+- **Publish message:**
+  - `POST /v1/nats/publish/{subject}`
+  - Body: `{ "data": "your message" }`
+
+- **Subscribe to subject:**
+  - `GET /v1/nats/subscribe/{subject}`
+  - Returns the first message received on the subject (demo purpose)
+
+You can try these endpoints via Swagger UI at `http://localhost:8080/swagger/` when the app is running.
 
 ## Contributing
 1. Fork the repository
