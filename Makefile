@@ -109,3 +109,7 @@ bin-deps: ### install tools
 
 pre-commit: swag-v1 proto-v1 mock format linter-golangci test ### run pre-commit
 .PHONY: pre-commit
+
+docker-run-nats: ## Run NATS server in Docker
+	docker run -d --name nats-server -p 4222:4222 nats:latest
+.PHONY: docker-run-nats
