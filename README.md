@@ -297,3 +297,12 @@ You can try these endpoints via Swagger UI at `http://localhost:8080/swagger/` w
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+If you implement a new feature or need support running the project, please contact me!
+
+- Email: ducnp09081998@gmail.com
+- FB: https://www.facebook.com/phucducdev
+- Linkedin: https://www.linkedin.com/in/phucducktpm/
+- Or open an issue or pull request on GitHub.
