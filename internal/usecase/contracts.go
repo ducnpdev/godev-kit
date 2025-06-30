@@ -47,4 +47,11 @@ type (
 		Publish(subject string, data []byte) error
 		Subscribe(subject string, handler func(msg []byte)) (unsubscribe func() error, err error)
 	}
+
+	// VietQR -.
+	VietQR interface {
+		GenerateQR(ctx context.Context) (*entity.VietQR, error)
+		InquiryQR(ctx context.Context, id string) (*entity.VietQR, error)
+		UpdateStatus(ctx context.Context, id, status string) error
+	}
 )

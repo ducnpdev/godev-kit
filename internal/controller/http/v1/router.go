@@ -124,3 +124,15 @@ func NewNatsRoutes(apiV1Group *gin.RouterGroup, nats usecase.Nats, l logger.Inte
 		natsGroup.GET("/subscribe/:subject", v1.NatsSubscribe)
 	}
 }
+
+// NewVietQRRoutes -.
+func NewVietQRRoutes(apiV1Group *gin.RouterGroup, vietqr usecase.VietQR, l logger.Interface) {
+	v1 := &V1{vietqr: vietqr, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+	vietqrGroup := apiV1Group.Group("/vietqr")
+	{
+		vietqrGroup.POST("/gen", v1.generateQR)
+		vietqrGroup.GET("/inquiry/:id", v1.inquiryQR)
+		vietqrGroup.PUT("/update/:id", v1.updateStatus)
+	}
+}
