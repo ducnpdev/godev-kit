@@ -56,6 +56,7 @@ If you implement a new feature or need support running the project, please conta
   - [Kafka Integration](#kafka-integration)
   - [Redis Integration](#redis-integration)
   - [User Login Module](#user-login-module)
+  - [VietQR Integration](#vietqr-integration)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
 - [Development](#development)
