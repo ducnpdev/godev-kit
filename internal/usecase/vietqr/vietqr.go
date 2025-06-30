@@ -15,13 +15,19 @@ type VietQRUseCase interface {
 	UpdateStatus(ctx context.Context, id, status string) error
 }
 
+// VietQRPersistentRepo is the interface for the vietqr persistent repository.
+type VietQRPersistentRepo interface {
+	Store(ctx context.Context, qr entity.VietQR) error
+}
+
 type vietQRUseCase struct {
-	repo vietqr.VietQRRepo
+	repo           vietqr.VietQRRepo
+	persistentRepo VietQRPersistentRepo
 }
 
 // NewVietQRUseCase creates a new vietqr use case.
-func NewVietQRUseCase(repo vietqr.VietQRRepo) VietQRUseCase {
-	return &vietQRUseCase{repo: repo}
+func NewVietQRUseCase(repo vietqr.VietQRRepo, persistentRepo VietQRPersistentRepo) VietQRUseCase {
+	return &vietQRUseCase{repo: repo, persistentRepo: persistentRepo}
 }
 
 func (uc *vietQRUseCase) GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error) {
@@ -30,11 +36,17 @@ func (uc *vietQRUseCase) GenerateQR(ctx context.Context, req entity.VietQRGenera
 		return nil, err
 	}
 
-	return &entity.VietQR{
+	qrEntity := &entity.VietQR{
 		ID:      uuid.NewString(),
 		Status:  "generated",
 		Content: content,
-	}, nil
+	}
+
+	if err := uc.persistentRepo.Store(ctx, *qrEntity); err != nil {
+		return nil, err
+	}
+
+	return qrEntity, nil
 }
 
 func (uc *vietQRUseCase) InquiryQR(ctx context.Context, id string) (*entity.VietQR, error) {

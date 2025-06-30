@@ -17,7 +17,7 @@ LOG:
     PRINT_RESPONSE: true
 PG:
   POOL_MAX: 10
-  URL: "postgres://user:password@localhost:5432/godev"
+  URL: "postgres://postgres:1@localhost:5433/godevkit"
 
 REDIS:
   URL: "redis://localhost:6379/0"
@@ -43,6 +43,7 @@ KAFKA:
 NATS:
   URL: nats://localhost:4222
   TIMEOUT: 3s
+  ENABLE: false
 
 METRICS:
   ENABLED: true

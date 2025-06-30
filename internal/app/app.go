@@ -57,15 +57,17 @@ func Run(cfg *config.Config) {
 		natsClient *nats.NatsClient
 		errNats    error
 	)
-	if cfg.NATS.Timeout > 0 {
-		natsClient, errNats = nats.New(cfg.NATS.URL, nats.ConnTimeout(cfg.NATS.Timeout))
-	} else {
-		natsClient, errNats = nats.New(cfg.NATS.URL)
+	if cfg.NATS.Enable {
+		if cfg.NATS.Timeout > 0 {
+			natsClient, errNats = nats.New(cfg.NATS.URL, nats.ConnTimeout(cfg.NATS.Timeout))
+		} else {
+			natsClient, errNats = nats.New(cfg.NATS.URL)
+		}
+		if errNats != nil {
+			l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
+		}
+		defer natsClient.Close()
 	}
-	if errNats != nil {
-		l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
-	}
-	defer natsClient.Close()
 
 	// Use-Case
 	translationUseCase := translation.New(
@@ -82,7 +84,10 @@ func Run(cfg *config.Config) {
 		persistent.NewRedisRepo(redisClient),
 	)
 	natsUseCase := natuc.NewNatsUseCase(persistent.NewNatsRepo(natsClient))
-	vietqrUseCase := vietqruc.NewVietQRUseCase(vietqrrepo.NewVietQRRepo())
+	vietqrUseCase := vietqruc.NewVietQRUseCase(
+		vietqrrepo.NewVietQRRepo(),
+		persistent.NewVietQRRepo(pg),
+	)
 
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
