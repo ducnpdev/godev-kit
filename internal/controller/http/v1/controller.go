@@ -11,9 +11,10 @@ type V1 struct {
 	l logger.Interface
 	v *validator.Validate
 	//
-	t     usecase.Translation
-	user  usecase.User
-	kafka usecase.Kafka
-	redis usecase.Redis
-	nats  usecase.Nats
+	t      usecase.Translation
+	user   usecase.User
+	kafka  usecase.Kafka
+	redis  usecase.Redis
+	nats   usecase.Nats
+	vietqr usecase.VietQR
 }

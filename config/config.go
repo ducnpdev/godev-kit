@@ -112,6 +112,7 @@ type (
 	NATS struct {
 		URL     string        `mapstructure:"URL"`
 		Timeout time.Duration `mapstructure:"TIMEOUT"`
+		Enable  bool          `mapstructure:"ENABLE"`
 	}
 )
 

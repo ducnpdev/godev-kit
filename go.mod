@@ -17,6 +17,7 @@ tool (
 require (
 	github.com/Conight/go-googletrans v0.2.4
 	github.com/Masterminds/squirrel v1.5.4
+	github.com/ducnpdev/vietqr v0.0.0-20250613043049-425627465d83
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gin-gonic/gin v1.10.1
 	github.com/go-playground/validator/v10 v10.26.0

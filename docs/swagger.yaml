@@ -41,6 +41,13 @@ definitions:
           $ref: '#/definitions/entity.User'
         type: array
     type: object
+  entity.VietQR:
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+    type: object
   request.CreateUser:
     properties:
       email:
@@ -127,6 +134,13 @@ definitions:
         example: johndoe
         minLength: 3
         type: string
+    type: object
+  request.UpdateVietQRStatus:
+    properties:
+      status:
+        type: string
+    required:
+    - status
     type: object
   response.Error:
     properties:
@@ -670,6 +684,98 @@ paths:
       summary: Update user
       tags:
       - user
+  /v1/vietqr/gen:
+    post:
+      consumes:
+      - application/json
+      description: Generate a new VietQR code
+      operationId: generate-qr
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.VietQR'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Generate QR Code
+      tags:
+      - vietqr
+  /v1/vietqr/inquiry/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get the status of a VietQR code
+      operationId: inquiry-qr
+      parameters:
+      - description: QR ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.VietQR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Inquiry QR Status
+      tags:
+      - vietqr
+  /v1/vietqr/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update the status of a VietQR code
+      operationId: update-qr-status
+      parameters:
+      - description: QR ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update status
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateVietQRStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Update QR Status
+      tags:
+      - vietqr
 securityDefinitions:
   BearerAuth:
     description: Type "Bearer" followed by a space and JWT token.

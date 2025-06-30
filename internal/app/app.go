@@ -10,12 +10,14 @@ import (
 	"github.com/ducnpdev/godev-kit/config"
 	"github.com/ducnpdev/godev-kit/internal/controller/http"
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi"
+	vietqrrepo "github.com/ducnpdev/godev-kit/internal/repo/externalapi/vietqr"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
 	natuc "github.com/ducnpdev/godev-kit/internal/usecase/nat"
 	redisuc "github.com/ducnpdev/godev-kit/internal/usecase/redis"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/internal/usecase/user"
+	vietqruc "github.com/ducnpdev/godev-kit/internal/usecase/vietqr"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/ducnpdev/godev-kit/pkg/nats"
@@ -55,15 +57,17 @@ func Run(cfg *config.Config) {
 		natsClient *nats.NatsClient
 		errNats    error
 	)
-	if cfg.NATS.Timeout > 0 {
-		natsClient, errNats = nats.New(cfg.NATS.URL, nats.ConnTimeout(cfg.NATS.Timeout))
-	} else {
-		natsClient, errNats = nats.New(cfg.NATS.URL)
+	if cfg.NATS.Enable {
+		if cfg.NATS.Timeout > 0 {
+			natsClient, errNats = nats.New(cfg.NATS.URL, nats.ConnTimeout(cfg.NATS.Timeout))
+		} else {
+			natsClient, errNats = nats.New(cfg.NATS.URL)
+		}
+		if errNats != nil {
+			l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
+		}
+		defer natsClient.Close()
 	}
-	if errNats != nil {
-		l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
-	}
-	defer natsClient.Close()
 
 	// Use-Case
 	translationUseCase := translation.New(
@@ -80,6 +84,10 @@ func Run(cfg *config.Config) {
 		persistent.NewRedisRepo(redisClient),
 	)
 	natsUseCase := natuc.NewNatsUseCase(persistent.NewNatsRepo(natsClient))
+	vietqrUseCase := vietqruc.NewVietQRUseCase(
+		vietqrrepo.NewVietQRRepo(),
+		persistent.NewVietQRRepo(pg),
+	)
 
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
@@ -111,7 +119,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, l)
 
 	// Start servers
 	// rmqServer.Start()
