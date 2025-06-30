@@ -12,12 +12,14 @@ import (
 type VietQRUseCase interface {
 	GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error)
 	InquiryQR(ctx context.Context, id string) (*entity.VietQR, error)
-	UpdateStatus(ctx context.Context, id, status string) error
+	UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error
 }
 
 // VietQRPersistentRepo is the interface for the vietqr persistent repository.
 type VietQRPersistentRepo interface {
 	Store(ctx context.Context, qr entity.VietQR) error
+	FindByID(ctx context.Context, id string) (entity.VietQR, error)
+	UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error
 }
 
 type vietQRUseCase struct {
@@ -38,7 +40,7 @@ func (uc *vietQRUseCase) GenerateQR(ctx context.Context, req entity.VietQRGenera
 
 	qrEntity := &entity.VietQR{
 		ID:      uuid.NewString(),
-		Status:  "generated",
+		Status:  entity.VietQRStatusGenerated,
 		Content: content,
 	}
 
@@ -50,9 +52,13 @@ func (uc *vietQRUseCase) GenerateQR(ctx context.Context, req entity.VietQRGenera
 }
 
 func (uc *vietQRUseCase) InquiryQR(ctx context.Context, id string) (*entity.VietQR, error) {
-	return uc.repo.InquiryQR(ctx, id)
+	qr, err := uc.persistentRepo.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return &qr, nil
 }
 
-func (uc *vietQRUseCase) UpdateStatus(ctx context.Context, id, status string) error {
-	return uc.repo.UpdateStatus(ctx, id, status)
+func (uc *vietQRUseCase) UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error {
+	return uc.persistentRepo.UpdateStatus(ctx, id, status)
 }

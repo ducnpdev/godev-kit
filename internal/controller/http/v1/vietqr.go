@@ -87,7 +87,16 @@ func (v1 *V1) updateStatus(c *gin.Context) {
 		return
 	}
 
-	err := v1.vietqr.UpdateStatus(c.Request.Context(), id, req.Status)
+	status := entity.VietQRStatus(req.Status)
+	switch status {
+	case entity.VietQRStatusInProcess, entity.VietQRStatusPaid, entity.VietQRStatusFail, entity.VietQRStatusTimeout:
+		// valid status
+	default:
+		errorResponse(c, http.StatusBadRequest, "invalid status")
+		return
+	}
+
+	err := v1.vietqr.UpdateStatus(c.Request.Context(), id, status)
 	if err != nil {
 		v1.l.Error(err, "http - v1 - updateStatus - v1.vietqr.UpdateStatus")
 		errorResponse(c, http.StatusInternalServerError, "internal server error")
