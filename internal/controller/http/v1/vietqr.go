@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+	"github.com/ducnpdev/godev-kit/internal/entity"
 )
 
 // @Summary     Generate QR Code
@@ -19,7 +20,20 @@ import (
 // @Failure     500 {object} response.Error
 // @Router      /v1/vietqr/gen [post]
 func (v1 *V1) generateQR(c *gin.Context) {
-	qr, err := v1.vietqr.GenerateQR(c.Request.Context())
+	var req request.GenerateQR
+	if err := c.ShouldBindJSON(&req); err != nil {
+		v1.l.Error(err, "http - v1 - generateQR - c.ShouldBindJSON")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	qr, err := v1.vietqr.GenerateQR(c.Request.Context(), entity.VietQRGenerateRequest{
+		AccountNo:    req.AccountNo,
+		Amount:       req.Amount,
+		Description:  req.Description,
+		MCC:          req.MCC,
+		ReceiverName: req.ReceiverName,
+	})
 	if err != nil {
 		v1.l.Error(err, "http - v1 - generateQR - v1.vietqr.GenerateQR")
 		errorResponse(c, http.StatusInternalServerError, "internal server error")

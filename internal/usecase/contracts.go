@@ -50,7 +50,7 @@ type (
 
 	// VietQR -.
 	VietQR interface {
-		GenerateQR(ctx context.Context) (*entity.VietQR, error)
+		GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error)
 		InquiryQR(ctx context.Context, id string) (*entity.VietQR, error)
 		UpdateStatus(ctx context.Context, id, status string) error
 	}

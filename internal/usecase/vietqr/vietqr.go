@@ -5,11 +5,12 @@ import (
 
 	"github.com/ducnpdev/godev-kit/internal/entity"
 	"github.com/ducnpdev/godev-kit/internal/repo/externalapi/vietqr"
+	"github.com/google/uuid"
 )
 
 // VietQRUseCase is the interface for the vietqr use case.
 type VietQRUseCase interface {
-	GenerateQR(ctx context.Context) (*entity.VietQR, error)
+	GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error)
 	InquiryQR(ctx context.Context, id string) (*entity.VietQR, error)
 	UpdateStatus(ctx context.Context, id, status string) error
 }
@@ -23,8 +24,17 @@ func NewVietQRUseCase(repo vietqr.VietQRRepo) VietQRUseCase {
 	return &vietQRUseCase{repo: repo}
 }
 
-func (uc *vietQRUseCase) GenerateQR(ctx context.Context) (*entity.VietQR, error) {
-	return uc.repo.GenerateQR(ctx)
+func (uc *vietQRUseCase) GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error) {
+	content, err := uc.repo.GenerateQR(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return &entity.VietQR{
+		ID:      uuid.NewString(),
+		Status:  "generated",
+		Content: content,
+	}, nil
 }
 
 func (uc *vietQRUseCase) InquiryQR(ctx context.Context, id string) (*entity.VietQR, error) {
