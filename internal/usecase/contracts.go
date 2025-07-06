@@ -5,6 +5,7 @@ import (
 	"context"
 
 	"github.com/ducnpdev/godev-kit/internal/entity"
+	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 )
 
 //go:generate mockgen -source=contracts.go -destination=./mocks_usecase_test.go -package=usecase_test
@@ -53,5 +54,10 @@ type (
 		GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error)
 		InquiryQR(ctx context.Context, id string) (*entity.VietQR, error)
 		UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error
+	}
+
+	// Billing -.
+	Billing interface {
+		GenerateInvoicePDF(data billing.InvoiceData, outputPath string) error
 	}
 )

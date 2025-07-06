@@ -13,6 +13,7 @@ import (
 	vietqrrepo "github.com/ducnpdev/godev-kit/internal/repo/externalapi/vietqr"
 	"github.com/ducnpdev/godev-kit/internal/repo/persistent"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
+	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	natuc "github.com/ducnpdev/godev-kit/internal/usecase/nat"
 	redisuc "github.com/ducnpdev/godev-kit/internal/usecase/redis"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
@@ -88,6 +89,7 @@ func Run(cfg *config.Config) {
 		vietqrrepo.NewVietQRRepo(),
 		persistent.NewVietQRRepo(pg),
 	)
+	billingUseCase := billing.New()
 
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
@@ -119,7 +121,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, billingUseCase, l)
 
 	// Start servers
 	// rmqServer.Start()
