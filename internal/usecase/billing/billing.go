@@ -1,8 +1,6 @@
-package main
+package billing
 
 import (
-	"log"
-
 	"github.com/signintech/gopdf"
 )
 
@@ -37,30 +35,14 @@ const (
 	tableRowHeight = 18.0
 )
 
-func main() {
-	// Prepare invoice data
-	data := InvoiceData{
-		Number: "00001",
-		Date:   "MM/DD/YYYY",
-		Items: []InvoiceItem{
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-			{"Your item name", "$0.00", "1", "$0.00"},
-		},
-		Subtotal: "$0.00",
-		Discount: "$0.00",
-		TaxRate:  "0 %",
-		Tax:      "$0.00",
-		Total:    "$0.00",
-		Terms:    "Please pay invoice by MM/DD/YYYY",
-	}
+type UseCase struct{}
 
-	// Setup PDF
+func New() *UseCase {
+	return &UseCase{}
+}
+
+// GenerateInvoicePDF generates a PDF invoice and returns the file path
+func (uc *UseCase) GenerateInvoicePDF(data InvoiceData, outputPath string) error {
 	pdf := gopdf.GoPdf{}
 	mm6ToPx := 22.68
 
@@ -74,22 +56,25 @@ func main() {
 	}
 	pdf.AddPageWithOption(opt)
 
-	// Register both regular and bold fonts
 	if err := pdf.AddTTFFont("roboto", "./docs/front/Roboto-Regular.ttf"); err != nil {
-		log.Fatal(err)
+		return err
 	}
 	if err := pdf.AddTTFFont("roboto-bold", "./docs/front/Roboto-Regular.ttf"); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	// Draw sections
 	headerBottomY := drawHeader(&pdf, data)
 	tableBottomY := drawTable(&pdf, data.Items, headerBottomY)
 	summaryBottomY := drawSummary(&pdf, data, tableBottomY)
 	drawFooter(&pdf, data, summaryBottomY)
 
-	pdf.WritePdf("hello.pdf")
+	if err := pdf.WritePdf(outputPath); err != nil {
+		return err
+	}
+	return nil
 }
+
+// --- PDF Drawing Functions (copied from main.go, made unexported) ---
 
 func drawHeader(pdf *gopdf.GoPdf, data InvoiceData) float64 {
 	// Title
@@ -213,105 +198,75 @@ func drawTable(pdf *gopdf.GoPdf, items []InvoiceItem, startY float64) float64 {
 		rowY += tableRowHeight
 	}
 
-	// Table border lines
-	pdf.SetLineWidth(0.3)
-	pdf.SetStrokeColor(220, 220, 220)
-	borderY := tableTop
-	for i := 0; i <= len(items)+1; i++ {
-		pdf.Line(tableLeft, borderY, tableLeft+tableWidth, borderY)
-		borderY += tableRowHeight
-	}
-	// Vertical lines
-	colX := tableLeft
-	for _, w := range tableColWidths {
-		pdf.Line(colX, tableTop, colX, tableTop+tableRowHeight*float64(len(items)+1))
-		colX += w
-	}
-	pdf.Line(colX, tableTop, colX, tableTop+tableRowHeight*float64(len(items)+1))
+	// Table bottom border
+	pdf.SetStrokeColor(200, 200, 200)
+	pdf.Line(tableLeft, rowY, tableLeft+tableWidth, rowY)
 
-	// Reset color
-	pdf.SetTextColor(0, 0, 0)
-
-	return rowY // Return the Y position after the last row
+	return rowY + 10 // +10 for extra spacing
 }
 
 func drawSummary(pdf *gopdf.GoPdf, data InvoiceData, startY float64) float64 {
-	tableColWidths := []float64{200, 100, 100, 100}
-	tableLeft := marginLeft
+	summaryLeft := pageWidth - marginLeft - 200
+	summaryY := startY
 
-	pdf.SetFont("roboto", "", 10)
-	labelX := tableLeft + tableColWidths[0] + tableColWidths[1] + tableColWidths[2] - 10
-	valueX := tableLeft + tableColWidths[0] + tableColWidths[1] + tableColWidths[2] + 30
-
-	pdf.SetY(startY + 10)
-	pdf.SetX(labelX)
-	pdf.Cell(nil, "Subtotal")
-	pdf.SetX(valueX)
+	pdf.SetFont("roboto-bold", "", 11)
+	pdf.SetTextColor(30, 60, 120)
+	pdf.SetX(summaryLeft)
+	pdf.SetY(summaryY)
+	pdf.Cell(nil, "Subtotal:")
+	pdf.SetX(summaryLeft + 120)
 	pdf.Cell(nil, data.Subtotal)
 
-	pdf.SetY(startY + 25)
-	pdf.SetX(labelX)
-	pdf.Cell(nil, "Discount")
-	pdf.SetX(valueX)
+	pdf.SetX(summaryLeft)
+	pdf.SetY(summaryY + 18)
+	pdf.Cell(nil, "Discount:")
+	pdf.SetX(summaryLeft + 120)
 	pdf.Cell(nil, data.Discount)
 
-	pdf.SetY(startY + 40)
-	pdf.SetX(labelX)
-	pdf.Cell(nil, "Tax rate")
-	pdf.SetX(valueX)
+	pdf.SetX(summaryLeft)
+	pdf.SetY(summaryY + 36)
+	pdf.Cell(nil, "Tax Rate:")
+	pdf.SetX(summaryLeft + 120)
 	pdf.Cell(nil, data.TaxRate)
 
-	pdf.SetY(startY + 55)
-	pdf.SetX(labelX)
-	pdf.Cell(nil, "Tax")
-	pdf.SetX(valueX)
+	pdf.SetX(summaryLeft)
+	pdf.SetY(summaryY + 54)
+	pdf.Cell(nil, "Tax:")
+	pdf.SetX(summaryLeft + 120)
 	pdf.Cell(nil, data.Tax)
 
-	return startY + 70 // Return the Y position after the summary
+	pdf.SetFont("roboto-bold", "", 13)
+	pdf.SetTextColor(30, 60, 120)
+	pdf.SetX(summaryLeft)
+	pdf.SetY(summaryY + 80)
+	pdf.Cell(nil, "Total:")
+	pdf.SetX(summaryLeft + 120)
+	pdf.Cell(nil, data.Total)
+
+	return summaryY + 110 // +30 for extra spacing
 }
 
 func drawFooter(pdf *gopdf.GoPdf, data InvoiceData, startY float64) {
-	footerY := startY + 40 // Add spacing after summary
-
-	pdf.SetFont("roboto-bold", "", 10)
-	pdf.SetTextColor(30, 60, 120)
-	pdf.SetY(footerY)
-	pdf.SetX(marginLeft)
-	pdf.Cell(nil, "TERMS")
-	pdf.SetX(marginLeft + 150)
-	pdf.Cell(nil, "BANK ACCOUNT DETAILS")
-	pdf.SetX(pageWidth - marginLeft - 100)
-	pdf.Cell(nil, "INVOICE TOTAL")
-
-	pdf.SetFont("roboto", "", 9)
+	footerY := startY
+	pdf.SetFont("roboto", "", 10)
 	pdf.SetTextColor(0, 0, 0)
-	pdf.SetY(footerY + 15)
 	pdf.SetX(marginLeft)
+	pdf.SetY(footerY)
 	pdf.Cell(nil, data.Terms)
 
-	// Example bank details
-	bankDetails := []string{
-		"Account Holder:",
-		"Account number:",
-		"ABA rtn: 026073150",
-		"Wire rtn: 026073008",
+	// Bank details (if any)
+	if len(data.BankDetails) > 0 {
+		pdf.SetY(footerY + 30)
+		pdf.SetFont("roboto-bold", "", 11)
+		pdf.SetTextColor(30, 60, 120)
+		pdf.SetX(marginLeft)
+		pdf.Cell(nil, "Bank Details:")
+		pdf.SetFont("roboto", "", 10)
+		pdf.SetTextColor(0, 0, 0)
+		for i, line := range data.BankDetails {
+			pdf.SetY(footerY + 50 + float64(i)*13)
+			pdf.SetX(marginLeft)
+			pdf.Cell(nil, line)
+		}
 	}
-	for i, line := range bankDetails {
-		pdf.SetY(footerY + 15 + float64(i)*15)
-		pdf.SetX(marginLeft + 150)
-		pdf.Cell(nil, line)
-	}
-
-	pdf.SetFont("roboto-bold", "", 18)
-	pdf.SetTextColor(0, 150, 0)
-	pdf.SetY(footerY + 15)
-	pdf.SetX(pageWidth - marginLeft - 100)
-	pdf.Cell(nil, data.Total)
-
-	// Footer note
-	pdf.SetFont("roboto", "", 9)
-	pdf.SetTextColor(0, 0, 0)
-	pdf.SetY(pageHeight - 40)
-	pdf.SetX(pageWidth - marginLeft - 180)
-	pdf.Cell(nil, "Send money abroad with Wise.")
 }

@@ -136,3 +136,13 @@ func NewVietQRRoutes(apiV1Group *gin.RouterGroup, vietqr usecase.VietQR, l logge
 		vietqrGroup.PUT("/update/:id", v1.updateStatus)
 	}
 }
+
+// NewBillingRoutes -.
+func NewBillingRoutes(apiV1Group *gin.RouterGroup, billing usecase.Billing, l logger.Interface) {
+	r := &V1{billing: billing, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+	billingGroup := apiV1Group.Group("/billing")
+	{
+		billingGroup.POST("/invoice", r.GenerateInvoicePDF)
+	}
+}

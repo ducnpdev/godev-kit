@@ -74,3 +74,34 @@ The VietQR module provides APIs to generate, inquire, and update the status of V
 - `paid`
 - `fail`
 - `timeout` 
+
+
+## Diagram
+```
+flowchart TD
+    A["Client<br/>POST /v1/vietqr/gen"] --> B["HTTP Controller<br/>generateQR"]
+    B --> C["UseCase<br/>GenerateQR"]
+    C --> D["External API Repo<br/>GenerateQR (vietqr lib)"]
+    D --> E["VietQR Content"]
+    C --> F["Persistent Repo<br/>Store VietQR in DB"]
+    F --> G["DB: vietqr table"]
+    C --> H["Return VietQR Entity (id, status, content)"]
+    H --> I["Client Receives QR Info"]
+    
+    subgraph Status Inquiry/Update
+      J["Client<br/>GET /v1/vietqr/inquiry/{id}"] --> K["HTTP Controller<br/>inquiryQR"]
+      K --> L["UseCase<br/>InquiryQR"]
+      L --> M["Persistent Repo<br/>FindByID"]
+      M --> N["DB: vietqr table"]
+      L --> O["Return VietQR Entity"]
+      O --> P["Client Receives Status"]
+      
+      Q["Client<br/>PUT /v1/vietqr/update/{id}"] --> R["HTTP Controller<br/>updateStatus"]
+      R --> S["UseCase<br/>UpdateStatus"]
+      S --> T["Persistent Repo<br/>UpdateStatus"]
+      T --> U["DB: vietqr table"]
+      S --> V["Return Success"]
+      V --> W["Client Receives Update Ack"]
+    end
+    style Status\ Inquiry\/Update fill:#f9f,stroke:#333,stroke-width:2
+```

@@ -26,7 +26,7 @@ import (
 // @in header
 // @name Authorization
 // @description Type "Bearer" followed by a space and JWT token.
-func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, l logger.Interface) {
+func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface) {
 	// Middleware
 	app.Use(middleware.Logger(l))
 	// app.Use(middleware.Recovery(l))
@@ -62,5 +62,6 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 		v1.NewRedisRoutes(apiV1Group, r, l)
 		v1.NewNatsRoutes(apiV1Group, n, l)
 		v1.NewVietQRRoutes(apiV1Group, v, l)
+		v1.NewBillingRoutes(apiV1Group, billing, l)
 	}
 }
