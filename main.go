@@ -83,15 +83,15 @@ func main() {
 	}
 
 	// Draw sections
-	drawHeader(&pdf, data)
-	drawTable(&pdf, data.Items)
-	drawSummary(&pdf, data)
-	drawFooter(&pdf, data)
+	headerBottomY := drawHeader(&pdf, data)
+	tableBottomY := drawTable(&pdf, data.Items, headerBottomY)
+	summaryBottomY := drawSummary(&pdf, data, tableBottomY)
+	drawFooter(&pdf, data, summaryBottomY)
 
 	pdf.WritePdf("hello.pdf")
 }
 
-func drawHeader(pdf *gopdf.GoPdf, data InvoiceData) {
+func drawHeader(pdf *gopdf.GoPdf, data InvoiceData) float64 {
 	// Title
 	pdf.SetFont("roboto-bold", "", 28) // For bold
 	pdf.SetFont("roboto", "", 11)
@@ -159,10 +159,12 @@ func drawHeader(pdf *gopdf.GoPdf, data InvoiceData) {
 			pdf.Cell(nil, companyContact[i])
 		}
 	}
+	// Return the Y position after the last line
+	return sectionY + 15 + float64(5)*13 + 10 // +10 for extra spacing
 }
 
-func drawTable(pdf *gopdf.GoPdf, items []InvoiceItem) {
-	tableTop := marginTop + 2*lineHeight + 100
+func drawTable(pdf *gopdf.GoPdf, items []InvoiceItem, startY float64) float64 {
+	tableTop := startY
 	tableLeft := marginLeft
 	tableWidth := pageWidth - 2*marginLeft
 	tableRowHeight := 18.0
@@ -224,48 +226,47 @@ func drawTable(pdf *gopdf.GoPdf, items []InvoiceItem) {
 
 	// Reset color
 	pdf.SetTextColor(0, 0, 0)
+
+	return rowY // Return the Y position after the last row
 }
 
-func drawSummary(pdf *gopdf.GoPdf, data InvoiceData) {
-	tableTop := marginTop + 2*lineHeight + 100
-	tableRowHeight := 18.0
+func drawSummary(pdf *gopdf.GoPdf, data InvoiceData, startY float64) float64 {
 	tableColWidths := []float64{200, 100, 100, 100}
-	summaryY := tableTop + tableRowHeight*float64(len(data.Items)+2)
 	tableLeft := marginLeft
 
 	pdf.SetFont("roboto", "", 10)
 	labelX := tableLeft + tableColWidths[0] + tableColWidths[1] + tableColWidths[2] - 10
 	valueX := tableLeft + tableColWidths[0] + tableColWidths[1] + tableColWidths[2] + 30
 
-	pdf.SetY(summaryY)
+	pdf.SetY(startY + 10)
 	pdf.SetX(labelX)
 	pdf.Cell(nil, "Subtotal")
 	pdf.SetX(valueX)
 	pdf.Cell(nil, data.Subtotal)
 
-	pdf.SetY(summaryY + 15)
+	pdf.SetY(startY + 25)
 	pdf.SetX(labelX)
 	pdf.Cell(nil, "Discount")
 	pdf.SetX(valueX)
 	pdf.Cell(nil, data.Discount)
 
-	pdf.SetY(summaryY + 30)
+	pdf.SetY(startY + 40)
 	pdf.SetX(labelX)
 	pdf.Cell(nil, "Tax rate")
 	pdf.SetX(valueX)
 	pdf.Cell(nil, data.TaxRate)
 
-	pdf.SetY(summaryY + 45)
+	pdf.SetY(startY + 55)
 	pdf.SetX(labelX)
 	pdf.Cell(nil, "Tax")
 	pdf.SetX(valueX)
 	pdf.Cell(nil, data.Tax)
+
+	return startY + 70 // Return the Y position after the summary
 }
 
-func drawFooter(pdf *gopdf.GoPdf, data InvoiceData) {
-	tableTop := marginTop + 2*lineHeight + 100
-	tableRowHeight := 18.0
-	footerY := tableTop + tableRowHeight*float64(len(data.Items)+2) + 80
+func drawFooter(pdf *gopdf.GoPdf, data InvoiceData, startY float64) {
+	footerY := startY + 40 // Add spacing after summary
 
 	pdf.SetFont("roboto", "B", 10)
 	pdf.SetY(footerY)
