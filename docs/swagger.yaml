@@ -1,4 +1,15 @@
 definitions:
+  entity.ShipperLocation:
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+      shipper_id:
+        type: string
+      timestamp:
+        type: string
+    type: object
   entity.Translation:
     properties:
       destination:
@@ -43,11 +54,27 @@ definitions:
     type: object
   entity.VietQR:
     properties:
+      content:
+        type: string
       id:
         type: string
       status:
-        type: string
+        $ref: '#/definitions/entity.VietQRStatus'
     type: object
+  entity.VietQRStatus:
+    enum:
+    - generated
+    - in-process
+    - paid
+    - fail
+    - timeout
+    type: string
+    x-enum-varnames:
+    - VietQRStatusGenerated
+    - VietQRStatusInProcess
+    - VietQRStatusPaid
+    - VietQRStatusFail
+    - VietQRStatusTimeout
   request.CreateUser:
     properties:
       email:
@@ -65,6 +92,52 @@ definitions:
     - email
     - password
     - username
+    type: object
+  request.GenerateInvoicePDFRequest:
+    properties:
+      bank_details:
+        items:
+          type: string
+        type: array
+      billed_to:
+        items:
+          type: string
+        type: array
+      company_info:
+        items:
+          type: string
+        type: array
+      date:
+        type: string
+      discount:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/request.InvoiceItem'
+        type: array
+      number:
+        type: string
+      subtotal:
+        type: string
+      tax:
+        type: string
+      tax_rate:
+        type: string
+      terms:
+        type: string
+      total:
+        type: string
+    type: object
+  request.InvoiceItem:
+    properties:
+      amount:
+        type: string
+      description:
+        type: string
+      qty:
+        type: string
+      unit_cost:
+        type: string
     type: object
   request.KafkaMessage:
     properties:
@@ -104,6 +177,21 @@ definitions:
     required:
     - key
     - value
+    type: object
+  request.ShipperLocation:
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+      shipper_id:
+        type: string
+      timestamp:
+        type: string
+    required:
+    - latitude
+    - longitude
+    - shipper_id
     type: object
   request.Translate:
     properties:
@@ -146,6 +234,11 @@ definitions:
     properties:
       error:
         example: message
+        type: string
+    type: object
+  response.GenerateInvoicePDFResponse:
+    properties:
+      file_path:
         type: string
     type: object
   response.LoginResponse:
@@ -268,6 +361,37 @@ paths:
       summary: Login user
       tags:
       - auth
+  /v1/billing/invoice:
+    post:
+      consumes:
+      - application/json
+      description: Generate a billing payment PDF
+      operationId: generate-invoice-pdf
+      parameters:
+      - description: Invoice data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.GenerateInvoicePDFRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GenerateInvoicePDFResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Generate Invoice PDF
+      tags:
+      - billing
   /v1/kafka/consumer/receiver:
     get:
       consumes:
@@ -496,6 +620,83 @@ paths:
       security:
       - BearerAuth: []
       summary: Set value
+      tags:
+      - redis
+  /v1/redis/shipper/location:
+    post:
+      consumes:
+      - application/json
+      description: Update the latest location of a shipper in Redis
+      operationId: update-shipper-location
+      parameters:
+      - description: Shipper location
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.ShipperLocation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Update shipper location
+      tags:
+      - redis
+  /v1/redis/shipper/location/{shipper_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get the latest location of a shipper from Redis
+      operationId: get-shipper-location
+      parameters:
+      - description: Shipper ID
+        in: path
+        name: shipper_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ShipperLocation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      security:
+      - BearerAuth: []
+      summary: Get shipper location
       tags:
       - redis
   /v1/user:
