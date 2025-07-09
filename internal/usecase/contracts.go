@@ -60,4 +60,9 @@ type (
 	Billing interface {
 		GenerateInvoicePDF(data billing.InvoiceData, outputPath string) error
 	}
+
+	// ShipperLocation -.
+	ShipperLocation interface {
+		UpdateLocation(ctx context.Context, loc entity.ShipperLocation) error
+	}
 )

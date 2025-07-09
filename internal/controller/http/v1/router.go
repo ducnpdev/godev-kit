@@ -104,13 +104,14 @@ func NewKafkaRoutes(apiV1Group *gin.RouterGroup, kafka usecase.Kafka, l logger.I
 // }
 
 // NewRedisRoutes -.
-func NewRedisRoutes(apiV1Group *gin.RouterGroup, r usecase.Redis, l logger.Interface) {
-	v1 := &V1{redis: r, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+func NewRedisRoutes(apiV1Group *gin.RouterGroup, r usecase.Redis, l logger.Interface, shipperLocation usecase.ShipperLocation) {
+	v1 := &V1{redis: r, l: l, v: validator.New(validator.WithRequiredStructEnabled()), shipperLocation: shipperLocation}
 
 	redisGroup := apiV1Group.Group("/redis")
 	{
 		redisGroup.POST("/set", v1.setValue)
 		redisGroup.GET("/get/:key", v1.getValue)
+		redisGroup.POST("/shipper/location", v1.UpdateShipperLocation)
 	}
 }
 

@@ -69,3 +69,48 @@ func (v1 *V1) getValue(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response.NewRedisValue(val))
 }
+
+// @Summary     Update shipper location
+// @Description Update the latest location of a shipper in Redis
+// @ID          update-shipper-location
+// @Tags  	    redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       request body request.ShipperLocation true "Shipper location"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/shipper/location [post]
+func (v1 *V1) UpdateShipperLocation(c *gin.Context) {
+	var req request.ShipperLocation
+	if err := c.ShouldBindJSON(&req); err != nil {
+		v1.l.Error(err, "http - v1 - UpdateShipperLocation - c.ShouldBindJSON")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	if err := v1.v.Struct(req); err != nil {
+		v1.l.Error(err, "http - v1 - UpdateShipperLocation - v1.v.Struct")
+		errorResponse(c, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	// Compose entity
+	loc := entity.ShipperLocation{
+		ShipperID: req.ShipperID,
+		Latitude:  req.Latitude,
+		Longitude: req.Longitude,
+		Timestamp: req.Timestamp,
+	}
+
+	err := v1.shipperLocation.UpdateLocation(c.Request.Context(), loc)
+	if err != nil {
+		v1.l.Error(err, "http - v1 - UpdateShipperLocation - usecase.UpdateLocation")
+		errorResponse(c, http.StatusInternalServerError, "internal server error")
+		return
+	}
+
+	c.JSON(http.StatusOK, response.Success{Message: "shipper location updated"})
+}
