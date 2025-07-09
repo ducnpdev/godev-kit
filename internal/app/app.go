@@ -91,6 +91,10 @@ func Run(cfg *config.Config) {
 	)
 	billingUseCase := billing.New()
 
+	redisRepo := persistent.NewRedisRepo(redisClient)
+	shipperLocationRepo := persistent.NewShipperLocationRepo(pg)
+	shipperLocationUsecase := redisuc.NewShipperLocationUseCase(redisRepo, shipperLocationRepo)
+
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
 
@@ -121,7 +125,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, billingUseCase, l)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, billingUseCase, l, shipperLocationUsecase)
 
 	// Start servers
 	// rmqServer.Start()

@@ -145,6 +145,53 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/billing/invoice": {
+            "post": {
+                "description": "Generate a billing payment PDF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "billing"
+                ],
+                "summary": "Generate Invoice PDF",
+                "operationId": "generate-invoice-pdf",
+                "parameters": [
+                    {
+                        "description": "Invoice data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.GenerateInvoicePDFRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GenerateInvoicePDFResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/kafka/consumer/receiver": {
             "get": {
                 "description": "Receive a message from a Kafka topic and group",
@@ -482,6 +529,126 @@ const docTemplate = `{
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/redis/shipper/location": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update the latest location of a shipper in Redis",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "redis"
+                ],
+                "summary": "Update shipper location",
+                "operationId": "update-shipper-location",
+                "parameters": [
+                    {
+                        "description": "Shipper location",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ShipperLocation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Success"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/redis/shipper/location/{shipper_id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get the latest location of a shipper from Redis",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "redis"
+                ],
+                "summary": "Get shipper location",
+                "operationId": "get-shipper-location",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Shipper ID",
+                        "name": "shipper_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ShipperLocation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/response.Error"
                         }
@@ -929,6 +1096,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "entity.ShipperLocation": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "shipper_id": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.Translation": {
             "type": "object",
             "properties": {
@@ -995,13 +1179,33 @@ const docTemplate = `{
         "entity.VietQR": {
             "type": "object",
             "properties": {
+                "content": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
                 "status": {
-                    "type": "string"
+                    "$ref": "#/definitions/entity.VietQRStatus"
                 }
             }
+        },
+        "entity.VietQRStatus": {
+            "type": "string",
+            "enum": [
+                "generated",
+                "in-process",
+                "paid",
+                "fail",
+                "timeout"
+            ],
+            "x-enum-varnames": [
+                "VietQRStatusGenerated",
+                "VietQRStatusInProcess",
+                "VietQRStatusPaid",
+                "VietQRStatusFail",
+                "VietQRStatusTimeout"
+            ]
         },
         "request.CreateUser": {
             "type": "object",
@@ -1024,6 +1228,76 @@ const docTemplate = `{
                     "type": "string",
                     "minLength": 3,
                     "example": "johndoe"
+                }
+            }
+        },
+        "request.GenerateInvoicePDFRequest": {
+            "type": "object",
+            "properties": {
+                "bank_details": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "billed_to": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "company_info": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "date": {
+                    "type": "string"
+                },
+                "discount": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.InvoiceItem"
+                    }
+                },
+                "number": {
+                    "type": "string"
+                },
+                "subtotal": {
+                    "type": "string"
+                },
+                "tax": {
+                    "type": "string"
+                },
+                "tax_rate": {
+                    "type": "string"
+                },
+                "terms": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.InvoiceItem": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "qty": {
+                    "type": "string"
+                },
+                "unit_cost": {
+                    "type": "string"
                 }
             }
         },
@@ -1080,6 +1354,28 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.ShipperLocation": {
+            "type": "object",
+            "required": [
+                "latitude",
+                "longitude",
+                "shipper_id"
+            ],
+            "properties": {
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "shipper_id": {
+                    "type": "string"
+                },
+                "timestamp": {
                     "type": "string"
                 }
             }
@@ -1142,6 +1438,14 @@ const docTemplate = `{
                 "error": {
                     "type": "string",
                     "example": "message"
+                }
+            }
+        },
+        "response.GenerateInvoicePDFResponse": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string"
                 }
             }
         },
