@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/ducnpdev/godev-kit/internal/entity"
+)
 
 // ShipperLocationModel represents the DB model for shipper location
 // TableName: shipper_locations
@@ -15,4 +19,13 @@ type ShipperLocationModel struct {
 
 func (ShipperLocationModel) TableName() string {
 	return "shipper_locations"
+}
+
+func ToShipperLocationEntity(model ShipperLocationModel) entity.ShipperLocation {
+	return entity.ShipperLocation{
+		ShipperID: model.ShipperID,
+		Latitude:  model.Latitude,
+		Longitude: model.Longitude,
+		Timestamp: model.Timestamp,
+	}
 }

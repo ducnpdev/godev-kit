@@ -35,3 +35,28 @@ func (r *ShipperLocationRepo) Store(ctx context.Context, loc entity.ShipperLocat
 	_, err = r.pg.Pool.Exec(ctx, sql, args...)
 	return err
 }
+
+// GetLatestByShipperID retrieves the latest location for a shipper from the DB
+func (r *ShipperLocationRepo) GetLatestByShipperID(ctx context.Context, shipperID string) (entity.ShipperLocation, error) {
+	sql, args, err := r.pg.Builder.
+		Select("shipper_id, latitude, longitude, timestamp").
+		From("shipper_locations").
+		Where("shipper_id = ?", shipperID).
+		OrderBy("timestamp DESC").
+		Limit(1).
+		ToSql()
+	if err != nil {
+		return entity.ShipperLocation{}, err
+	}
+	var model models.ShipperLocationModel
+	err = r.pg.Pool.QueryRow(ctx, sql, args...).Scan(
+		&model.ShipperID,
+		&model.Latitude,
+		&model.Longitude,
+		&model.Timestamp,
+	)
+	if err != nil {
+		return entity.ShipperLocation{}, err
+	}
+	return models.ToShipperLocationEntity(model), nil
+}

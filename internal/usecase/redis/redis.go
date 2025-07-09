@@ -51,7 +51,19 @@ func (uc *ShipperLocationUseCase) UpdateLocation(ctx context.Context, loc entity
 	return uc.locationRepo.Store(ctx, loc)
 }
 
-// GetLocation retrieves the latest location of a shipper from Redis
+// GetLocation retrieves the latest location of a shipper from Redis (cache-aside pattern)
 func (uc *ShipperLocationUseCase) GetLocation(ctx context.Context, shipperID string) (entity.ShipperLocation, error) {
-	return uc.redisRepo.GetShipperLocation(ctx, shipperID)
+	// Try Redis first
+	loc, err := uc.redisRepo.GetShipperLocation(ctx, shipperID)
+	if err == nil {
+		return loc, nil
+	}
+	// If not found in Redis, get from DB
+	dbLoc, dbErr := uc.locationRepo.GetLatestByShipperID(ctx, shipperID)
+	if dbErr != nil {
+		return entity.ShipperLocation{}, dbErr
+	}
+	// Update Redis for next time
+	_ = uc.redisRepo.SetShipperLocation(ctx, dbLoc)
+	return dbLoc, nil
 }
