@@ -50,3 +50,8 @@ func (uc *ShipperLocationUseCase) UpdateLocation(ctx context.Context, loc entity
 	}
 	return uc.locationRepo.Store(ctx, loc)
 }
+
+// GetLocation retrieves the latest location of a shipper from Redis
+func (uc *ShipperLocationUseCase) GetLocation(ctx context.Context, shipperID string) (entity.ShipperLocation, error) {
+	return uc.redisRepo.GetShipperLocation(ctx, shipperID)
+}

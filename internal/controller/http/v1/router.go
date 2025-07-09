@@ -112,6 +112,7 @@ func NewRedisRoutes(apiV1Group *gin.RouterGroup, r usecase.Redis, l logger.Inter
 		redisGroup.POST("/set", v1.setValue)
 		redisGroup.GET("/get/:key", v1.getValue)
 		redisGroup.POST("/shipper/location", v1.UpdateShipperLocation)
+		redisGroup.GET("/shipper/location/:shipper_id", v1.GetShipperLocation)
 	}
 }
 

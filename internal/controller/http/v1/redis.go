@@ -114,3 +114,33 @@ func (v1 *V1) UpdateShipperLocation(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response.Success{Message: "shipper location updated"})
 }
+
+// GetShipperLocation retrieves the latest location of a shipper
+// @Summary     Get shipper location
+// @Description Get the latest location of a shipper from Redis
+// @ID          get-shipper-location
+// @Tags   redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       shipper_id path string true "Shipper ID"
+// @Success     200 {object} entity.ShipperLocation
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/shipper/location/{shipper_id} [get]
+func (v1 *V1) GetShipperLocation(c *gin.Context) {
+	shipperID := c.Param("shipper_id")
+	if shipperID == "" {
+		errorResponse(c, http.StatusBadRequest, "shipper_id is required")
+		return
+	}
+	loc, err := v1.shipperLocation.GetLocation(c.Request.Context(), shipperID)
+	if err != nil {
+		v1.l.Error(err, "http - v1 - GetShipperLocation - usecase.GetLocation")
+		errorResponse(c, http.StatusInternalServerError, "internal server error")
+		return
+	}
+	c.JSON(http.StatusOK, loc)
+}

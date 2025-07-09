@@ -64,5 +64,6 @@ type (
 	// ShipperLocation -.
 	ShipperLocation interface {
 		UpdateLocation(ctx context.Context, loc entity.ShipperLocation) error
+		GetLocation(ctx context.Context, shipperID string) (entity.ShipperLocation, error)
 	}
 )
