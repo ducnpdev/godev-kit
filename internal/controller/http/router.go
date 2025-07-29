@@ -9,6 +9,7 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/controller/http/middleware"
 	v1 "github.com/ducnpdev/godev-kit/internal/controller/http/v1"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
+	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -21,12 +22,12 @@ import (
 // @title       Go Dev Kit Template API
 // @description Using a translation service and user management as examples
 // @version     1.0
-// @host        localhost:8080
+// @host        localhost:10000
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
 // @description Type "Bearer" followed by a space and JWT token.
-func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface, shipperLocation usecase.ShipperLocation) {
+func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase) {
 	// Middleware
 	app.Use(middleware.Logger(l))
 	// app.Use(middleware.Recovery(l))
@@ -53,6 +54,9 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 		c.Status(http.StatusOK)
 	})
 
+	// Create V1 controller
+	v1Controller := v1.NewV1(l, t, u, k, r, n, v, billing, shipperLocation, paymentUseCase)
+
 	// Routers
 	apiV1Group := app.Group("/v1")
 	{
@@ -63,5 +67,8 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 		v1.NewNatsRoutes(apiV1Group, n, l)
 		v1.NewVietQRRoutes(apiV1Group, v, l)
 		v1.NewBillingRoutes(apiV1Group, billing, l)
+
+		// Payment routes
+		v1Controller.RegisterPaymentRoutes(apiV1Group)
 	}
 }
