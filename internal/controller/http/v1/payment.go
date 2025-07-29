@@ -28,7 +28,7 @@ func NewPaymentController(paymentUseCase *payment.PaymentUseCase, logger *zerolo
 
 // RegisterPayment registers a new payment
 // @Summary Register a new payment
-// @Description Register a new payment for electric bill
+// @Description Register a new payment for electric bill and send to Kafka for processing
 // @Tags payments
 // @Accept json
 // @Produce json
@@ -36,7 +36,7 @@ func NewPaymentController(paymentUseCase *payment.PaymentUseCase, logger *zerolo
 // @Success 201 {object} response.PaymentResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /payments [post]
+// @Router /v1/payments [post]
 func (c *PaymentController) RegisterPayment(ctx *gin.Context) {
 	var req request.PaymentRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -101,7 +101,7 @@ func (c *PaymentController) RegisterPayment(ctx *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Failure 404 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /payments/{id} [get]
+// @Router /v1/payments/{id} [get]
 func (c *PaymentController) GetPaymentByID(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
@@ -160,7 +160,7 @@ func (c *PaymentController) GetPaymentByID(ctx *gin.Context) {
 // @Success 200 {array} response.PaymentResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /users/{user_id}/payments [get]
+// @Router /v1/users/{user_id}/payments [get]
 func (c *PaymentController) GetPaymentsByUserID(ctx *gin.Context) {
 	userIDStr := ctx.Param("user_id")
 	userID, err := strconv.ParseInt(userIDStr, 10, 64)

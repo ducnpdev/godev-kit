@@ -9,7 +9,16 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -417,6 +426,102 @@ const docTemplate = `{
                             "additionalProperties": {
                                 "type": "string"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/payments": {
+            "post": {
+                "description": "Register a new payment for electric bill and send to Kafka for processing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payments"
+                ],
+                "summary": "Register a new payment",
+                "parameters": [
+                    {
+                        "description": "Payment request",
+                        "name": "payment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.PaymentResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/payments/{id}": {
+            "get": {
+                "description": "Get payment details by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payments"
+                ],
+                "summary": "Get payment by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Payment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.PaymentResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
                         }
                     }
                 }
@@ -950,6 +1055,53 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/users/{user_id}/payments": {
+            "get": {
+                "description": "Get all payments for a specific user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payments"
+                ],
+                "summary": "Get payments by user ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.PaymentResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/vietqr/gen": {
             "post": {
                 "security": [
@@ -1343,6 +1495,53 @@ const docTemplate = `{
                 }
             }
         },
+        "request.PaymentRequest": {
+            "description": "Payment request for electric bill",
+            "type": "object",
+            "required": [
+                "amount",
+                "currency",
+                "customer_code",
+                "meter_number",
+                "payment_method",
+                "payment_type",
+                "user_id"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "example": 500000
+                },
+                "currency": {
+                    "type": "string",
+                    "example": "VND"
+                },
+                "customer_code": {
+                    "type": "string",
+                    "example": "CUST001"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Thanh toán tiền điện tháng 12/2024"
+                },
+                "meter_number": {
+                    "type": "string",
+                    "example": "EVN001234567"
+                },
+                "payment_method": {
+                    "type": "string",
+                    "example": "bank_transfer"
+                },
+                "payment_type": {
+                    "type": "string",
+                    "example": "electric"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "request.RedisValue": {
             "type": "object",
             "required": [
@@ -1441,6 +1640,19 @@ const docTemplate = `{
                 }
             }
         },
+        "response.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "error_type"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "error_message"
+                }
+            }
+        },
         "response.GenerateInvoicePDFResponse": {
             "type": "object",
             "properties": {
@@ -1468,6 +1680,60 @@ const docTemplate = `{
                             "type": "string"
                         }
                     }
+                }
+            }
+        },
+        "response.PaymentResponse": {
+            "description": "Payment response with all payment details",
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "example": 500000
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2024-12-20T10:30:00Z"
+                },
+                "currency": {
+                    "type": "string",
+                    "example": "VND"
+                },
+                "customer_code": {
+                    "type": "string",
+                    "example": "CUST001"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Thanh toán tiền điện tháng 12/2024"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "meter_number": {
+                    "type": "string",
+                    "example": "EVN001234567"
+                },
+                "payment_method": {
+                    "type": "string",
+                    "example": "bank_transfer"
+                },
+                "payment_type": {
+                    "type": "string",
+                    "example": "electric"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "pending"
+                },
+                "transaction_id": {
+                    "type": "string",
+                    "example": "uuid-here"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -1505,11 +1771,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
-	BasePath:         "",
+	Host:             "localhost:10000",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Go Dev Kit Template API",
-	Description:      "Using a translation service and user management as examples",
+	Description:      "A comprehensive API template with translation, user management, Kafka, Redis, NATS, VietQR, and Payment services",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
