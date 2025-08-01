@@ -9,6 +9,7 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/controller/http/middleware"
 	v1 "github.com/ducnpdev/godev-kit/internal/controller/http/v1"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
+	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ import (
 // @in header
 // @name Authorization
 // @description Type "Bearer" followed by a space and JWT token.
-func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase) {
+func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase, billingUseCase *billing.UseCase) {
 	// Middleware
 	app.Use(middleware.Logger(l))
 	// app.Use(middleware.Recovery(l))
@@ -55,7 +56,7 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 	})
 
 	// Create V1 controller
-	v1Controller := v1.NewV1(l, t, u, k, r, n, v, billing, shipperLocation, paymentUseCase)
+	v1Controller := v1.NewV1(l, t, u, k, r, n, v, billing, shipperLocation, paymentUseCase, billingUseCase)
 
 	// Routers
 	apiV1Group := app.Group("/v1")
@@ -66,9 +67,11 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 		v1.NewRedisRoutes(apiV1Group, r, l, shipperLocation)
 		v1.NewNatsRoutes(apiV1Group, n, l)
 		v1.NewVietQRRoutes(apiV1Group, v, l)
-		v1.NewBillingRoutes(apiV1Group, billing, l)
 
 		// Payment routes
 		v1Controller.RegisterPaymentRoutes(apiV1Group)
+
+		// Billing routes
+		v1Controller.RegisterBillingRoutes(apiV1Group)
 	}
 }

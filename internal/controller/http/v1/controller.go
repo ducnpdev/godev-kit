@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/ducnpdev/godev-kit/internal/usecase"
+	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/go-playground/validator/v10"
@@ -21,10 +22,11 @@ type V1 struct {
 	billing           usecase.Billing
 	shipperLocation   usecase.ShipperLocation
 	paymentController *PaymentController
+	billingController *BillingController
 }
 
 // NewV1 creates new V1 controller
-func NewV1(l logger.Interface, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase) *V1 {
+func NewV1(l logger.Interface, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase, billingUseCase *billing.UseCase) *V1 {
 	return &V1{
 		l:                 l,
 		v:                 validator.New(),
@@ -37,5 +39,6 @@ func NewV1(l logger.Interface, t usecase.Translation, u usecase.User, k usecase.
 		billing:           billing,
 		shipperLocation:   shipperLocation,
 		paymentController: NewPaymentController(paymentUseCase, l.(*logger.Logger).ZerologPtr()),
+		billingController: NewBillingController(billingUseCase, l.(*logger.Logger).ZerologPtr()),
 	}
 }
