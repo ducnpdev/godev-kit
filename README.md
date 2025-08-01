@@ -15,6 +15,20 @@ If you implement a new feature or need support running the project, please conta
 
 **GoDev Kit** is a modular, production-ready template for building robust Golang microservices and backend applications. It provides a clean architecture foundation, best practices, and ready-to-use integrations for common infrastructure components, allowing you to focus on your business logic instead of boilerplate setup.
 
+### 🆕 New Feature: Auto Payment System
+
+The latest addition to GoDev Kit is a complete **Auto Payment System** for electric bills with:
+
+- **RESTful API**: Register payments via HTTP endpoints
+- **Database Persistence**: PostgreSQL for payment data storage
+- **Asynchronous Processing**: Kafka-based payment processing
+- **Real-time Status**: Payment status tracking and updates
+- **User Management**: Payment history per user
+- **Swagger Documentation**: Complete API documentation
+- **Production Ready**: Error handling, logging, and monitoring
+
+This demonstrates how to build a complete business feature following clean architecture principles with proper separation of concerns, database integration, message queuing, and comprehensive documentation.
+
 ### Key Features
 
 - **Clean Architecture**: Separation of concerns between controllers, use cases, repositories, and entities.
@@ -24,6 +38,7 @@ If you implement a new feature or need support running the project, please conta
 - **NATS Integration**: Built-in support for NATS messaging for event-driven architectures.
 - **Redis Integration**: Use Redis for caching or fast key-value storage with ready-to-use modules.
 - **User Login Module**: Includes JWT-based authentication and user management out of the box.
+- **Payment System**: Complete auto payment system for electric bills with Kafka processing.
 - **API Ready**: HTTP and gRPC server templates, with Swagger/OpenAPI documentation.
 - **Observability**: Prometheus metrics and structured logging out of the box.
 - **Extensible**: Easily add new features, endpoints, or infrastructure components.
@@ -56,6 +71,13 @@ If you implement a new feature or need support running the project, please conta
   - [Kafka Integration](#kafka-integration)
   - [Redis Integration](#redis-integration)
   - [User Login Module](#user-login-module)
+  - [Payment System](#payment-system)
+    - [Overview](#payment-overview)
+    - [Architecture](#payment-architecture)
+    - [API Endpoints](#payment-api-endpoints)
+    - [Database Schema](#payment-database-schema)
+    - [Kafka Processing](#payment-kafka-processing)
+    - [Setup and Usage](#payment-setup-and-usage)
   - [VietQR Integration](#vietqr-integration)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
@@ -74,7 +96,41 @@ If you implement a new feature or need support running the project, please conta
 
 ## Content
 
-todo
+### Payment System
+
+A complete auto payment system for electric bills with RESTful API, PostgreSQL database, Kafka processing, and Swagger documentation.
+
+**Key Features:**
+- ✅ Payment registration via HTTP API
+- ✅ PostgreSQL database with migrations
+- ✅ Kafka asynchronous processing
+- ✅ Real-time status tracking
+- ✅ User payment history
+- ✅ Complete Swagger documentation
+
+**API Endpoints:**
+- `POST /v1/payments` - Register a new payment
+- `GET /v1/payments/{id}` - Get payment by ID  
+- `GET /v1/users/{user_id}/payments` - Get user payment history
+
+**Quick Start:**
+```bash
+# Run database migrations
+make migrate-up
+
+# Start application
+go run cmd/app/main.go
+
+# Access Swagger UI
+http://localhost:10000/swagger/index.html
+```
+
+📖 **Detailed Documentation:**
+- [PAYMENT_SYSTEM.md](PAYMENT_SYSTEM.md) - System architecture and overview
+- [PAYMENT_SETUP.md](PAYMENT_SETUP.md) - Complete setup instructions
+- [SWAGGER_GUIDE.md](SWAGGER_GUIDE.md) - Swagger UI usage guide
+- [PAYMENT_SUMMARY.md](PAYMENT_SUMMARY.md) - Implementation summary
+- [examples/payment_demo.go](examples/payment_demo.go) - Usage examples
 
 ## Quick start
 
@@ -158,15 +214,20 @@ http://localhost:8080/swagger/index.html
 ### Available Endpoints
 - All available endpoints are documented in the Swagger UI and OpenAPI files.
 - **New:** `GET /v1/redis/shipper/location/:shipper_id` — Get the latest location of a shipper (cache-aside pattern).
+- **Payment System:** Complete payment endpoints for electric bill processing:
+  - `POST /v1/payments` — Register a new payment
+  - `GET /v1/payments/{id}` — Get payment by ID
+  - `GET /v1/users/{user_id}/payments` — Get payments by user ID
 
 ## API Documentation
 
 - The OpenAPI/Swagger spec is always available in `docs/swagger.json` and `docs/swagger.yaml`.
 - To regenerate after code changes, run:
   ```bash
-  swag init -g internal/controller/http/router.go
+  swag init -g cmd/app/main.go
   ```
 - For interactive docs, visit `/swagger/index.html` when running the service.
+- **Payment System Documentation**: Complete Swagger documentation for payment endpoints is available at `http://localhost:10000/swagger/index.html`
 
 ## Development
 
@@ -281,6 +342,14 @@ NATS:
   # Create a stream
   nats stream add my_stream --subjects="my.subject" --storage=file --file="nats://localhost:4222/jetstream/my_stream"
   ```
+
+## Payment System Files
+
+**New Files Created:** 14 files including core components, database migrations, and documentation  
+**Modified Files:** 5 existing files for integration  
+**Total:** ~2000+ lines of code
+
+📁 **File Structure:** See [PAYMENT_SUMMARY.md](PAYMENT_SUMMARY.md) for complete file listing and implementation details.
 
 ## Contributing
 

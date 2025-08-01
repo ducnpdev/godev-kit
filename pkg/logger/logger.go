@@ -105,3 +105,8 @@ func (l *Logger) msg(level string, message interface{}, args ...interface{}) {
 func (l *Logger) Zerolog() zerolog.Logger {
 	return *l.logger
 }
+
+// ZerologPtr returns the underlying zerolog.Logger pointer.
+func (l *Logger) ZerologPtr() *zerolog.Logger {
+	return l.logger
+}

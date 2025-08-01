@@ -4,7 +4,7 @@ APP:
   MODE: debug
 
 HTTP:
-  PORT: 8080
+  PORT: 10000
   USE_PREFORK_MODE: false
 
 LOG:

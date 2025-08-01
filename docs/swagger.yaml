@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   entity.ShipperLocation:
     properties:
@@ -168,6 +169,42 @@ definitions:
       data:
         type: string
     type: object
+  request.PaymentRequest:
+    description: Payment request for electric bill
+    properties:
+      amount:
+        example: 500000
+        type: number
+      currency:
+        example: VND
+        type: string
+      customer_code:
+        example: CUST001
+        type: string
+      description:
+        example: Thanh toán tiền điện tháng 12/2024
+        type: string
+      meter_number:
+        example: EVN001234567
+        type: string
+      payment_method:
+        example: bank_transfer
+        type: string
+      payment_type:
+        example: electric
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    required:
+    - amount
+    - currency
+    - customer_code
+    - meter_number
+    - payment_method
+    - payment_type
+    - user_id
+    type: object
   request.RedisValue:
     properties:
       key:
@@ -236,6 +273,15 @@ definitions:
         example: message
         type: string
     type: object
+  response.ErrorResponse:
+    properties:
+      error:
+        example: error_type
+        type: string
+      message:
+        example: error_message
+        type: string
+    type: object
   response.GenerateInvoicePDFResponse:
     properties:
       file_path:
@@ -255,6 +301,46 @@ definitions:
             type: string
         type: object
     type: object
+  response.PaymentResponse:
+    description: Payment response with all payment details
+    properties:
+      amount:
+        example: 500000
+        type: number
+      created_at:
+        example: "2024-12-20T10:30:00Z"
+        type: string
+      currency:
+        example: VND
+        type: string
+      customer_code:
+        example: CUST001
+        type: string
+      description:
+        example: Thanh toán tiền điện tháng 12/2024
+        type: string
+      id:
+        example: 1
+        type: integer
+      meter_number:
+        example: EVN001234567
+        type: string
+      payment_method:
+        example: bank_transfer
+        type: string
+      payment_type:
+        example: electric
+        type: string
+      status:
+        example: pending
+        type: string
+      transaction_id:
+        example: uuid-here
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
   response.RedisValue:
     properties:
       key:
@@ -268,10 +354,18 @@ definitions:
         example: operation completed successfully
         type: string
     type: object
-host: localhost:8080
+host: localhost:10000
 info:
-  contact: {}
-  description: Using a translation service and user management as examples
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: A comprehensive API template with translation, user management, Kafka,
+    Redis, NATS, VietQR, and Payment services
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
   title: Go Dev Kit Template API
   version: "1.0"
 paths:
@@ -545,6 +639,70 @@ paths:
       summary: Subscribe to subject
       tags:
       - nats
+  /v1/payments:
+    post:
+      consumes:
+      - application/json
+      description: Register a new payment for electric bill and send to Kafka for
+        processing
+      parameters:
+      - description: Payment request
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/request.PaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.PaymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Register a new payment
+      tags:
+      - payments
+  /v1/payments/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get payment details by ID
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaymentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get payment by ID
+      tags:
+      - payments
   /v1/redis/get/{key}:
     get:
       consumes:
@@ -885,6 +1043,37 @@ paths:
       summary: Update user
       tags:
       - user
+  /v1/users/{user_id}/payments:
+    get:
+      consumes:
+      - application/json
+      description: Get all payments for a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.PaymentResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get payments by user ID
+      tags:
+      - payments
   /v1/vietqr/gen:
     post:
       consumes:

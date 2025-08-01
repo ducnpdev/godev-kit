@@ -2,6 +2,7 @@
 package app
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/signal"
@@ -15,11 +16,13 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/usecase"
 	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	natuc "github.com/ducnpdev/godev-kit/internal/usecase/nat"
+	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	redisuc "github.com/ducnpdev/godev-kit/internal/usecase/redis"
 	"github.com/ducnpdev/godev-kit/internal/usecase/translation"
 	"github.com/ducnpdev/godev-kit/internal/usecase/user"
 	vietqruc "github.com/ducnpdev/godev-kit/internal/usecase/vietqr"
 	"github.com/ducnpdev/godev-kit/pkg/httpserver"
+	"github.com/ducnpdev/godev-kit/pkg/kafka"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
 	"github.com/ducnpdev/godev-kit/pkg/nats"
 	"github.com/ducnpdev/godev-kit/pkg/postgres"
@@ -95,11 +98,19 @@ func Run(cfg *config.Config) {
 	shipperLocationRepo := persistent.NewShipperLocationRepo(pg)
 	shipperLocationUsecase := redisuc.NewShipperLocationUseCase(redisRepo, shipperLocationRepo)
 
+	// Payment Use Case
+	paymentRepo := persistent.NewPaymentRepo(pg)
+	kafkaProducer := kafka.NewProducer(cfg.Kafka.Brokers, l.Zerolog())
+	paymentUseCase := payment.NewPaymentUseCase(paymentRepo, kafkaProducer, l.ZerologPtr())
+
+	// Payment Consumer
+	paymentConsumer := payment.NewPaymentConsumer(cfg.Kafka.Brokers, "payment-processor", paymentUseCase, l.ZerologPtr())
+
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
 
 	// Setup Kafka consumers
-	// ctx := context.Background()
+	ctx := context.Background()
 	// if err := kafkaEventUseCase.ConsumeUserEvents(ctx); err != nil {
 	// 	l.Error(fmt.Errorf("app - Run - ConsumeUserEvents: %w", err))
 	// }
@@ -107,6 +118,13 @@ func Run(cfg *config.Config) {
 	// if err := kafkaEventUseCase.ConsumeTranslationEvents(ctx); err != nil {
 	// 	l.Error(fmt.Errorf("app - Run - ConsumeTranslationEvents: %w", err))
 	// }
+
+	// Start Payment Consumer
+	go func() {
+		if err := paymentConsumer.Start(ctx); err != nil {
+			l.Error(fmt.Errorf("app - Run - paymentConsumer.Start: %w", err))
+		}
+	}()
 
 	// Start Kafka consumers
 	// kafkaRepo.StartAllConsumers(ctx)
@@ -125,7 +143,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
-	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, billingUseCase, l, shipperLocationUsecase)
+	http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, billingUseCase, l, shipperLocationUsecase, paymentUseCase, billingUseCase)
 
 	// Start servers
 	// rmqServer.Start()
