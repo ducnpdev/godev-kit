@@ -16,8 +16,12 @@ LOG:
     PRINT_REQUEST: true
     PRINT_RESPONSE: true
 PG:
-  POOL_MAX: 10
-  URL: "postgres://postgres:1@localhost:5433/godevkit"
+  POOL_MAX: 20
+  POOL_MIN: 5
+  MAX_CONN_LIFETIME: 1h
+  MAX_CONN_IDLE_TIME: 30m
+  HEALTH_CHECK_PERIOD: 1m
+  URL: "postgres://godevkit:1@localhost:5433/godevkit"
 
 REDIS:
   URL: "redis://localhost:6379/0"

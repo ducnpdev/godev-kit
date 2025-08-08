@@ -55,8 +55,12 @@ type (
 
 	// PG -.
 	PG struct {
-		PoolMax int    `mapstructure:"POOL_MAX"`
-		URL     string `mapstructure:"URL"`
+		PoolMax           int           `mapstructure:"POOL_MAX"`
+		PoolMin           int           `mapstructure:"POOL_MIN"`
+		MaxConnLifetime   time.Duration `mapstructure:"MAX_CONN_LIFETIME"`
+		MaxConnIdleTime   time.Duration `mapstructure:"MAX_CONN_IDLE_TIME"`
+		HealthCheckPeriod time.Duration `mapstructure:"HEALTH_CHECK_PERIOD"`
+		URL               string        `mapstructure:"URL"`
 	}
 
 	// Redis -.

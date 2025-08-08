@@ -1,8 +1,10 @@
 package v1
 
 import (
+	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
@@ -103,17 +105,16 @@ func (r *V1) GetUser(c *gin.Context) {
 // @Failure     500 {object} response.Error
 // @Router      /v1/user [get]
 func (r *V1) ListUsers(c *gin.Context) {
-	userHistory, err := r.user.List(c.Request.Context())
+	// Create a context with timeout to prevent long-running queries
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 30*time.Second)
+	defer cancel()
+	
+	userHistory, err := r.user.List(ctx)
 	if err != nil {
 		r.l.Error(err, "http - v1 - listUsers")
 		errorResponse(c, http.StatusInternalServerError, "user service problems")
 		return
 	}
-
-	// for i := 0; i < 5; i++ {
-	// 	time.Sleep(time.Second)
-	// 	fmt.Println(i)
-	// }
 
 	c.JSON(http.StatusOK, userHistory)
 }
