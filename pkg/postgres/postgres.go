@@ -72,6 +72,10 @@ func New(url string, opts ...Option) (*Postgres, error) {
 	for pg.connAttempts > 0 {
 		pg.Pool, err = pgxpool.NewWithConfig(context.Background(), poolConfig)
 		if err == nil {
+			err = pg.Ping(context.Background())
+			if err != nil {
+				return nil, fmt.Errorf("postgres - NewPostgres - pg.Ping: %w", err)
+			}
 			break
 		}
 
@@ -94,6 +98,15 @@ func (p *Postgres) Close() {
 	if p.Pool != nil {
 		p.Pool.Close()
 	}
+}
+
+// Ping tests the database connection
+func (p *Postgres) Ping(ctx context.Context) error {
+	if p.Pool == nil {
+		return fmt.Errorf("postgres pool is not initialized")
+	}
+
+	return p.Pool.Ping(ctx)
 }
 
 // GetPoolStats returns connection pool statistics for monitoring
