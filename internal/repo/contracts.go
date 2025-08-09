@@ -21,7 +21,7 @@ type (
 
 	// TranslationWebAPI -.
 	TranslationWebAPI interface {
-		Translate(entity.Translation) (entity.Translation, error)
+		Translate(ctx context.Context, t entity.Translation) (entity.Translation, error)
 	}
 
 	// UserRepo -.

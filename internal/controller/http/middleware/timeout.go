@@ -46,7 +46,7 @@ func TimeoutMiddleware(config ...TimeoutConfig) gin.HandlerFunc {
 				return
 			}
 		}
-		fmt.Println("cfg.Timeout", cfg.Timeout)
+
 		// Create a context with timeout
 		ctx, cancel := context.WithTimeout(c.Request.Context(), cfg.Timeout)
 		defer cancel()
@@ -54,30 +54,44 @@ func TimeoutMiddleware(config ...TimeoutConfig) gin.HandlerFunc {
 		// Replace the request context
 		c.Request = c.Request.WithContext(ctx)
 
-		// Channel to signal completion
-		finished := make(chan struct{})
+		// Channels to signal completion - buffered to prevent goroutine leak
+		finished := make(chan struct{}, 1)
 		panicChan := make(chan interface{}, 1)
+
+		// Track goroutine completion for cleanup
+		goroutineDone := make(chan struct{})
 
 		// Run the request in a goroutine
 		go func() {
 			defer func() {
+				close(goroutineDone) // Signal goroutine completion
 				if p := recover(); p != nil {
-					panicChan <- p
+					select {
+					case panicChan <- p:
+					default: // Prevent blocking if main routine already returned
+					}
 				}
 			}()
 
 			c.Next()
-			finished <- struct{}{}
+			select {
+			case finished <- struct{}{}:
+			default: // Prevent blocking if main routine already returned
+			}
 		}()
 
 		// Wait for either completion or timeout
 		select {
 		case <-finished:
 			// Request completed normally
+			// Wait for goroutine cleanup to prevent leak
+			<-goroutineDone
 			return
 
 		case p := <-panicChan:
 			// Request panicked
+			// Wait for goroutine cleanup to prevent leak
+			<-goroutineDone
 			panic(p)
 
 		case <-ctx.Done():
@@ -86,9 +100,15 @@ func TimeoutMiddleware(config ...TimeoutConfig) gin.HandlerFunc {
 			c.JSON(http.StatusRequestTimeout, cfg.TimeoutResponse)
 			c.Abort()
 
-			// Log the timeout
-			fmt.Printf("[TIMEOUT] Request to %s timed out after %v\n",
-				c.Request.URL.Path, cfg.Timeout)
+			// Log the timeout with more details
+			fmt.Printf("[TIMEOUT] Request to %s timed out after %v. Context error: %v\n",
+				c.Request.URL.Path, cfg.Timeout, ctx.Err())
+
+			// Start cleanup goroutine to wait for the original goroutine
+			go func() {
+				<-goroutineDone
+				fmt.Printf("[CLEANUP] Goroutine for %s request cleanup completed\n", c.Request.URL.Path)
+			}()
 
 			return
 		}
