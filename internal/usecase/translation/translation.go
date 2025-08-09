@@ -41,7 +41,7 @@ func (uc *UseCase) History(ctx context.Context) (entity.TranslationHistory, erro
 
 // Translate -.
 func (uc *UseCase) Translate(ctx context.Context, t entity.Translation) (entity.Translation, error) {
-	translation, err := uc.webAPI.Translate(t)
+	translation, err := uc.webAPI.Translate(ctx, t)
 	if err != nil {
 		return entity.Translation{}, fmt.Errorf("TranslationUseCase - Translate - s.webAPI.Translate: %w", err)
 	}

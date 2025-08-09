@@ -144,3 +144,13 @@ func NewBillingRoutes(apiV1Group *gin.RouterGroup, billing usecase.Billing, l lo
 	// This function is deprecated - use RegisterBillingRoutes instead
 	// The billing functionality is now handled by BillingController
 }
+
+// NewMonitoringRoutes adds resource monitoring endpoints
+func NewMonitoringRoutes(apiV1Group *gin.RouterGroup, l logger.Interface) {
+	v1 := &V1{l: l}
+
+	monitoringGroup := apiV1Group.Group("/monitoring")
+	{
+		monitoringGroup.GET("/resources", v1.GetResourceStats)
+	}
+}

@@ -1,10 +1,14 @@
 package v1
 
 import (
+	"net/http"
+
+	"github.com/ducnpdev/godev-kit/internal/controller/http/middleware"
 	"github.com/ducnpdev/godev-kit/internal/usecase"
 	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
+	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -41,4 +45,13 @@ func NewV1(l logger.Interface, t usecase.Translation, u usecase.User, k usecase.
 		paymentController: NewPaymentController(paymentUseCase, l.(*logger.Logger).ZerologPtr()),
 		billingController: NewBillingController(billingUseCase, l.(*logger.Logger).ZerologPtr()),
 	}
+}
+
+// GetResourceStats returns resource monitoring information
+func (v1 *V1) GetResourceStats(c *gin.Context) {
+	stats := middleware.GetResourceStats()
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"data":   stats,
+	})
 }
