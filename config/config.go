@@ -38,7 +38,12 @@ type (
 	// HTTP -.
 	HTTP struct {
 		Port            string        `mapstructure:"PORT"`
+		ReadTimeout     time.Duration `mapstructure:"READ_TIMEOUT"`
+		WriteTimeout    time.Duration `mapstructure:"WRITE_TIMEOUT"`
+		IdleTimeout     time.Duration `mapstructure:"IDLE_TIMEOUT"`
 		ShutdownTimeout time.Duration `mapstructure:"SHUTDOWN_TIMEOUT"`
+		UsePreforkMode  bool          `mapstructure:"USE_PREFORK_MODE"`
+		ApiTimeout      time.Duration `mapstructure:"API_TIMEOUT"`
 	}
 
 	// Log -.

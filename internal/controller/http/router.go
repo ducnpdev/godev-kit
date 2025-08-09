@@ -3,17 +3,21 @@ package http
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/ducnpdev/godev-kit/config"
 	_ "github.com/ducnpdev/godev-kit/docs" // Swagger docs
 	"github.com/ducnpdev/godev-kit/internal/controller/http/middleware"
 	v1 "github.com/ducnpdev/godev-kit/internal/controller/http/v1"
+
 	"github.com/ducnpdev/godev-kit/internal/usecase"
 	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
+
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -32,6 +36,19 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 	// Middleware
 	app.Use(middleware.Logger(l))
 	// app.Use(middleware.Recovery(l))
+
+	// Add timeout middleware - affects all routes
+	timeoutConfig := middleware.TimeoutConfig{
+		Timeout: cfg.HTTP.ApiTimeout, // Request-level timeout (shorter than WriteTimeout)
+		TimeoutResponse: gin.H{
+			"error":     "Request timeout",
+			"message":   "The server took too long to process your request",
+			"timeout":   cfg.HTTP.ApiTimeout,
+			"timestamp": time.Now().Format(time.RFC3339),
+		},
+		SkipPaths: []string{"/healthz", "/metrics", "/swagger"},
+	}
+	app.Use(middleware.TimeoutMiddleware(timeoutConfig))
 
 	// Prometheus metrics
 	if cfg.Metrics.Enabled {

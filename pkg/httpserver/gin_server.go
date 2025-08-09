@@ -15,6 +15,7 @@ const (
 	_defaultAddr            = ":80"
 	_defaultReadTimeout     = 5 * time.Second
 	_defaultWriteTimeout    = 5 * time.Second
+	_defaultIdleTimeout     = 30 * time.Second
 	_defaultShutdownTimeout = 3 * time.Second
 )
 
@@ -56,6 +57,13 @@ func ShutdownTimeout(timeout time.Duration) Option {
 	}
 }
 
+// IdleTimeout -.
+func IdleTimeout(timeout time.Duration) Option {
+	return func(s *Server) {
+		s.idleTimeout = timeout
+	}
+}
+
 // Server -.
 type Server struct {
 	App    *gin.Engine
@@ -65,6 +73,7 @@ type Server struct {
 	address         string
 	readTimeout     time.Duration
 	writeTimeout    time.Duration
+	idleTimeout     time.Duration
 	shutdownTimeout time.Duration
 }
 
@@ -107,7 +116,22 @@ func New(cfg *config.Config, opts ...Option) *Server {
 		address:         _defaultAddr,
 		readTimeout:     _defaultReadTimeout,
 		writeTimeout:    _defaultWriteTimeout,
+		idleTimeout:     _defaultIdleTimeout,
 		shutdownTimeout: _defaultShutdownTimeout,
+	}
+
+	// Apply configuration-based timeouts if provided
+	if cfg.HTTP.ReadTimeout > 0 {
+		s.readTimeout = cfg.HTTP.ReadTimeout
+	}
+	if cfg.HTTP.WriteTimeout > 0 {
+		s.writeTimeout = cfg.HTTP.WriteTimeout
+	}
+	if cfg.HTTP.IdleTimeout > 0 {
+		s.idleTimeout = cfg.HTTP.IdleTimeout
+	}
+	if cfg.HTTP.ShutdownTimeout > 0 {
+		s.shutdownTimeout = cfg.HTTP.ShutdownTimeout
 	}
 
 	// Custom options
@@ -139,6 +163,7 @@ func New(cfg *config.Config, opts ...Option) *Server {
 		Handler:      s.App,
 		ReadTimeout:  s.readTimeout,
 		WriteTimeout: s.writeTimeout,
+		IdleTimeout:  s.idleTimeout,
 	}
 
 	return s

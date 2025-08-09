@@ -5,7 +5,12 @@ APP:
 
 HTTP:
   PORT: 10000
-  USE_PREFORK_MODE: false
+  READ_TIMEOUT: 3s      # Time to read the request (including body)
+  WRITE_TIMEOUT: 6s    # Time to write the response
+  IDLE_TIMEOUT: 30s     # Time to keep connection alive
+  SHUTDOWN_TIMEOUT: 5s  # Time to wait for graceful shutdown
+  USE_PREFORK_MODE: false # Use prefork mode to improve performance
+  API_TIMEOUT: 5s # 5 second
 
 LOG:
   LEVEL: debug
