@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -105,17 +105,33 @@ func (r *V1) GetUser(c *gin.Context) {
 // @Failure     500 {object} response.Error
 // @Router      /v1/user [get]
 func (r *V1) ListUsers(c *gin.Context) {
-	// Create a context with timeout to prevent long-running queries
-	ctx, cancel := context.WithTimeout(c.Request.Context(), 30*time.Second)
-	defer cancel()
-	
-	userHistory, err := r.user.List(ctx)
+	// For debugging timeout behavior, uncomment the sleep below:
+	// This will trigger the 8-second request timeout defined in middleware
+	for i := 0; i < 10; i++ {
+		fmt.Printf("[DEBUG] ListUsers processing step %d/10\n", i+1)
+		time.Sleep(1 * time.Second)
+
+		// Check if context was cancelled (timeout or client disconnect)
+		select {
+		case <-c.Request.Context().Done():
+			r.l.Warn("ListUsers request was cancelled",
+				"reason", c.Request.Context().Err().Error(),
+				"client_ip", c.ClientIP(),
+				"step", i+1)
+			return
+		default:
+			// Continue processing
+		}
+	}
+
+	userHistory, err := r.user.List(c.Request.Context())
 	if err != nil {
 		r.l.Error(err, "http - v1 - listUsers")
 		errorResponse(c, http.StatusInternalServerError, "user service problems")
 		return
 	}
 
+	r.l.Info("ListUsers completed successfully", "client_ip", c.ClientIP())
 	c.JSON(http.StatusOK, userHistory)
 }
 
