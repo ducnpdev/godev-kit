@@ -67,12 +67,16 @@ func (uc *PaymentUseCase) RegisterPayment(ctx context.Context, req *entity.Payme
 		Timestamp:     time.Now(),
 	}
 
-	// Send to Kafka
-	err = uc.kafkaProd.SendMessage(ctx, "payment-events", []byte(paymentEvent.TransactionID), paymentEvent)
-	if err != nil {
-		uc.logger.Error().Err(err).Msg("Failed to send payment event to Kafka")
-		// Note: In production, you might want to handle this differently
-		// For now, we'll just log the error but still return success
+	// Send to Kafka if producer is available
+	if uc.kafkaProd != nil {
+		err = uc.kafkaProd.SendMessage(ctx, "payment-events", []byte(paymentEvent.TransactionID), paymentEvent)
+		if err != nil {
+			uc.logger.Error().Err(err).Msg("Failed to send payment event to Kafka")
+			// Note: In production, you might want to handle this differently
+			// For now, we'll just log the error but still return success
+		}
+	} else {
+		uc.logger.Info().Msg("Kafka producer is disabled, skipping payment event publishing")
 	}
 
 	uc.logger.Info().

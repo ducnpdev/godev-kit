@@ -90,6 +90,13 @@ type (
 		Brokers []string `mapstructure:"BROKERS"`
 		GroupID string   `mapstructure:"GROUP_ID"`
 		Topics  Topics   `mapstructure:"TOPICS"`
+		Control Control  `mapstructure:"CONTROL"`
+	}
+
+	// Control -.
+	Control struct {
+		ProducerEnabled bool `mapstructure:"PRODUCER_ENABLED"`
+		ConsumerEnabled bool `mapstructure:"CONSUMER_ENABLED"`
 	}
 
 	// Topics -.
@@ -184,5 +191,29 @@ func (c *Config) Validate() error {
 	if c.HTTP.ShutdownTimeout == 0 {
 		return errors.New("http shutdown timeout is required")
 	}
+	
+	// Validate Kafka configuration
+	if err := c.validateKafkaConfig(); err != nil {
+		return fmt.Errorf("kafka config validation failed: %w", err)
+	}
+	
+	return nil
+}
+
+// validateKafkaConfig validates Kafka-specific configuration
+func (c *Config) validateKafkaConfig() error {
+	if len(c.Kafka.Brokers) == 0 {
+		return errors.New("kafka brokers are required")
+	}
+	
+	if c.Kafka.GroupID == "" {
+		return errors.New("kafka group ID is required")
+	}
+	
+	// Log Kafka control settings
+	log.Printf("Kafka Control Settings:")
+	log.Printf("  Producer Enabled: %v", c.Kafka.Control.ProducerEnabled)
+	log.Printf("  Consumer Enabled: %v", c.Kafka.Control.ConsumerEnabled)
+	
 	return nil
 }

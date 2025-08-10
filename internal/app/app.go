@@ -55,7 +55,12 @@ func Run(cfg *config.Config) {
 	defer redisClient.Close()
 
 	// Kafka Repository
-	kafkaRepo := persistent.NewKafkaRepo(cfg.Kafka.Brokers, l.Zerolog())
+	kafkaRepo := persistent.NewKafkaRepoWithConfig(
+		cfg.Kafka.Brokers,
+		l.Zerolog(),
+		cfg.Kafka.Control.ProducerEnabled,
+		cfg.Kafka.Control.ConsumerEnabled,
+	)
 	defer func() {
 		if err := kafkaRepo.Close(); err != nil {
 			l.Error(fmt.Errorf("app - Run - kafkaRepo.Close: %w", err))
@@ -106,17 +111,36 @@ func Run(cfg *config.Config) {
 
 	// Payment Use Case
 	paymentRepo := persistent.NewPaymentRepo(pg)
-	kafkaProducer := kafka.NewProducer(cfg.Kafka.Brokers, l.Zerolog())
+	
+	// Only create Kafka producer if enabled
+	var kafkaProducer *kafka.Producer
+	if cfg.Kafka.Control.ProducerEnabled {
+		kafkaProducer = kafka.NewProducer(cfg.Kafka.Brokers, l.Zerolog())
+	}
 	paymentUseCase := payment.NewPaymentUseCase(paymentRepo, kafkaProducer, l.ZerologPtr())
 
-	// Payment Consumer
-	paymentConsumer := payment.NewPaymentConsumer(cfg.Kafka.Brokers, "payment-processor", paymentUseCase, l.ZerologPtr())
+	// Setup context for Kafka operations
+	ctx := context.Background()
+
+	// Only create and start payment consumer if Kafka consumer is enabled
+	var paymentConsumer *payment.PaymentConsumer
+	if cfg.Kafka.Control.ConsumerEnabled {
+		paymentConsumer = payment.NewPaymentConsumer(cfg.Kafka.Brokers, "payment-processor", paymentUseCase, l.ZerologPtr())
+		
+		// Start Payment Consumer
+		go func() {
+			if err := paymentConsumer.Start(ctx); err != nil {
+				l.Error(fmt.Errorf("app - Run - paymentConsumer.Start: %w", err))
+			}
+		}()
+	} else {
+		l.Info("Kafka consumer is disabled, skipping payment consumer initialization")
+	}
 
 	// Kafka Event Use Case
 	// kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
 
 	// Setup Kafka consumers
-	ctx := context.Background()
 	// if err := kafkaEventUseCase.ConsumeUserEvents(ctx); err != nil {
 	// 	l.Error(fmt.Errorf("app - Run - ConsumeUserEvents: %w", err))
 	// }
@@ -126,11 +150,11 @@ func Run(cfg *config.Config) {
 	// }
 
 	// Start Payment Consumer
-	go func() {
-		if err := paymentConsumer.Start(ctx); err != nil {
-			l.Error(fmt.Errorf("app - Run - paymentConsumer.Start: %w", err))
-		}
-	}()
+	// go func() {
+	// 	if err := paymentConsumer.Start(ctx); err != nil {
+	// 		l.Error(fmt.Errorf("app - Run - paymentConsumer.Start: %w", err))
+	// 	}
+	// }()
 
 	// Start Kafka consumers
 	// kafkaRepo.StartAllConsumers(ctx)

@@ -47,8 +47,6 @@ func New(url string, opts ...Option) (*Postgres, error) {
 		healthCheckPeriod: _defaultHealthCheckPeriod,
 	}
 
-	fmt.Println(url)
-
 	// Custom options
 	for _, opt := range opts {
 		opt(pg)
@@ -67,8 +65,6 @@ func New(url string, opts ...Option) (*Postgres, error) {
 	poolConfig.MaxConnIdleTime = pg.maxConnIdleTime
 	poolConfig.HealthCheckPeriod = pg.healthCheckPeriod
 
-	fmt.Println("poolConfig:", poolConfig)
-
 	for pg.connAttempts > 0 {
 		pg.Pool, err = pgxpool.NewWithConfig(context.Background(), poolConfig)
 		if err == nil {
@@ -80,8 +76,6 @@ func New(url string, opts ...Option) (*Postgres, error) {
 		}
 
 		log.Printf("Postgres is trying to connect, attempts left: %d", pg.connAttempts)
-
-		time.Sleep(pg.connTimeout)
 
 		pg.connAttempts--
 	}

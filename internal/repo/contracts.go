@@ -50,6 +50,15 @@ type (
 		StartConsumer(ctx context.Context, topic string) error
 		StartAllConsumers(ctx context.Context)
 		Close() error
+
+		// Control methods
+		EnableProducer()
+		DisableProducer()
+		IsProducerEnabled() bool
+		EnableConsumer()
+		DisableConsumer()
+		IsConsumerEnabled() bool
+		GetStatus() map[string]interface{}
 	}
 
 	// NatsRepo -.
