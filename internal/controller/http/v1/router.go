@@ -58,6 +58,17 @@ func NewKafkaRoutes(apiV1Group *gin.RouterGroup, kafka usecase.Kafka, l logger.I
 	{
 		kafkaGroup.POST("/producer/request", r.ProducerRequest)
 		kafkaGroup.GET("/consumer/receiver", r.ConsumerReceiver)
+
+		// Control endpoints
+		kafkaGroup.POST("/producer/enable", r.EnableProducer)
+		kafkaGroup.POST("/producer/disable", r.DisableProducer)
+		kafkaGroup.POST("/consumer/enable", r.EnableConsumer)
+		kafkaGroup.POST("/consumer/disable", r.DisableConsumer)
+		kafkaGroup.GET("/status", r.GetKafkaStatus)
+
+		// Status check endpoints
+		kafkaGroup.GET("/producer/status", r.CheckProducerStatus)
+		kafkaGroup.GET("/consumer/status", r.CheckConsumerStatus)
 	}
 }
 

@@ -48,6 +48,9 @@ KAFKA:
     # kafka-topics --create --topic dev.user-events --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
     TRANSLATION_EVENTS: dev.translation-events
     # kafka-topics --create --topic dev.translation-events --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
+  CONTROL:
+    PRODUCER_ENABLED: false   # Enable/disable Kafka producer
+    CONSUMER_ENABLED: false   # Enable/disable Kafka consumer
 
 NATS:
   URL: nats://localhost:4222

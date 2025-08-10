@@ -9,6 +9,15 @@ import (
 type Kafka interface {
 	ProduceMessage(ctx context.Context, topic, key string, value interface{}) error
 	ConsumeMessage(ctx context.Context, topic, group string) (string, []byte, error)
+
+	// Control methods
+	EnableProducer()
+	DisableProducer()
+	IsProducerEnabled() bool
+	EnableConsumer()
+	DisableConsumer()
+	IsConsumerEnabled() bool
+	GetStatus() map[string]interface{}
 }
 
 type kafkaUseCase struct {
@@ -99,4 +108,41 @@ func (u *kafkaUseCase) ConsumeMessage(ctx context.Context, topic, group string) 
 	case <-ctx.Done():
 		return "", nil, ctx.Err()
 	}
+}
+
+// Control methods implementation
+
+// EnableProducer enables the Kafka producer
+func (u *kafkaUseCase) EnableProducer() {
+	u.kafkaRepo.EnableProducer()
+}
+
+// DisableProducer disables the Kafka producer
+func (u *kafkaUseCase) DisableProducer() {
+	u.kafkaRepo.DisableProducer()
+}
+
+// IsProducerEnabled returns the current producer status
+func (u *kafkaUseCase) IsProducerEnabled() bool {
+	return u.kafkaRepo.IsProducerEnabled()
+}
+
+// EnableConsumer enables the Kafka consumer
+func (u *kafkaUseCase) EnableConsumer() {
+	u.kafkaRepo.EnableConsumer()
+}
+
+// DisableConsumer disables the Kafka consumer
+func (u *kafkaUseCase) DisableConsumer() {
+	u.kafkaRepo.DisableConsumer()
+}
+
+// IsConsumerEnabled returns the current consumer status
+func (u *kafkaUseCase) IsConsumerEnabled() bool {
+	return u.kafkaRepo.IsConsumerEnabled()
+}
+
+// GetStatus returns the current status of both producer and consumer
+func (u *kafkaUseCase) GetStatus() map[string]interface{} {
+	return u.kafkaRepo.GetStatus()
 }

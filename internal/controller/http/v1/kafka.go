@@ -78,3 +78,125 @@ func (h *V1) ConsumerReceiver(c *gin.Context) {
 		c.JSON(http.StatusGatewayTimeout, gin.H{"error": "no message received"})
 	}
 }
+
+// EnableProducer godoc
+// @Summary      Enable Kafka producer
+// @Description  Enable the Kafka producer to send messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/producer/enable [post]
+func (h *V1) EnableProducer(c *gin.Context) {
+	h.kafka.EnableProducer()
+	c.JSON(http.StatusOK, gin.H{"status": "producer enabled"})
+}
+
+// DisableProducer godoc
+// @Summary      Disable Kafka producer
+// @Description  Disable the Kafka producer from sending messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/producer/disable [post]
+func (h *V1) DisableProducer(c *gin.Context) {
+	h.kafka.DisableProducer()
+	c.JSON(http.StatusOK, gin.H{"status": "producer disabled"})
+}
+
+// EnableConsumer godoc
+// @Summary      Enable Kafka consumer
+// @Description  Enable the Kafka consumer to receive messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/consumer/enable [post]
+func (h *V1) EnableConsumer(c *gin.Context) {
+	h.kafka.EnableConsumer()
+	c.JSON(http.StatusOK, gin.H{"status": "consumer enabled"})
+}
+
+// DisableConsumer godoc
+// @Summary      Disable Kafka consumer
+// @Description  Disable the Kafka consumer from receiving messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/consumer/disable [post]
+func (h *V1) DisableConsumer(c *gin.Context) {
+	h.kafka.DisableConsumer()
+	c.JSON(http.StatusOK, gin.H{"status": "consumer disabled"})
+}
+
+// GetKafkaStatus godoc
+// @Summary      Get Kafka status
+// @Description  Get the current status of Kafka producer and consumer
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /v1/kafka/status [get]
+func (h *V1) GetKafkaStatus(c *gin.Context) {
+	status := h.kafka.GetStatus()
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"data":   status,
+	})
+}
+
+// CheckConsumerStatus godoc
+// @Summary      Check consumer status
+// @Description  Check if Kafka consumer is enabled or disabled
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /v1/kafka/consumer/status [get]
+func (h *V1) CheckConsumerStatus(c *gin.Context) {
+	isEnabled := h.kafka.IsConsumerEnabled()
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"data": gin.H{
+			"consumer_enabled": isEnabled,
+			"message":          getConsumerStatusMessage(isEnabled),
+		},
+	})
+}
+
+// CheckProducerStatus godoc
+// @Summary      Check producer status
+// @Description  Check if Kafka producer is enabled or disabled
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /v1/kafka/producer/status [get]
+func (h *V1) CheckProducerStatus(c *gin.Context) {
+	isEnabled := h.kafka.IsProducerEnabled()
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"data": gin.H{
+			"producer_enabled": isEnabled,
+			"message":          getProducerStatusMessage(isEnabled),
+		},
+	})
+}
+
+// getConsumerStatusMessage returns a human-readable message for consumer status
+func getConsumerStatusMessage(enabled bool) string {
+	if enabled {
+		return "Kafka consumer is enabled and can receive messages"
+	}
+	return "Kafka consumer is disabled and cannot receive messages"
+}
+
+// getProducerStatusMessage returns a human-readable message for producer status
+func getProducerStatusMessage(enabled bool) string {
+	if enabled {
+		return "Kafka producer is enabled and can send messages"
+	}
+	return "Kafka producer is disabled and cannot send messages"
+}

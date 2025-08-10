@@ -46,7 +46,6 @@ func TimeoutMiddleware(config ...TimeoutConfig) gin.HandlerFunc {
 				return
 			}
 		}
-		fmt.Println("cfg.Timeout", cfg.Timeout)
 		// Create a context with timeout
 		ctx, cancel := context.WithTimeout(c.Request.Context(), cfg.Timeout)
 		defer cancel()
