@@ -150,7 +150,7 @@ METRICS:
 ```yaml
 METRICS:
   ...
-  SKIP_PATHS: "/swagger/*;/metrics"
+  SKIP_PATHS: "/swagger/*;/metrics;/debug/*"
 ```
 - Remove some paths from metrics with sep ";"
 ```go
@@ -174,6 +174,38 @@ http_requests_in_progress_total{method="GET",service="godev-kit"} 1
 # TYPE http_requests_total counter
 http_requests_total{method="GET",path="/metrics",service="godev-kit",status_code="200"} 1
 ```
+
+### Function-Level Resource Monitoring:
+1. Enable profiling
+```yaml
+PROFILING:
+  ENABLED: true
+  PATH: "/debug"
+  CPU_PROFILE_DURATION: 30
+  MEMORY_PROFILE_INTERVAL: 60
+```
+
+2. Access profiling endpoints:
+- Function profiles: `http://localhost:10000/debug/profiles`
+- Runtime stats: `http://localhost:10000/debug/stats`
+- Memory info: `http://localhost:10000/debug/memory`
+- Prometheus metrics: `http://localhost:10000/metrics`
+
+3. Use monitoring script:
+```bash
+./scripts/monitor-functions.sh
+```
+
+4. Manual function profiling:
+```go
+err := profiler.ProfileFunction("my_function", "my_package", func() error {
+    // Your function logic here
+    return nil
+})
+```
+
+📖 **Detailed Documentation:**
+- [PROFILING_GUIDE.md](docs/PROFILING_GUIDE.md) - Complete profiling and monitoring guide
 
 ### Swagger
 1. On|Off

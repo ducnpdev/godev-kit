@@ -14,6 +14,7 @@ import (
 	"github.com/ducnpdev/godev-kit/internal/usecase/billing"
 	"github.com/ducnpdev/godev-kit/internal/usecase/payment"
 	"github.com/ducnpdev/godev-kit/pkg/logger"
+	"github.com/ducnpdev/godev-kit/pkg/profiling"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -33,9 +34,16 @@ import (
 // @name Authorization
 // @description Type "Bearer" followed by a space and JWT token.
 func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase, billingUseCase *billing.UseCase) {
+	// Initialize profiler
+	profiler := profiling.NewProfiler(l.Zerolog(), cfg.Profiling.Enabled, cfg.Profiling.Path)
+
 	// Middleware
 	app.Use(middleware.Logger(l))
 	// app.Use(middleware.Recovery(l))
+
+	// Add profiling middleware
+	app.Use(middleware.ProfilingMiddleware(profiler, l.Zerolog()))
+	app.Use(middleware.ProfilingContextMiddleware(profiler))
 
 	// Add timeout middleware - affects all routes
 	timeoutConfig := middleware.TimeoutConfig{
@@ -46,7 +54,7 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 			"timeout":   cfg.HTTP.ApiTimeout,
 			"timestamp": time.Now().Format(time.RFC3339),
 		},
-		SkipPaths: []string{"/healthz", "/metrics", "/swagger"},
+		SkipPaths: []string{"/healthz", "/metrics", "/swagger", "/debug"},
 	}
 	app.Use(middleware.TimeoutMiddleware(timeoutConfig))
 
@@ -60,6 +68,11 @@ func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u use
 		}
 
 		app.GET(registerAt(), gin.WrapH(promhttp.Handler()))
+	}
+
+	// Profiling routes
+	if cfg.Profiling.Enabled {
+		profiler.SetupRoutes(app)
 	}
 
 	// Swagger

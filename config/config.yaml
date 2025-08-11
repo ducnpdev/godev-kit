@@ -5,8 +5,8 @@ APP:
 
 HTTP:
   PORT: 10000
-  READ_TIMEOUT: 3s      # Time to read the request (including body)
-  WRITE_TIMEOUT: 6s    # Time to write the response
+  READ_TIMEOUT: 10s      # Time to read the request (including body)
+  WRITE_TIMEOUT: 30s    # Time to write the response
   IDLE_TIMEOUT: 30s     # Time to keep connection alive
   SHUTDOWN_TIMEOUT: 5s  # Time to wait for graceful shutdown
   USE_PREFORK_MODE: false # Use prefork mode to improve performance
@@ -59,8 +59,15 @@ NATS:
 
 METRICS:
   ENABLED: true
-  SKIP_PATHS: "/swagger/*;/metrics"
+  SKIP_PATHS: "/swagger/*;/metrics;/debug/*"
   PATH: "/metrics"
+
+PROFILING:
+  ENABLED: true
+  PATH: "/debug"
+  CPU_PROFILE_DURATION: 30
+  MEMORY_PROFILE_INTERVAL: 60
+
 SWAGGER:
   ENABLED: true
 

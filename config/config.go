@@ -14,18 +14,19 @@ import (
 type (
 	// Config -.
 	Config struct {
-		App     App     `mapstructure:"APP"`
-		HTTP    HTTP    `mapstructure:"HTTP"`
-		Log     Log     `mapstructure:"LOG"`
-		PG      PG      `mapstructure:"PG"`
-		Redis   Redis   `mapstructure:"REDIS"`
-		GRPC    GRPC    `mapstructure:"GRPC"`
-		RMQ     RMQ     `mapstructure:"RMQ"`
-		Kafka   Kafka   `mapstructure:"KAFKA"`
-		NATS    NATS    `mapstructure:"NATS"`
-		Metrics Metrics `mapstructure:"METRICS"`
-		Swagger Swagger `mapstructure:"SWAGGER"`
-		JWT     JWT     `mapstructure:"JWT"`
+		App       App       `mapstructure:"APP"`
+		HTTP      HTTP      `mapstructure:"HTTP"`
+		Log       Log       `mapstructure:"LOG"`
+		PG        PG        `mapstructure:"PG"`
+		Redis     Redis     `mapstructure:"REDIS"`
+		GRPC      GRPC      `mapstructure:"GRPC"`
+		RMQ       RMQ       `mapstructure:"RMQ"`
+		Kafka     Kafka     `mapstructure:"KAFKA"`
+		NATS      NATS      `mapstructure:"NATS"`
+		Metrics   Metrics   `mapstructure:"METRICS"`
+		Profiling Profiling `mapstructure:"PROFILING"`
+		Swagger   Swagger   `mapstructure:"SWAGGER"`
+		JWT       JWT       `mapstructure:"JWT"`
 	}
 
 	// App -.
@@ -115,6 +116,17 @@ type (
 		Path string `mapstructure:"PATH"`
 	}
 
+	// Profiling -.
+	Profiling struct {
+		Enabled bool `mapstructure:"ENABLED"`
+		// Path for profiling endpoints, default /debug
+		Path string `mapstructure:"PATH"`
+		// CPU profiling duration in seconds
+		CPUProfileDuration int `mapstructure:"CPU_PROFILE_DURATION"`
+		// Memory profiling interval in seconds
+		MemoryProfileInterval int `mapstructure:"MEMORY_PROFILE_INTERVAL"`
+	}
+
 	// Swagger -.
 	Swagger struct {
 		Enabled bool `mapstructure:"ENABLED"`
@@ -191,12 +203,12 @@ func (c *Config) Validate() error {
 	if c.HTTP.ShutdownTimeout == 0 {
 		return errors.New("http shutdown timeout is required")
 	}
-	
+
 	// Validate Kafka configuration
 	if err := c.validateKafkaConfig(); err != nil {
 		return fmt.Errorf("kafka config validation failed: %w", err)
 	}
-	
+
 	return nil
 }
 
@@ -205,15 +217,15 @@ func (c *Config) validateKafkaConfig() error {
 	if len(c.Kafka.Brokers) == 0 {
 		return errors.New("kafka brokers are required")
 	}
-	
+
 	if c.Kafka.GroupID == "" {
 		return errors.New("kafka group ID is required")
 	}
-	
+
 	// Log Kafka control settings
 	log.Printf("Kafka Control Settings:")
 	log.Printf("  Producer Enabled: %v", c.Kafka.Control.ProducerEnabled)
 	log.Printf("  Consumer Enabled: %v", c.Kafka.Control.ConsumerEnabled)
-	
+
 	return nil
 }
