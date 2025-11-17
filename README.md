@@ -260,12 +260,122 @@ make docker-run
 
 ### Testing
 
+The project includes comprehensive unit tests for API routes and handlers. Use the following Makefile commands to run tests:
+
 ```bash
-# Run tests
+# Run all tests with race detector and coverage
 make test
 
-# Run tests with coverage
+# Run unit tests only
+make test-unit
+
+# Run tests with coverage report (generates coverage.html)
 make test-coverage
+
+# Run tests with coverage and automatically open HTML report
+make test-coverage-view
+
+# Run tests for a specific package
+# Example: make test-package PACKAGE=./internal/controller/http/v1
+make test-package PACKAGE=./internal/controller/http/v1
+
+# Run tests without race detector (faster execution)
+make test-short
+
+# Run tests with verbose output
+make test-verbose
+
+# Run integration tests
+make integration-test
+```
+
+#### Test Coverage
+
+The test suite includes:
+- **API Route Tests**: Comprehensive unit tests for all HTTP routes in `internal/controller/http/v1/`
+  - User routes: Create, Get, List, Update, Delete, Login (22 test cases, ~24% coverage)
+- **Use Case Tests**: Unit tests for business logic in `internal/usecase/`
+  - Translation: History function (7 test cases)
+  - VietQR: GenerateQR and InquiryQR functions (14 test cases, 92.3% coverage)
+- **Mock Dependencies**: Uses testify/mock for mocking repositories, use cases, and logger
+- **Test Scenarios**: Success cases, validation errors, service errors, and edge cases
+- **Coverage Reports**: Generate HTML coverage reports with `make test-coverage`
+
+#### Running Tests with `go test`
+
+You can also run tests directly using `go test` commands:
+
+```bash
+# Run all tests in the project
+go test ./...
+
+# Run all tests with verbose output
+go test -v ./...
+
+# Run tests with coverage
+go test -cover ./...
+
+# Run tests with race detector
+go test -race ./...
+
+# Run tests for a specific package
+go test ./internal/controller/http/v1
+go test ./internal/usecase/translation
+go test ./internal/usecase/vietqr
+
+# Run a specific test function
+go test -v ./internal/controller/http/v1 -run TestNewUserRoutes
+go test -v ./internal/usecase/translation -run TestUseCase_History
+go test -v ./internal/usecase/vietqr -run TestVietQRUseCase_GenerateQR
+
+# Run tests with coverage for specific package
+go test -cover ./internal/usecase/vietqr
+go test -cover ./internal/usecase/translation
+
+# Run tests with detailed coverage report
+go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/usecase/vietqr && \
+go tool cover -html=coverage.txt -o coverage.html
+```
+
+#### Example: Running User Route Tests
+
+```bash
+# Test only the user routes package
+make test-package PACKAGE=./internal/controller/http/v1
+
+# Test specific test function with verbose output
+go test -v ./internal/controller/http/v1 -run TestNewUserRoutes
+
+# Test with coverage
+go test -cover ./internal/controller/http/v1 -run TestNewUserRoutes
+
+# Test with full coverage report for specific package
+go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/controller/http/v1 && \
+go tool cover -html=coverage.txt -o coverage.html
+```
+
+#### Example: Running Use Case Tests
+
+```bash
+# Run translation use case tests
+go test -v ./internal/usecase/translation -run TestUseCase_History
+go test -cover ./internal/usecase/translation
+
+# Run VietQR use case tests
+go test -v ./internal/usecase/vietqr -run TestVietQRUseCase
+go test -cover ./internal/usecase/vietqr -run TestVietQRUseCase_GenerateQR
+go test -cover ./internal/usecase/vietqr -run TestVietQRUseCase_InquiryQR
+
+# Run all use case tests
+go test -v ./internal/usecase/...
+go test -cover ./internal/usecase/...
+```
+
+#### Pre-commit Testing
+
+The `pre-commit` target runs all checks including tests:
+```bash
+make pre-commit
 ```
 
 ## Deployment

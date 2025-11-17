@@ -1,0 +1,4666 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>app: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/ducnpdev/godev-kit/internal/app/app.go (0.0%)</option>
+				
+				<option value="file1">github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc/router.go (0.0%)</option>
+				
+				<option value="file2">github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc/v1/router.go (0.0%)</option>
+				
+				<option value="file3">github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc/v1/translation.go (0.0%)</option>
+				
+				<option value="file4">github.com/ducnpdev/godev-kit/internal/controller/grpc/router.go (0.0%)</option>
+				
+				<option value="file5">github.com/ducnpdev/godev-kit/internal/controller/grpc/v1/response/translation.history.go (0.0%)</option>
+				
+				<option value="file6">github.com/ducnpdev/godev-kit/internal/controller/grpc/v1/router.go (0.0%)</option>
+				
+				<option value="file7">github.com/ducnpdev/godev-kit/internal/controller/grpc/v1/translation.go (0.0%)</option>
+				
+				<option value="file8">github.com/ducnpdev/godev-kit/internal/controller/http/middleware/auth.go (0.0%)</option>
+				
+				<option value="file9">github.com/ducnpdev/godev-kit/internal/controller/http/middleware/logger.go (0.0%)</option>
+				
+				<option value="file10">github.com/ducnpdev/godev-kit/internal/controller/http/middleware/recovery.go (0.0%)</option>
+				
+				<option value="file11">github.com/ducnpdev/godev-kit/internal/controller/http/middleware/timeout.go (0.0%)</option>
+				
+				<option value="file12">github.com/ducnpdev/godev-kit/internal/controller/http/router.go (0.0%)</option>
+				
+				<option value="file13">github.com/ducnpdev/godev-kit/internal/controller/http/v1/billing_controller.go (0.0%)</option>
+				
+				<option value="file14">github.com/ducnpdev/godev-kit/internal/controller/http/v1/controller.go (0.0%)</option>
+				
+				<option value="file15">github.com/ducnpdev/godev-kit/internal/controller/http/v1/kafka.go (0.0%)</option>
+				
+				<option value="file16">github.com/ducnpdev/godev-kit/internal/controller/http/v1/nats.go (0.0%)</option>
+				
+				<option value="file17">github.com/ducnpdev/godev-kit/internal/controller/http/v1/payment.go (0.0%)</option>
+				
+				<option value="file18">github.com/ducnpdev/godev-kit/internal/controller/http/v1/redis.go (0.0%)</option>
+				
+				<option value="file19">github.com/ducnpdev/godev-kit/internal/controller/http/v1/response/redis.go (0.0%)</option>
+				
+				<option value="file20">github.com/ducnpdev/godev-kit/internal/controller/http/v1/router.go (20.5%)</option>
+				
+				<option value="file21">github.com/ducnpdev/godev-kit/internal/controller/http/v1/router_billing.go (0.0%)</option>
+				
+				<option value="file22">github.com/ducnpdev/godev-kit/internal/controller/http/v1/router_payment.go (0.0%)</option>
+				
+				<option value="file23">github.com/ducnpdev/godev-kit/internal/controller/http/v1/translation.go (4.5%)</option>
+				
+				<option value="file24">github.com/ducnpdev/godev-kit/internal/controller/http/v1/user.go (87.9%)</option>
+				
+				<option value="file25">github.com/ducnpdev/godev-kit/internal/controller/http/v1/vietqr.go (0.0%)</option>
+				
+				<option value="file26">github.com/ducnpdev/godev-kit/internal/repo/externalapi/translation_google.go (0.0%)</option>
+				
+				<option value="file27">github.com/ducnpdev/godev-kit/internal/repo/externalapi/vietqr/vietqr.go (0.0%)</option>
+				
+				<option value="file28">github.com/ducnpdev/godev-kit/internal/repo/persistent/kafka.go (0.0%)</option>
+				
+				<option value="file29">github.com/ducnpdev/godev-kit/internal/repo/persistent/models/redis.go (0.0%)</option>
+				
+				<option value="file30">github.com/ducnpdev/godev-kit/internal/repo/persistent/models/user.go (0.0%)</option>
+				
+				<option value="file31">github.com/ducnpdev/godev-kit/internal/repo/persistent/nats.go (0.0%)</option>
+				
+				<option value="file32">github.com/ducnpdev/godev-kit/internal/repo/persistent/payment_postgres.go (0.0%)</option>
+				
+				<option value="file33">github.com/ducnpdev/godev-kit/internal/repo/persistent/redis.go (0.0%)</option>
+				
+				<option value="file34">github.com/ducnpdev/godev-kit/internal/repo/persistent/shipper_location_postgres.go (0.0%)</option>
+				
+				<option value="file35">github.com/ducnpdev/godev-kit/internal/repo/persistent/translation_postgres.go (0.0%)</option>
+				
+				<option value="file36">github.com/ducnpdev/godev-kit/internal/repo/persistent/user_postgres.go (0.0%)</option>
+				
+				<option value="file37">github.com/ducnpdev/godev-kit/internal/repo/persistent/vietqr_postgres.go (0.0%)</option>
+				
+				<option value="file38">github.com/ducnpdev/godev-kit/internal/usecase/billing/billing.go (0.0%)</option>
+				
+				<option value="file39">github.com/ducnpdev/godev-kit/internal/usecase/kafka.go (0.0%)</option>
+				
+				<option value="file40">github.com/ducnpdev/godev-kit/internal/usecase/kafka_events.go (0.0%)</option>
+				
+				<option value="file41">github.com/ducnpdev/godev-kit/internal/usecase/nat/nats.go (0.0%)</option>
+				
+				<option value="file42">github.com/ducnpdev/godev-kit/internal/usecase/payment/consumer.go (0.0%)</option>
+				
+				<option value="file43">github.com/ducnpdev/godev-kit/internal/usecase/payment/payment.go (0.0%)</option>
+				
+				<option value="file44">github.com/ducnpdev/godev-kit/internal/usecase/redis/redis.go (0.0%)</option>
+				
+				<option value="file45">github.com/ducnpdev/godev-kit/internal/usecase/translation/translation.go (0.0%)</option>
+				
+				<option value="file46">github.com/ducnpdev/godev-kit/internal/usecase/user/user.go (0.0%)</option>
+				
+				<option value="file47">github.com/ducnpdev/godev-kit/internal/usecase/vietqr/vietqr.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">// Package app configures and runs application.
+package app
+
+import (
+        "context"
+        "fmt"
+        "os"
+        "os/signal"
+        "syscall"
+
+        "github.com/ducnpdev/godev-kit/config"
+        "github.com/ducnpdev/godev-kit/internal/controller/http"
+        "github.com/ducnpdev/godev-kit/internal/repo/externalapi"
+        vietqrrepo "github.com/ducnpdev/godev-kit/internal/repo/externalapi/vietqr"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent"
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/internal/usecase/billing"
+        natuc "github.com/ducnpdev/godev-kit/internal/usecase/nat"
+        "github.com/ducnpdev/godev-kit/internal/usecase/payment"
+        redisuc "github.com/ducnpdev/godev-kit/internal/usecase/redis"
+        "github.com/ducnpdev/godev-kit/internal/usecase/translation"
+        "github.com/ducnpdev/godev-kit/internal/usecase/user"
+        vietqruc "github.com/ducnpdev/godev-kit/internal/usecase/vietqr"
+        "github.com/ducnpdev/godev-kit/pkg/httpserver"
+        "github.com/ducnpdev/godev-kit/pkg/kafka"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/ducnpdev/godev-kit/pkg/nats"
+        "github.com/ducnpdev/godev-kit/pkg/postgres"
+        "github.com/ducnpdev/godev-kit/pkg/redis"
+        // amqprpc "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc"
+)
+
+// Run creates objects via constructors.
+func Run(cfg *config.Config) <span class="cov0" title="0">{
+        l := logger.New(cfg.Log.Level)
+
+        // Repository
+        pg, err := postgres.New(cfg.PG.URL,
+                postgres.MaxPoolSize(cfg.PG.PoolMax),
+                postgres.MinPoolSize(cfg.PG.PoolMin),
+                postgres.MaxConnLifetime(cfg.PG.MaxConnLifetime),
+                postgres.MaxConnIdleTime(cfg.PG.MaxConnIdleTime),
+                postgres.HealthCheckPeriod(cfg.PG.HealthCheckPeriod),
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
+        }</span>
+        <span class="cov0" title="0">defer pg.Close()
+
+        // Redis client
+        redisClient, err := redis.New(cfg.Redis.URL)
+        if err != nil </span><span class="cov0" title="0">{
+                l.Fatal(fmt.Errorf("app - Run - redis.New: %w", err))
+        }</span>
+        <span class="cov0" title="0">defer redisClient.Close()
+
+        // Kafka Repository
+        kafkaRepo := persistent.NewKafkaRepoWithConfig(
+                cfg.Kafka.Brokers,
+                l.Zerolog(),
+                cfg.Kafka.Control.ProducerEnabled,
+                cfg.Kafka.Control.ConsumerEnabled,
+        )
+        defer func() </span><span class="cov0" title="0">{
+                if err := kafkaRepo.Close(); err != nil </span><span class="cov0" title="0">{
+                        l.Error(fmt.Errorf("app - Run - kafkaRepo.Close: %w", err))
+                }</span>
+        }()
+
+        // NATS client
+        <span class="cov0" title="0">var (
+                natsClient *nats.NatsClient
+                errNats    error
+        )
+        if cfg.NATS.Enable </span><span class="cov0" title="0">{
+                if cfg.NATS.Timeout &gt; 0 </span><span class="cov0" title="0">{
+                        natsClient, errNats = nats.New(cfg.NATS.URL, nats.ConnTimeout(cfg.NATS.Timeout))
+                }</span> else<span class="cov0" title="0"> {
+                        natsClient, errNats = nats.New(cfg.NATS.URL)
+                }</span>
+                <span class="cov0" title="0">if errNats != nil </span><span class="cov0" title="0">{
+                        l.Fatal(fmt.Errorf("app - Run - nats.New: %w", err))
+                }</span>
+                <span class="cov0" title="0">defer natsClient.Close()</span>
+        }
+
+        // Use-Case
+        <span class="cov0" title="0">translationUseCase := translation.New(
+                persistent.New(pg),
+                externalapi.New(),
+        )
+
+        userUseCase := user.New(
+                persistent.NewUserRepo(pg),
+                cfg.JWT.Secret,
+        )
+        kafkaUseCase := usecase.NewKafkaUseCase(kafkaRepo)
+        redisUseCase := redisuc.NewRedisUseCase(
+                persistent.NewRedisRepo(redisClient),
+        )
+        natsUseCase := natuc.NewNatsUseCase(persistent.NewNatsRepo(natsClient))
+        vietqrUseCase := vietqruc.NewVietQRUseCase(
+                vietqrrepo.NewVietQRRepo(),
+                persistent.NewVietQRRepo(pg),
+        )
+        billingUseCase := billing.New()
+
+        redisRepo := persistent.NewRedisRepo(redisClient)
+        shipperLocationRepo := persistent.NewShipperLocationRepo(pg)
+        shipperLocationUsecase := redisuc.NewShipperLocationUseCase(redisRepo, shipperLocationRepo)
+
+        // Payment Use Case
+        paymentRepo := persistent.NewPaymentRepo(pg)
+        
+        // Only create Kafka producer if enabled
+        var kafkaProducer *kafka.Producer
+        if cfg.Kafka.Control.ProducerEnabled </span><span class="cov0" title="0">{
+                kafkaProducer = kafka.NewProducer(cfg.Kafka.Brokers, l.Zerolog())
+        }</span>
+        <span class="cov0" title="0">paymentUseCase := payment.NewPaymentUseCase(paymentRepo, kafkaProducer, l.ZerologPtr())
+
+        // Setup context for Kafka operations
+        ctx := context.Background()
+
+        // Only create and start payment consumer if Kafka consumer is enabled
+        var paymentConsumer *payment.PaymentConsumer
+        if cfg.Kafka.Control.ConsumerEnabled </span><span class="cov0" title="0">{
+                paymentConsumer = payment.NewPaymentConsumer(cfg.Kafka.Brokers, "payment-processor", paymentUseCase, l.ZerologPtr())
+                
+                // Start Payment Consumer
+                go func() </span><span class="cov0" title="0">{
+                        if err := paymentConsumer.Start(ctx); err != nil </span><span class="cov0" title="0">{
+                                l.Error(fmt.Errorf("app - Run - paymentConsumer.Start: %w", err))
+                        }</span>
+                }()
+        } else<span class="cov0" title="0"> {
+                l.Info("Kafka consumer is disabled, skipping payment consumer initialization")
+        }</span>
+
+        // Kafka Event Use Case
+        // kafkaEventUseCase := usecase.NewKafkaEventUseCase(kafkaRepo, l.Zerolog())
+
+        // Setup Kafka consumers
+        // if err := kafkaEventUseCase.ConsumeUserEvents(ctx); err != nil {
+        //         l.Error(fmt.Errorf("app - Run - ConsumeUserEvents: %w", err))
+        // }
+
+        // if err := kafkaEventUseCase.ConsumeTranslationEvents(ctx); err != nil {
+        //         l.Error(fmt.Errorf("app - Run - ConsumeTranslationEvents: %w", err))
+        // }
+
+        // Start Payment Consumer
+        // go func() {
+        //         if err := paymentConsumer.Start(ctx); err != nil {
+        //                 l.Error(fmt.Errorf("app - Run - paymentConsumer.Start: %w", err))
+        //         }
+        // }()
+
+        // Start Kafka consumers
+        // kafkaRepo.StartAllConsumers(ctx)
+
+        // RabbitMQ RPC Server
+        // rmqRouter := amqprpc.NewRouter(translationUseCase, l)
+
+        // rmqServer, err := server.New(cfg.RMQ.URL, cfg.RMQ.ServerExchange, rmqRouter, l)
+        // if err != nil {
+        //         l.Fatal(fmt.Errorf("app - Run - rmqServer - server.New: %w", err))
+        // }
+
+        // gRPC Server
+        // grpcServer := grpcserver.New(grpcserver.Port(cfg.GRPC.Port))
+        // grpc.NewRouter(grpcServer.App, translationUseCase, l)
+
+        // HTTP Server
+        <span class="cov0" title="0">httpServer := httpserver.New(cfg, httpserver.Port(cfg.HTTP.Port))
+        http.NewRouter(httpServer.App, cfg, translationUseCase, userUseCase, kafkaUseCase, redisUseCase, natsUseCase, vietqrUseCase, billingUseCase, l, shipperLocationUsecase, paymentUseCase, billingUseCase)
+
+        // Start servers
+        // rmqServer.Start()
+        // grpcServer.Start()
+        httpServer.Start()
+
+        l.Info("app running at port http:%s", cfg.HTTP.Port)
+
+        // Waiting signal
+        interrupt := make(chan os.Signal, 1)
+        signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+
+        select </span>{
+        case s := &lt;-interrupt:<span class="cov0" title="0">
+                l.Info("%s", "app - Run - signal: "+s.String())</span>
+        case err = &lt;-httpServer.Notify():<span class="cov0" title="0">
+                l.Error(fmt.Errorf("app - Run - httpServer.Notify: %w", err))</span>
+                // case err = &lt;-grpcServer.Notify():
+                //         l.Error(fmt.Errorf("app - Run - grpcServer.Notify: %w", err))
+                // case err = &lt;-rmqServer.Notify():
+                //         l.Error(fmt.Errorf("app - Run - rmqServer.Notify: %w", err))
+        }
+
+        // Shutdown
+        <span class="cov0" title="0">err = httpServer.Shutdown()
+        if err != nil </span><span class="cov0" title="0">{
+                l.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
+        }</span>
+
+        // err = grpcServer.Shutdown()
+        // if err != nil {
+        //         l.Error(fmt.Errorf("app - Run - grpcServer.Shutdown: %w", err))
+        // }
+
+        // err = rmqServer.Shutdown()
+        // if err != nil {
+        //         l.Error(fmt.Errorf("app - Run - rmqServer.Shutdown: %w", err))
+        // }
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package v1
+
+import (
+        v1 "github.com/ducnpdev/godev-kit/internal/controller/amqp_rpc/v1"
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/ducnpdev/godev-kit/pkg/rabbitmq/rmq_rpc/server"
+)
+
+// NewRouter -.
+func NewRouter(t usecase.Translation, l logger.Interface) map[string]server.CallHandler <span class="cov0" title="0">{
+        routes := make(map[string]server.CallHandler)
+
+        </span><span class="cov0" title="0">{
+                v1.NewTranslationRoutes(routes, t, l)
+        }</span>
+
+        <span class="cov0" title="0">return routes</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package v1
+
+import (
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/ducnpdev/godev-kit/pkg/rabbitmq/rmq_rpc/server"
+        "github.com/go-playground/validator/v10"
+)
+
+// NewTranslationRoutes -.
+func NewTranslationRoutes(routes map[string]server.CallHandler, t usecase.Translation, l logger.Interface) <span class="cov0" title="0">{
+        r := &amp;V1{t: t, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        </span><span class="cov0" title="0">{
+                routes["v1.getHistory"] = r.getHistory()
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package v1
+
+import (
+        "context"
+        "fmt"
+
+        "github.com/ducnpdev/godev-kit/pkg/rabbitmq/rmq_rpc/server"
+        amqp "github.com/rabbitmq/amqp091-go"
+)
+
+func (r *V1) getHistory() server.CallHandler <span class="cov0" title="0">{
+        return func(_ *amqp.Delivery) (interface{}, error) </span><span class="cov0" title="0">{
+                translationHistory, err := r.t.History(context.Background())
+                if err != nil </span><span class="cov0" title="0">{
+                        r.l.Error(err, "amqp_rpc - V1 - getHistory")
+
+                        return nil, fmt.Errorf("amqp_rpc - V1 - getHistory: %w", err)
+                }</span>
+
+                <span class="cov0" title="0">return translationHistory, nil</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package grpc
+
+import (
+        v1 "github.com/ducnpdev/godev-kit/internal/controller/grpc/v1"
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        pbgrpc "google.golang.org/grpc"
+        "google.golang.org/grpc/reflection"
+)
+
+// NewRouter -.
+func NewRouter(app *pbgrpc.Server, t usecase.Translation, l logger.Interface) <span class="cov0" title="0">{
+        </span><span class="cov0" title="0">{
+                v1.NewTranslationRoutes(app, t, l)
+        }</span>
+
+        <span class="cov0" title="0">reflection.Register(app)</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package response
+
+import (
+        v1 "github.com/ducnpdev/godev-kit/docs/proto/v1"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+)
+
+// NewTranslationHistory -.
+func NewTranslationHistory(translationHistory entity.TranslationHistory) *v1.GetHistoryResponse <span class="cov0" title="0">{
+        history := make([]*v1.TranslationHistory, len(translationHistory.History))
+
+        for i, h := range translationHistory.History </span><span class="cov0" title="0">{
+                history[i] = &amp;v1.TranslationHistory{
+                        Source:      h.Source,
+                        Destination: h.Destination,
+                        Original:    h.Original,
+                        Translation: h.Translation,
+                }
+        }</span>
+
+        <span class="cov0" title="0">return &amp;v1.GetHistoryResponse{History: history}</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package v1
+
+import (
+        v1 "github.com/ducnpdev/godev-kit/docs/proto/v1"
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/go-playground/validator/v10"
+        pbgrpc "google.golang.org/grpc"
+)
+
+// NewTranslationRoutes -.
+func NewTranslationRoutes(app *pbgrpc.Server, t usecase.Translation, l logger.Interface) <span class="cov0" title="0">{
+        r := &amp;V1{t: t, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        </span><span class="cov0" title="0">{
+                v1.RegisterTranslationServer(app, r)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package v1
+
+import (
+        "context"
+        "fmt"
+
+        v1 "github.com/ducnpdev/godev-kit/docs/proto/v1"
+        "github.com/ducnpdev/godev-kit/internal/controller/grpc/v1/response"
+)
+
+func (r *V1) GetHistory(ctx context.Context, _ *v1.GetHistoryRequest) (*v1.GetHistoryResponse, error) <span class="cov0" title="0">{
+        translationHistory, err := r.t.History(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "grpc - v1 - GetHistory")
+
+                return nil, fmt.Errorf("grpc - v1 - GetHistory: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return response.NewTranslationHistory(translationHistory), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package middleware
+
+import (
+        "net/http"
+        "strings"
+
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/gin-gonic/gin"
+        "github.com/golang-jwt/jwt/v4"
+)
+
+// AuthMiddleware creates a middleware for JWT authentication
+func AuthMiddleware(jwtSecret string, l logger.Interface) gin.HandlerFunc <span class="cov0" title="0">{
+        return func(c *gin.Context) </span><span class="cov0" title="0">{
+                authHeader := c.GetHeader("Authorization")
+                if authHeader == "" </span><span class="cov0" title="0">{
+                        c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "authorization header is required"})
+                        return
+                }</span>
+
+                // Check if the Authorization header has the correct format
+                <span class="cov0" title="0">parts := strings.Split(authHeader, " ")
+                if len(parts) != 2 || parts[0] != "Bearer" </span><span class="cov0" title="0">{
+                        c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "authorization header format must be Bearer {token}"})
+                        return
+                }</span>
+
+                // Parse and validate the token
+                <span class="cov0" title="0">token, err := jwt.Parse(parts[1], func(token *jwt.Token) (interface{}, error) </span><span class="cov0" title="0">{
+                        // Validate the signing method
+                        if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok </span><span class="cov0" title="0">{
+                                return nil, jwt.ErrSignatureInvalid
+                        }</span>
+                        <span class="cov0" title="0">return []byte(jwtSecret), nil</span>
+                })
+
+                <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                        l.Error(err, "middleware - AuthMiddleware - jwt.Parse")
+                        c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
+                        return
+                }</span>
+
+                // Check if the token is valid
+                <span class="cov0" title="0">if claims, ok := token.Claims.(jwt.MapClaims); ok &amp;&amp; token.Valid </span><span class="cov0" title="0">{
+                        // Set user ID in context
+                        if userID, ok := claims["sub"].(float64); ok </span><span class="cov0" title="0">{
+                                c.Set("user_id", int64(userID))
+                                c.Next()
+                                return
+                        }</span>
+                }
+
+                <span class="cov0" title="0">c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package middleware
+
+import (
+        "strconv"
+        "strings"
+
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/gin-gonic/gin"
+)
+
+func buildRequestMessage(c *gin.Context) string <span class="cov0" title="0">{
+        var result strings.Builder
+
+        result.WriteString(c.ClientIP())
+        result.WriteString(" - ")
+        result.WriteString(c.Request.Method)
+        result.WriteString(" ")
+        result.WriteString(c.Request.URL.String())
+        result.WriteString(" - ")
+        result.WriteString(strconv.Itoa(c.Writer.Status()))
+        result.WriteString(" ")
+        result.WriteString(strconv.Itoa(c.Writer.Size()))
+
+        return result.String()
+}</span>
+
+func Logger(l logger.Interface) gin.HandlerFunc <span class="cov0" title="0">{
+        return func(c *gin.Context) </span><span class="cov0" title="0">{
+                // Process request
+                c.Next()
+
+                // Log after request is processed
+                // l.Info(buildRequestMessage(c))
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package middleware
+
+import (
+        "fmt"
+        "runtime/debug"
+        "strings"
+
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/gofiber/fiber/v2"
+        fiberRecover "github.com/gofiber/fiber/v2/middleware/recover"
+)
+
+func buildPanicMessage(ctx *fiber.Ctx, err interface{}) string <span class="cov0" title="0">{
+        var result strings.Builder
+
+        result.WriteString(ctx.IP())
+        result.WriteString(" - ")
+        result.WriteString(ctx.Method())
+        result.WriteString(" ")
+        result.WriteString(ctx.OriginalURL())
+        result.WriteString(" PANIC DETECTED: ")
+        result.WriteString(fmt.Sprintf("%v\n%s\n", err, debug.Stack()))
+
+        return result.String()
+}</span>
+
+func logPanic(l logger.Interface) func(c *fiber.Ctx, err interface{}) <span class="cov0" title="0">{
+        return func(ctx *fiber.Ctx, err interface{}) </span><span class="cov0" title="0">{
+                l.Error(buildPanicMessage(ctx, err))
+        }</span>
+}
+
+func Recovery(l logger.Interface) func(c *fiber.Ctx) error <span class="cov0" title="0">{
+        return fiberRecover.New(fiberRecover.Config{
+                EnableStackTrace:  true,
+                StackTraceHandler: logPanic(l),
+        })
+}</span>
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package middleware
+
+import (
+        "context"
+        "fmt"
+        "net/http"
+        "time"
+
+        "github.com/gin-gonic/gin"
+)
+
+// TimeoutConfig represents the configuration for timeout middleware
+type TimeoutConfig struct {
+        Timeout time.Duration
+        // Optional: Custom timeout response
+        TimeoutResponse gin.H
+        // Optional: Skip timeout for specific paths
+        SkipPaths []string
+}
+
+// DefaultTimeoutConfig returns a default timeout configuration
+func DefaultTimeoutConfig() TimeoutConfig <span class="cov0" title="0">{
+        return TimeoutConfig{
+                Timeout: 30 * time.Second,
+                TimeoutResponse: gin.H{
+                        "error":   "Request timeout",
+                        "code":    http.StatusRequestTimeout,
+                        "message": "The server took too long to process your request",
+                },
+                SkipPaths: []string{"/health", "/metrics"},
+        }
+}</span>
+
+// TimeoutMiddleware creates a middleware that enforces request timeouts
+func TimeoutMiddleware(config ...TimeoutConfig) gin.HandlerFunc <span class="cov0" title="0">{
+        cfg := DefaultTimeoutConfig()
+        if len(config) &gt; 0 </span><span class="cov0" title="0">{
+                cfg = config[0]
+        }</span>
+
+        <span class="cov0" title="0">return func(c *gin.Context) </span><span class="cov0" title="0">{
+                // Check if this path should skip timeout
+                for _, path := range cfg.SkipPaths </span><span class="cov0" title="0">{
+                        if c.Request.URL.Path == path </span><span class="cov0" title="0">{
+                                c.Next()
+                                return
+                        }</span>
+                }
+                // Create a context with timeout
+                <span class="cov0" title="0">ctx, cancel := context.WithTimeout(c.Request.Context(), cfg.Timeout)
+                defer cancel()
+
+                // Replace the request context
+                c.Request = c.Request.WithContext(ctx)
+
+                // Channel to signal completion
+                finished := make(chan struct{})
+                panicChan := make(chan interface{}, 1)
+
+                // Run the request in a goroutine
+                go func() </span><span class="cov0" title="0">{
+                        defer func() </span><span class="cov0" title="0">{
+                                if p := recover(); p != nil </span><span class="cov0" title="0">{
+                                        panicChan &lt;- p
+                                }</span>
+                        }()
+
+                        <span class="cov0" title="0">c.Next()
+                        finished &lt;- struct{}{}</span>
+                }()
+
+                // Wait for either completion or timeout
+                <span class="cov0" title="0">select </span>{
+                case &lt;-finished:<span class="cov0" title="0">
+                        // Request completed normally
+                        return</span>
+
+                case p := &lt;-panicChan:<span class="cov0" title="0">
+                        // Request panicked
+                        panic(p)</span>
+
+                case &lt;-ctx.Done():<span class="cov0" title="0">
+                        // Request timed out
+                        c.Header("Connection", "close")
+                        c.JSON(http.StatusRequestTimeout, cfg.TimeoutResponse)
+                        c.Abort()
+
+                        // Log the timeout
+                        fmt.Printf("[TIMEOUT] Request to %s timed out after %v\n",
+                                c.Request.URL.Path, cfg.Timeout)
+
+                        return</span>
+                }
+        }
+}
+
+// TimeoutWithHandler creates a timeout middleware with custom handler
+func TimeoutWithHandler(timeout time.Duration, handler gin.HandlerFunc) gin.HandlerFunc <span class="cov0" title="0">{
+        return TimeoutMiddleware(TimeoutConfig{
+                Timeout: timeout,
+                TimeoutResponse: gin.H{
+                        "error":   "Request timeout",
+                        "timeout": timeout.String(),
+                },
+        })
+}</span>
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">// Package http implements routing paths. Each services in own file.
+package http
+
+import (
+        "net/http"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/config"
+        _ "github.com/ducnpdev/godev-kit/docs" // Swagger docs
+        "github.com/ducnpdev/godev-kit/internal/controller/http/middleware"
+        v1 "github.com/ducnpdev/godev-kit/internal/controller/http/v1"
+
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/internal/usecase/billing"
+        "github.com/ducnpdev/godev-kit/internal/usecase/payment"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+
+        "github.com/gin-gonic/gin"
+        "github.com/prometheus/client_golang/prometheus/promhttp"
+
+        swaggerFiles "github.com/swaggo/files"
+        ginSwagger "github.com/swaggo/gin-swagger"
+)
+
+// NewRouter -.
+// Swagger spec:
+// @title       Go Dev Kit Template API
+// @description Using a translation service and user management as examples
+// @version     1.0
+// @host        localhost:10000
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
+func NewRouter(app *gin.Engine, cfg *config.Config, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, l logger.Interface, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase, billingUseCase *billing.UseCase) <span class="cov0" title="0">{
+        // Middleware
+        app.Use(middleware.Logger(l))
+        // app.Use(middleware.Recovery(l))
+
+        // Add timeout middleware - affects all routes
+        timeoutConfig := middleware.TimeoutConfig{
+                Timeout: cfg.HTTP.ApiTimeout, // Request-level timeout (shorter than WriteTimeout)
+                TimeoutResponse: gin.H{
+                        "error":     "Request timeout",
+                        "message":   "The server took too long to process your request",
+                        "timeout":   cfg.HTTP.ApiTimeout,
+                        "timestamp": time.Now().Format(time.RFC3339),
+                },
+                SkipPaths: []string{"/healthz", "/metrics", "/swagger"},
+        }
+        app.Use(middleware.TimeoutMiddleware(timeoutConfig))
+
+        // Prometheus metrics
+        if cfg.Metrics.Enabled </span><span class="cov0" title="0">{
+                registerAt := func() string </span><span class="cov0" title="0">{
+                        if cfg.Metrics.Path != "" </span><span class="cov0" title="0">{
+                                return cfg.Metrics.Path
+                        }</span>
+                        <span class="cov0" title="0">return "/metrics"</span>
+                }
+
+                <span class="cov0" title="0">app.GET(registerAt(), gin.WrapH(promhttp.Handler()))</span>
+        }
+
+        // Swagger
+        <span class="cov0" title="0">if cfg.Swagger.Enabled </span><span class="cov0" title="0">{
+                app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+        }</span>
+
+        // K8s probe
+        <span class="cov0" title="0">app.GET("/healthz", func(c *gin.Context) </span><span class="cov0" title="0">{
+                c.Status(http.StatusOK)
+        }</span>)
+
+        // Create V1 controller
+        <span class="cov0" title="0">v1Controller := v1.NewV1(l, t, u, k, r, n, v, billing, shipperLocation, paymentUseCase, billingUseCase)
+
+        // Routers
+        apiV1Group := app.Group("/v1")
+        </span><span class="cov0" title="0">{
+                v1.NewTranslationRoutes(apiV1Group, t, l)
+                v1.NewUserRoutes(apiV1Group, u, l)
+                v1.NewKafkaRoutes(apiV1Group, k, l)
+                v1.NewRedisRoutes(apiV1Group, r, l, shipperLocation)
+                v1.NewNatsRoutes(apiV1Group, n, l)
+                v1.NewVietQRRoutes(apiV1Group, v, l)
+
+                // Payment routes
+                v1Controller.RegisterPaymentRoutes(apiV1Group)
+
+                // Billing routes
+                v1Controller.RegisterBillingRoutes(apiV1Group)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package v1
+
+import (
+        "net/http"
+        "path/filepath"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
+        "github.com/ducnpdev/godev-kit/internal/usecase/billing"
+        "github.com/gin-gonic/gin"
+        "github.com/rs/zerolog"
+)
+
+// BillingController represents billing HTTP controller
+type BillingController struct {
+        billingUseCase *billing.UseCase
+        logger         *zerolog.Logger
+}
+
+// NewBillingController creates new billing controller
+func NewBillingController(billingUseCase *billing.UseCase, logger *zerolog.Logger) *BillingController <span class="cov0" title="0">{
+        return &amp;BillingController{
+                billingUseCase: billingUseCase,
+                logger:         logger,
+        }
+}</span>
+
+// GenerateInvoicePDF generates a PDF invoice
+// @Summary Generate Invoice PDF
+// @Description Generate a billing payment PDF
+// @Tags billing
+// @Accept json
+// @Produce json
+// @Param request body request.GenerateInvoicePDFRequest true "Invoice data"
+// @Success 200 {object} response.GenerateInvoicePDFResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Failure 500 {object} response.ErrorResponse
+// @Router /v1/billing/invoice [post]
+func (c *BillingController) GenerateInvoicePDF(ctx *gin.Context) <span class="cov0" title="0">{
+        var req request.GenerateInvoicePDFRequest
+        if err := ctx.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Msg("Failed to bind billing request")
+                ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
+                        Error:   "Invalid request",
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        // Map request to usecase.InvoiceData
+        <span class="cov0" title="0">ucData := billing.InvoiceData{
+                Number:      req.Number,
+                Date:        req.Date,
+                BilledTo:    req.BilledTo,
+                CompanyInfo: req.CompanyInfo,
+                Items:       make([]billing.InvoiceItem, len(req.Items)),
+                Subtotal:    req.Subtotal,
+                Discount:    req.Discount,
+                TaxRate:     req.TaxRate,
+                Tax:         req.Tax,
+                Total:       req.Total,
+                Terms:       req.Terms,
+                BankDetails: req.BankDetails,
+        }
+        for i, item := range req.Items </span><span class="cov0" title="0">{
+                ucData.Items[i] = billing.InvoiceItem{
+                        Description: item.Description,
+                        UnitCost:    item.UnitCost,
+                        Qty:         item.Qty,
+                        Amount:      item.Amount,
+                }
+        }</span>
+
+        // Generate file path (could use a UUID or timestamp for uniqueness)
+        <span class="cov0" title="0">fileName := "invoice_" + ucData.Number + ".pdf"
+        outputPath := filepath.Join("./", fileName)
+
+        if err := c.billingUseCase.GenerateInvoicePDF(ucData, outputPath); err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Msg("Failed to generate PDF")
+                ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+                        Error:   "Internal server error",
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        <span class="cov0" title="0">ctx.JSON(http.StatusOK, response.GenerateInvoicePDFResponse{
+                FilePath: outputPath,
+        })</span>
+} </pre>
+		
+		<pre class="file" id="file14" style="display: none">package v1
+
+import (
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/internal/usecase/billing"
+        "github.com/ducnpdev/godev-kit/internal/usecase/payment"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/go-playground/validator/v10"
+)
+
+// V1 -.
+type V1 struct {
+        l logger.Interface
+        v *validator.Validate
+        //
+        t                 usecase.Translation
+        user              usecase.User
+        kafka             usecase.Kafka
+        redis             usecase.Redis
+        nats              usecase.Nats
+        vietqr            usecase.VietQR
+        billing           usecase.Billing
+        shipperLocation   usecase.ShipperLocation
+        paymentController *PaymentController
+        billingController *BillingController
+}
+
+// NewV1 creates new V1 controller
+func NewV1(l logger.Interface, t usecase.Translation, u usecase.User, k usecase.Kafka, r usecase.Redis, n usecase.Nats, v usecase.VietQR, billing usecase.Billing, shipperLocation usecase.ShipperLocation, paymentUseCase *payment.PaymentUseCase, billingUseCase *billing.UseCase) *V1 <span class="cov0" title="0">{
+        return &amp;V1{
+                l:                 l,
+                v:                 validator.New(),
+                t:                 t,
+                user:              u,
+                kafka:             k,
+                redis:             r,
+                nats:              n,
+                vietqr:            v,
+                billing:           billing,
+                shipperLocation:   shipperLocation,
+                paymentController: NewPaymentController(paymentUseCase, l.(*logger.Logger).ZerologPtr()),
+                billingController: NewBillingController(billingUseCase, l.(*logger.Logger).ZerologPtr()),
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package v1
+
+import (
+        "context"
+        "fmt"
+        "net/http"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/gin-gonic/gin"
+)
+
+// ProducerRequest godoc
+// @Summary      Send a message to a Kafka topic
+// @Description  Send a message to a Kafka topic
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Param        request body request.KafkaMessage true "Kafka message"
+// @Success      200  {object}  map[string]string
+// @Failure      400  {object}  map[string]string
+// @Failure      500  {object}  map[string]string
+// @Router       /v1/kafka/producer/request [post]
+func (h *V1) ProducerRequest(c *gin.Context) <span class="cov0" title="0">{
+        var req request.KafkaMessage
+        if err := c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+                return
+        }</span>
+
+        <span class="cov0" title="0">err := h.kafka.ProduceMessage(c.Copy(), req.Topic, req.Key, req.Value)
+        if err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+                return
+        }</span>
+        <span class="cov0" title="0">c.JSON(http.StatusOK, gin.H{"status": "message sent"})</span>
+}
+
+// ConsumerReceiver godoc
+// @Summary      Receive a message from a Kafka topic and group
+// @Description  Receive a message from a Kafka topic and group
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Param        topic query string true "Kafka topic"
+// @Param        group query string true "Kafka group"
+// @Success      200  {object}  map[string]interface{}
+// @Failure      400  {object}  map[string]string
+// @Failure      504  {object}  map[string]string
+// @Failure      500  {object}  map[string]string
+// @Router       /v1/kafka/consumer/receiver [get]
+func (h *V1) ConsumerReceiver(c *gin.Context) <span class="cov0" title="0">{
+        topic := c.Query("topic")
+        group := c.Query("group")
+        if topic == "" || group == "" </span><span class="cov0" title="0">{
+                c.JSON(http.StatusBadRequest, gin.H{"error": "topic and group are required"})
+                return
+        }</span>
+
+        <span class="cov0" title="0">msgCh := make(chan map[string]interface{}, 1)
+        ctx, cancel := context.WithCancel(c.Request.Context())
+        defer cancel()
+        a, b, err := h.kafka.ConsumeMessage(ctx, topic, group)
+        // if err := nil {
+        fmt.Println(a, b)
+        // }
+        if err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+                return
+        }</span>
+
+        // Start consumer (will exit after one message)
+        // go h.KafkaRepo.StartConsumer(ctx, topic)
+
+        <span class="cov0" title="0">select </span>{
+        case msg := &lt;-msgCh:<span class="cov0" title="0">
+                c.JSON(http.StatusOK, msg)</span>
+        case &lt;-ctx.Done():<span class="cov0" title="0">
+                c.JSON(http.StatusGatewayTimeout, gin.H{"error": "no message received"})</span>
+        }
+}
+
+// EnableProducer godoc
+// @Summary      Enable Kafka producer
+// @Description  Enable the Kafka producer to send messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/producer/enable [post]
+func (h *V1) EnableProducer(c *gin.Context) <span class="cov0" title="0">{
+        h.kafka.EnableProducer()
+        c.JSON(http.StatusOK, gin.H{"status": "producer enabled"})
+}</span>
+
+// DisableProducer godoc
+// @Summary      Disable Kafka producer
+// @Description  Disable the Kafka producer from sending messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/producer/disable [post]
+func (h *V1) DisableProducer(c *gin.Context) <span class="cov0" title="0">{
+        h.kafka.DisableProducer()
+        c.JSON(http.StatusOK, gin.H{"status": "producer disabled"})
+}</span>
+
+// EnableConsumer godoc
+// @Summary      Enable Kafka consumer
+// @Description  Enable the Kafka consumer to receive messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/consumer/enable [post]
+func (h *V1) EnableConsumer(c *gin.Context) <span class="cov0" title="0">{
+        h.kafka.EnableConsumer()
+        c.JSON(http.StatusOK, gin.H{"status": "consumer enabled"})
+}</span>
+
+// DisableConsumer godoc
+// @Summary      Disable Kafka consumer
+// @Description  Disable the Kafka consumer from receiving messages
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]string
+// @Router       /v1/kafka/consumer/disable [post]
+func (h *V1) DisableConsumer(c *gin.Context) <span class="cov0" title="0">{
+        h.kafka.DisableConsumer()
+        c.JSON(http.StatusOK, gin.H{"status": "consumer disabled"})
+}</span>
+
+// GetKafkaStatus godoc
+// @Summary      Get Kafka status
+// @Description  Get the current status of Kafka producer and consumer
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /v1/kafka/status [get]
+func (h *V1) GetKafkaStatus(c *gin.Context) <span class="cov0" title="0">{
+        status := h.kafka.GetStatus()
+        c.JSON(http.StatusOK, gin.H{
+                "status": "success",
+                "data":   status,
+        })
+}</span>
+
+// CheckConsumerStatus godoc
+// @Summary      Check consumer status
+// @Description  Check if Kafka consumer is enabled or disabled
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /v1/kafka/consumer/status [get]
+func (h *V1) CheckConsumerStatus(c *gin.Context) <span class="cov0" title="0">{
+        isEnabled := h.kafka.IsConsumerEnabled()
+        c.JSON(http.StatusOK, gin.H{
+                "status": "success",
+                "data": gin.H{
+                        "consumer_enabled": isEnabled,
+                        "message":          getConsumerStatusMessage(isEnabled),
+                },
+        })
+}</span>
+
+// CheckProducerStatus godoc
+// @Summary      Check producer status
+// @Description  Check if Kafka producer is enabled or disabled
+// @Tags         kafka
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /v1/kafka/producer/status [get]
+func (h *V1) CheckProducerStatus(c *gin.Context) <span class="cov0" title="0">{
+        isEnabled := h.kafka.IsProducerEnabled()
+        c.JSON(http.StatusOK, gin.H{
+                "status": "success",
+                "data": gin.H{
+                        "producer_enabled": isEnabled,
+                        "message":          getProducerStatusMessage(isEnabled),
+                },
+        })
+}</span>
+
+// getConsumerStatusMessage returns a human-readable message for consumer status
+func getConsumerStatusMessage(enabled bool) string <span class="cov0" title="0">{
+        if enabled </span><span class="cov0" title="0">{
+                return "Kafka consumer is enabled and can receive messages"
+        }</span>
+        <span class="cov0" title="0">return "Kafka consumer is disabled and cannot receive messages"</span>
+}
+
+// getProducerStatusMessage returns a human-readable message for producer status
+func getProducerStatusMessage(enabled bool) string <span class="cov0" title="0">{
+        if enabled </span><span class="cov0" title="0">{
+                return "Kafka producer is enabled and can send messages"
+        }</span>
+        <span class="cov0" title="0">return "Kafka producer is disabled and cannot send messages"</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package v1
+
+import (
+        "net/http"
+
+        "github.com/gin-gonic/gin"
+)
+
+// @Summary     Publish message
+// @Description Publish a message to a NATS subject
+// @ID          nats-publish
+// @Tags               nats
+// @Accept      json
+// @Produce     json
+// @Param       subject path string true "NATS subject"
+// @Param       request body request.NatsPublishRequest true "Message data"
+// @Success     200 {object} map[string]string
+// @Failure     400 {object} map[string]string
+// @Failure     500 {object} map[string]string
+// @Router      /v1/nats/publish/{subject} [post]
+func (v1 *V1) NatsPublish(c *gin.Context) <span class="cov0" title="0">{
+        subject := c.Param("subject")
+        var req struct {
+                Data string `json:"data"`
+        }
+        if err := c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+                return
+        }</span>
+        <span class="cov0" title="0">if err := v1.nats.Publish(subject, []byte(req.Data)); err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+                return
+        }</span>
+        <span class="cov0" title="0">c.JSON(http.StatusOK, gin.H{"status": "message published"})</span>
+}
+
+// @Summary     Subscribe to subject
+// @Description Subscribe to a NATS subject (demo: returns first message)
+// @ID          nats-subscribe
+// @Tags               nats
+// @Accept      json
+// @Produce     json
+// @Param       subject path string true "NATS subject"
+// @Success     200 {object} map[string]string
+// @Failure     500 {object} map[string]string
+// @Router      /v1/nats/subscribe/{subject} [get]
+func (v1 *V1) NatsSubscribe(c *gin.Context) <span class="cov0" title="0">{
+        subject := c.Param("subject")
+        msgCh := make(chan string, 1)
+        unsubscribe, err := v1.nats.Subscribe(subject, func(msg []byte) </span><span class="cov0" title="0">{
+                msgCh &lt;- string(msg)
+        }</span>)
+        <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+                return
+        }</span>
+        <span class="cov0" title="0">defer unsubscribe()
+
+        select </span>{
+        case msg := &lt;-msgCh:<span class="cov0" title="0">
+                c.JSON(http.StatusOK, gin.H{"message": msg})</span>
+        case &lt;-c.Request.Context().Done():<span class="cov0" title="0">
+                c.JSON(http.StatusGatewayTimeout, gin.H{"error": "no message received"})</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package v1
+
+import (
+        "net/http"
+        "strconv"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/usecase/payment"
+        "github.com/gin-gonic/gin"
+        "github.com/rs/zerolog"
+)
+
+// PaymentController represents payment HTTP controller
+type PaymentController struct {
+        paymentUseCase *payment.PaymentUseCase
+        logger         *zerolog.Logger
+}
+
+// NewPaymentController creates new payment controller
+func NewPaymentController(paymentUseCase *payment.PaymentUseCase, logger *zerolog.Logger) *PaymentController <span class="cov0" title="0">{
+        return &amp;PaymentController{
+                paymentUseCase: paymentUseCase,
+                logger:         logger,
+        }
+}</span>
+
+// RegisterPayment registers a new payment
+// @Summary Register a new payment
+// @Description Register a new payment for electric bill and send to Kafka for processing
+// @Tags payments
+// @Accept json
+// @Produce json
+// @Param payment body request.PaymentRequest true "Payment request"
+// @Success 201 {object} response.PaymentResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Failure 500 {object} response.ErrorResponse
+// @Router /v1/payments [post]
+func (c *PaymentController) RegisterPayment(ctx *gin.Context) <span class="cov0" title="0">{
+        var req request.PaymentRequest
+        if err := ctx.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Msg("Failed to bind payment request")
+                ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
+                        Error:   "Invalid request",
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        // Convert request to entity
+        <span class="cov0" title="0">paymentReq := &amp;entity.PaymentRequest{
+                UserID:        req.UserID,
+                Amount:        req.Amount,
+                Currency:      req.Currency,
+                PaymentType:   entity.PaymentType(req.PaymentType),
+                MeterNumber:   req.MeterNumber,
+                CustomerCode:  req.CustomerCode,
+                Description:   req.Description,
+                PaymentMethod: req.PaymentMethod,
+        }
+
+        // Register payment
+        paymentResp, err := c.paymentUseCase.RegisterPayment(ctx, paymentReq)
+        if err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Msg("Failed to register payment")
+                ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+                        Error:   "Internal server error",
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        // Convert to response
+        <span class="cov0" title="0">resp := response.PaymentResponse{
+                ID:            paymentResp.ID,
+                UserID:        paymentResp.UserID,
+                Amount:        paymentResp.Amount,
+                Currency:      paymentResp.Currency,
+                PaymentType:   string(paymentResp.PaymentType),
+                Status:        string(paymentResp.Status),
+                MeterNumber:   paymentResp.MeterNumber,
+                CustomerCode:  paymentResp.CustomerCode,
+                Description:   paymentResp.Description,
+                TransactionID: paymentResp.TransactionID,
+                PaymentMethod: paymentResp.PaymentMethod,
+                CreatedAt:     paymentResp.CreatedAt,
+        }
+
+        ctx.JSON(http.StatusCreated, resp)</span>
+}
+
+// GetPaymentByID gets payment by ID
+// @Summary Get payment by ID
+// @Description Get payment details by ID
+// @Tags payments
+// @Accept json
+// @Produce json
+// @Param id path int true "Payment ID"
+// @Success 200 {object} response.PaymentResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Failure 404 {object} response.ErrorResponse
+// @Failure 500 {object} response.ErrorResponse
+// @Router /v1/payments/{id} [get]
+func (c *PaymentController) GetPaymentByID(ctx *gin.Context) <span class="cov0" title="0">{
+        idStr := ctx.Param("id")
+        id, err := strconv.ParseInt(idStr, 10, 64)
+        if err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Str("id", idStr).Msg("Invalid payment ID")
+                ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
+                        Error:   "Invalid payment ID",
+                        Message: "Payment ID must be a valid integer",
+                })
+                return
+        }</span>
+
+        <span class="cov0" title="0">paymentResp, err := c.paymentUseCase.GetPaymentByID(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Int64("payment_id", id).Msg("Failed to get payment")
+                if err.Error() == "payment not found" </span><span class="cov0" title="0">{
+                        ctx.JSON(http.StatusNotFound, response.ErrorResponse{
+                                Error:   "Payment not found",
+                                Message: "Payment with the specified ID was not found",
+                        })
+                        return
+                }</span>
+                <span class="cov0" title="0">ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+                        Error:   "Internal server error",
+                        Message: err.Error(),
+                })
+                return</span>
+        }
+
+        // Convert to response
+        <span class="cov0" title="0">resp := response.PaymentResponse{
+                ID:            paymentResp.ID,
+                UserID:        paymentResp.UserID,
+                Amount:        paymentResp.Amount,
+                Currency:      paymentResp.Currency,
+                PaymentType:   string(paymentResp.PaymentType),
+                Status:        string(paymentResp.Status),
+                MeterNumber:   paymentResp.MeterNumber,
+                CustomerCode:  paymentResp.CustomerCode,
+                Description:   paymentResp.Description,
+                TransactionID: paymentResp.TransactionID,
+                PaymentMethod: paymentResp.PaymentMethod,
+                CreatedAt:     paymentResp.CreatedAt,
+        }
+
+        ctx.JSON(http.StatusOK, resp)</span>
+}
+
+// GetPaymentsByUserID gets payments by user ID
+// @Summary Get payments by user ID
+// @Description Get all payments for a specific user
+// @Tags payments
+// @Accept json
+// @Produce json
+// @Param user_id path int true "User ID"
+// @Success 200 {array} response.PaymentResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Failure 500 {object} response.ErrorResponse
+// @Router /v1/users/{user_id}/payments [get]
+func (c *PaymentController) GetPaymentsByUserID(ctx *gin.Context) <span class="cov0" title="0">{
+        userIDStr := ctx.Param("user_id")
+        userID, err := strconv.ParseInt(userIDStr, 10, 64)
+        if err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Str("user_id", userIDStr).Msg("Invalid user ID")
+                ctx.JSON(http.StatusBadRequest, response.ErrorResponse{
+                        Error:   "Invalid user ID",
+                        Message: "User ID must be a valid integer",
+                })
+                return
+        }</span>
+
+        <span class="cov0" title="0">payments, err := c.paymentUseCase.GetPaymentsByUserID(ctx, userID)
+        if err != nil </span><span class="cov0" title="0">{
+                c.logger.Error().Err(err).Int64("user_id", userID).Msg("Failed to get payments by user ID")
+                ctx.JSON(http.StatusInternalServerError, response.ErrorResponse{
+                        Error:   "Internal server error",
+                        Message: err.Error(),
+                })
+                return
+        }</span>
+
+        // Convert to response
+        <span class="cov0" title="0">responses := make([]response.PaymentResponse, len(payments))
+        for i, payment := range payments </span><span class="cov0" title="0">{
+                responses[i] = response.PaymentResponse{
+                        ID:            payment.ID,
+                        UserID:        payment.UserID,
+                        Amount:        payment.Amount,
+                        Currency:      payment.Currency,
+                        PaymentType:   string(payment.PaymentType),
+                        Status:        string(payment.Status),
+                        MeterNumber:   payment.MeterNumber,
+                        CustomerCode:  payment.CustomerCode,
+                        Description:   payment.Description,
+                        TransactionID: payment.TransactionID,
+                        PaymentMethod: payment.PaymentMethod,
+                        CreatedAt:     payment.CreatedAt,
+                }
+        }</span>
+
+        <span class="cov0" title="0">ctx.JSON(http.StatusOK, responses)</span>
+}
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package v1
+
+import (
+        "net/http"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/gin-gonic/gin"
+)
+
+// @Summary     Set value
+// @Description Set a key-value pair in Redis
+// @ID          set-value
+// @Tags              redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       request body request.RedisValue true "Set value"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/set [post]
+func (v1 *V1) setValue(c *gin.Context) <span class="cov0" title="0">{
+        var req request.RedisValue
+        if err := c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - setValue - c.ShouldBindJSON")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov0" title="0">err := v1.redis.SetValue(c.Request.Context(), entity.RedisValue{
+                Key:   req.Key,
+                Value: req.Value,
+        })
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - setValue - r.r.SetValue")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+
+        <span class="cov0" title="0">c.JSON(http.StatusOK, response.Success{Message: "success"})</span>
+}
+
+// @Summary     Get value
+// @Description Get a value from Redis by key
+// @ID          get-value
+// @Tags              redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       key path string true "Key"
+// @Success     200 {object} response.RedisValue
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/get/{key} [get]
+func (v1 *V1) getValue(c *gin.Context) <span class="cov0" title="0">{
+        key := c.Param("key")
+
+        val, err := v1.redis.GetValue(c.Request.Context(), key)
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - getValue - r.r.GetValue")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+
+        <span class="cov0" title="0">c.JSON(http.StatusOK, response.NewRedisValue(val))</span>
+}
+
+// @Summary     Update shipper location
+// @Description Update the latest location of a shipper in Redis
+// @ID          update-shipper-location
+// @Tags              redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       request body request.ShipperLocation true "Shipper location"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/shipper/location [post]
+func (v1 *V1) UpdateShipperLocation(c *gin.Context) <span class="cov0" title="0">{
+        var req request.ShipperLocation
+        if err := c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - UpdateShipperLocation - c.ShouldBindJSON")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov0" title="0">if err := v1.v.Struct(req); err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - UpdateShipperLocation - v1.v.Struct")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        // Compose entity
+        <span class="cov0" title="0">loc := entity.ShipperLocation{
+                ShipperID: req.ShipperID,
+                Latitude:  req.Latitude,
+                Longitude: req.Longitude,
+                Timestamp: req.Timestamp,
+        }
+
+        err := v1.shipperLocation.UpdateLocation(c.Request.Context(), loc)
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - UpdateShipperLocation - usecase.UpdateLocation")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+
+        <span class="cov0" title="0">c.JSON(http.StatusOK, response.Success{Message: "shipper location updated"})</span>
+}
+
+// GetShipperLocation retrieves the latest location of a shipper
+// @Summary     Get shipper location
+// @Description Get the latest location of a shipper from Redis
+// @ID          get-shipper-location
+// @Tags   redis
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       shipper_id path string true "Shipper ID"
+// @Success     200 {object} entity.ShipperLocation
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/redis/shipper/location/{shipper_id} [get]
+func (v1 *V1) GetShipperLocation(c *gin.Context) <span class="cov0" title="0">{
+        shipperID := c.Param("shipper_id")
+        if shipperID == "" </span><span class="cov0" title="0">{
+                errorResponse(c, http.StatusBadRequest, "shipper_id is required")
+                return
+        }</span>
+        <span class="cov0" title="0">loc, err := v1.shipperLocation.GetLocation(c.Request.Context(), shipperID)
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - GetShipperLocation - usecase.GetLocation")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+        <span class="cov0" title="0">c.JSON(http.StatusOK, loc)</span>
+}
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">package response
+
+import "github.com/ducnpdev/godev-kit/internal/entity"
+
+// RedisValue represents a key-value pair for Redis.
+type RedisValue struct {
+        Key   string `json:"key"`
+        Value string `json:"value"`
+}
+
+// NewRedisValue creates a new RedisValue response from an entity.
+func NewRedisValue(v entity.RedisValue) RedisValue <span class="cov0" title="0">{
+        return RedisValue{
+                Key:   v.Key,
+                Value: v.Value,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">package v1
+
+import (
+        "github.com/ducnpdev/godev-kit/internal/usecase"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+        "github.com/gin-gonic/gin"
+        "github.com/go-playground/validator/v10"
+)
+
+// NewTranslationRoutes -.
+func NewTranslationRoutes(apiV1Group *gin.RouterGroup, t usecase.Translation, l logger.Interface) <span class="cov0" title="0">{
+        r := &amp;V1{t: t, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        translationGroup := apiV1Group.Group("/translation")
+
+        </span><span class="cov0" title="0">{
+                translationGroup.GET("/history", r.history)
+                translationGroup.POST("/do-translate", r.doTranslate)
+        }</span>
+}
+
+// NewUserRoutes -.
+func NewUserRoutes(apiV1Group *gin.RouterGroup, u usecase.User, l logger.Interface) <span class="cov10" title="22">{
+        r := &amp;V1{user: u, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        userGroup := apiV1Group.Group("/user")
+
+        </span><span class="cov10" title="22">{
+                userGroup.POST("", r.CreateUser)
+                userGroup.GET("", r.ListUsers)
+                userGroup.GET("/:id", r.GetUser)
+                userGroup.PUT("/:id", r.UpdateUser)
+                userGroup.DELETE("/:id", r.DeleteUser)
+        }</span>
+        <span class="cov10" title="22">apiV1Group.POST("auth/login", r.LoginUser)</span>
+}
+
+// // NewUserRoutes -.
+// func NewAuthRoutes(apiV1Group *gin.RouterGroup, u usecase.User, l logger.Interface) {
+//         r := &amp;V1{user: u, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+//         userGroup := apiV1Group.Group("/user")
+
+//         {
+//                 userGroup.POST("", r.CreateUser)
+//                 userGroup.GET("", r.ListUsers)
+//                 userGroup.GET("/:id", r.GetUser)
+//                 userGroup.PUT("/:id", r.UpdateUser)
+//                 userGroup.DELETE("/:id", r.DeleteUser)
+//         }
+// }
+
+// NewKafkaRoutes registers Kafka producer and consumer endpoints.
+func NewKafkaRoutes(apiV1Group *gin.RouterGroup, kafka usecase.Kafka, l logger.Interface) <span class="cov0" title="0">{
+        r := &amp;V1{kafka: kafka, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        kafkaGroup := apiV1Group.Group("/kafka")
+        </span><span class="cov0" title="0">{
+                kafkaGroup.POST("/producer/request", r.ProducerRequest)
+                kafkaGroup.GET("/consumer/receiver", r.ConsumerReceiver)
+
+                // Control endpoints
+                kafkaGroup.POST("/producer/enable", r.EnableProducer)
+                kafkaGroup.POST("/producer/disable", r.DisableProducer)
+                kafkaGroup.POST("/consumer/enable", r.EnableConsumer)
+                kafkaGroup.POST("/consumer/disable", r.DisableConsumer)
+                kafkaGroup.GET("/status", r.GetKafkaStatus)
+
+                // Status check endpoints
+                kafkaGroup.GET("/producer/status", r.CheckProducerStatus)
+                kafkaGroup.GET("/consumer/status", r.CheckConsumerStatus)
+        }</span>
+}
+
+// // ProducerRequest handles POST /kafka/producer/request
+// func (r *V1) ProducerRequest(c *gin.Context) {
+//         var req struct {
+//                 Topic string      `json:"topic" binding:"required"`
+//                 Key   string      `json:"key"`
+//                 Value interface{} `json:"value" binding:"required"`
+//         }
+//         if err := c.ShouldBindJSON(&amp;req); err != nil {
+//                 c.JSON(400, gin.H{"error": err.Error()})
+//                 return
+//         }
+
+//         err := r.kafka.ProduceMessage(c.Request.Context(), req.Topic, req.Key, req.Value)
+//         if err != nil {
+//                 c.JSON(500, gin.H{"error": err.Error()})
+//                 return
+//         }
+
+//         c.JSON(200, gin.H{"status": "message sent"})
+// }
+
+// // ConsumerReceiver handles GET /kafka/consumer/receiver
+// func (r *V1) ConsumerReceiver(c *gin.Context) {
+//         topic := c.Query("topic")
+//         group := c.Query("group")
+//         if topic == "" || group == "" {
+//                 c.JSON(400, gin.H{"error": "topic and group are required"})
+//                 return
+//         }
+
+//         key, value, err := r.kafka.ConsumeMessage(c.Request.Context(), topic, group)
+//         if err != nil {
+//                 c.JSON(500, gin.H{"error": err.Error()})
+//                 return
+//         }
+//         if value == nil {
+//                 c.JSON(504, gin.H{"error": "no message received"})
+//                 return
+//         }
+//         c.JSON(200, gin.H{"key": key, "value": string(value)})
+// }
+
+// NewRedisRoutes -.
+func NewRedisRoutes(apiV1Group *gin.RouterGroup, r usecase.Redis, l logger.Interface, shipperLocation usecase.ShipperLocation) <span class="cov0" title="0">{
+        v1 := &amp;V1{redis: r, l: l, v: validator.New(validator.WithRequiredStructEnabled()), shipperLocation: shipperLocation}
+
+        redisGroup := apiV1Group.Group("/redis")
+        </span><span class="cov0" title="0">{
+                redisGroup.POST("/set", v1.setValue)
+                redisGroup.GET("/get/:key", v1.getValue)
+                redisGroup.POST("/shipper/location", v1.UpdateShipperLocation)
+                redisGroup.GET("/shipper/location/:shipper_id", v1.GetShipperLocation)
+        }</span>
+}
+
+// NewNatsRoutes -.
+func NewNatsRoutes(apiV1Group *gin.RouterGroup, nats usecase.Nats, l logger.Interface) <span class="cov0" title="0">{
+        v1 := &amp;V1{nats: nats, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        natsGroup := apiV1Group.Group("/nats")
+        </span><span class="cov0" title="0">{
+                natsGroup.POST("/publish/:subject", v1.NatsPublish)
+                natsGroup.GET("/subscribe/:subject", v1.NatsSubscribe)
+        }</span>
+}
+
+// NewVietQRRoutes -.
+func NewVietQRRoutes(apiV1Group *gin.RouterGroup, vietqr usecase.VietQR, l logger.Interface) <span class="cov0" title="0">{
+        v1 := &amp;V1{vietqr: vietqr, l: l, v: validator.New(validator.WithRequiredStructEnabled())}
+
+        vietqrGroup := apiV1Group.Group("/vietqr")
+        </span><span class="cov0" title="0">{
+                vietqrGroup.POST("/gen", v1.generateQR)
+                vietqrGroup.GET("/inquiry/:id", v1.inquiryQR)
+                vietqrGroup.PUT("/update/:id", v1.updateStatus)
+        }</span>
+}
+
+// NewBillingRoutes -.
+func NewBillingRoutes(apiV1Group *gin.RouterGroup, billing usecase.Billing, l logger.Interface) {<span class="cov0" title="0">
+        // This function is deprecated - use RegisterBillingRoutes instead
+        // The billing functionality is now handled by BillingController
+}</span>
+</pre>
+		
+		<pre class="file" id="file21" style="display: none">package v1
+
+import (
+        "github.com/gin-gonic/gin"
+)
+
+// RegisterBillingRoutes registers billing routes
+func (v *V1) RegisterBillingRoutes(api *gin.RouterGroup) <span class="cov0" title="0">{
+        billing := api.Group("/billing")
+        </span><span class="cov0" title="0">{
+                billing.POST("/invoice", v.billingController.GenerateInvoicePDF)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file22" style="display: none">package v1
+
+import (
+        "github.com/gin-gonic/gin"
+)
+
+// RegisterPaymentRoutes registers payment routes
+func (v *V1) RegisterPaymentRoutes(api *gin.RouterGroup) <span class="cov0" title="0">{
+        payments := api.Group("/payments")
+        </span><span class="cov0" title="0">{
+                payments.POST("", v.paymentController.RegisterPayment)
+                payments.GET("/:id", v.paymentController.GetPaymentByID)
+        }</span>
+
+        <span class="cov0" title="0">users := api.Group("/users")
+        </span><span class="cov0" title="0">{
+                users.GET("/:user_id/payments", v.paymentController.GetPaymentsByUserID)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file23" style="display: none">package v1
+
+import (
+        "net/http"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/gin-gonic/gin"
+)
+
+// @Summary     Show history
+// @Description Show all translation history
+// @ID          history
+// @Tags              translation
+// @Accept      json
+// @Produce     json
+// @Success     200 {object} entity.TranslationHistory
+// @Failure     500 {object} response.Error
+// @Router      /translation/history [get]
+func (r *V1) history(c *gin.Context) <span class="cov0" title="0">{
+        translationHistory, err := r.t.History(c.Request.Context())
+        if err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - history")
+                errorResponse(c, http.StatusInternalServerError, "database problems")
+                return
+        }</span>
+
+        <span class="cov0" title="0">c.JSON(http.StatusOK, translationHistory)</span>
+}
+
+// @Summary     Translate
+// @Description Translate a text
+// @ID          do-translate
+// @Tags              translation
+// @Accept      json
+// @Produce     json
+// @Param       request body request.Translate true "Set up translation"
+// @Success     200 {object} entity.Translation
+// @Failure     400 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /translation/do-translate [post]
+func (r *V1) doTranslate(c *gin.Context) <span class="cov0" title="0">{
+        var body request.Translate
+
+        if err := c.ShouldBindJSON(&amp;body); err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - doTranslate")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov0" title="0">if err := r.v.Struct(body); err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - doTranslate")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov0" title="0">translation, err := r.t.Translate(
+                c.Request.Context(),
+                entity.Translation{
+                        Source:      body.Source,
+                        Destination: body.Destination,
+                        Original:    body.Original,
+                },
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - doTranslate")
+                errorResponse(c, http.StatusInternalServerError, "translation service problems")
+                return
+        }</span>
+
+        <span class="cov0" title="0">c.JSON(http.StatusOK, translation)</span>
+}
+
+// errorResponse is a helper function to send error responses
+func errorResponse(c *gin.Context, status int, message string) <span class="cov10" title="16">{
+        c.JSON(status, gin.H{"error": message})
+}</span>
+</pre>
+		
+		<pre class="file" id="file24" style="display: none">package v1
+
+import (
+        "fmt"
+        "net/http"
+        "strconv"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/gin-gonic/gin"
+)
+
+// @Summary     Create user
+// @Description Create a new user
+// @ID          create-user
+// @Tags              user
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       request body request.CreateUser true "Create user"
+// @Success     201 {object} entity.User
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/user [post]
+func (r *V1) CreateUser(c *gin.Context) <span class="cov5" title="4">{
+        var body request.CreateUser
+        if err := c.ShouldBindJSON(&amp;body); err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - createUser")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov5" title="4">if err := r.v.Struct(body); err != nil </span><span class="cov3" title="2">{
+                r.l.Error(err, "http - v1 - createUser")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov3" title="2">user, err := r.user.Create(
+                c.Request.Context(),
+                entity.User{
+                        Email:    body.Email,
+                        Username: body.Username,
+                        Password: body.Password,
+                },
+        )
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - createUser")
+                errorResponse(c, http.StatusInternalServerError, "user service problems")
+                return
+        }</span>
+
+        <span class="cov1" title="1">c.JSON(http.StatusCreated, user)</span>
+}
+
+// @Summary     Get user
+// @Description Get user by ID
+// @ID          get-user
+// @Tags              user
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       id path int true "User ID"
+// @Success     200 {object} entity.User
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/user/{id} [get]
+func (r *V1) GetUser(c *gin.Context) <span class="cov5" title="4">{
+        id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - getUser")
+                errorResponse(c, http.StatusBadRequest, "invalid user id")
+                return
+        }</span>
+
+        <span class="cov4" title="3">user, err := r.user.GetByID(c.Request.Context(), id)
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - getUser")
+                errorResponse(c, http.StatusInternalServerError, "user service problems")
+                return
+        }</span>
+
+        <span class="cov3" title="2">if user.ID == 0 </span><span class="cov1" title="1">{
+                errorResponse(c, http.StatusNotFound, "user not found")
+                return
+        }</span>
+
+        <span class="cov1" title="1">c.JSON(http.StatusOK, user)</span>
+}
+
+// @Summary     List users
+// @Description Get all users
+// @ID          list-users
+// @Tags              user
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Success     200 {object} entity.UserHistory
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/user [get]
+func (r *V1) ListUsers(c *gin.Context) <span class="cov3" title="2">{
+        // For debugging timeout behavior, uncomment the sleep below:
+        // This will trigger the 8-second request timeout defined in middleware
+        for i := 0; i &lt; 10; i++ </span><span class="cov10" title="20">{
+                fmt.Printf("[DEBUG] ListUsers processing step %d/10\n", i+1)
+                time.Sleep(1 * time.Second)
+
+                // Check if context was cancelled (timeout or client disconnect)
+                select </span>{
+                case &lt;-c.Request.Context().Done():<span class="cov0" title="0">
+                        r.l.Warn("ListUsers request was cancelled",
+                                "reason", c.Request.Context().Err().Error(),
+                                "client_ip", c.ClientIP(),
+                                "step", i+1)
+                        return</span>
+                default:<span class="cov10" title="20"></span>
+                        // Continue processing
+                }
+        }
+
+        <span class="cov3" title="2">userHistory, err := r.user.List(c.Request.Context())
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - listUsers")
+                errorResponse(c, http.StatusInternalServerError, "user service problems")
+                return
+        }</span>
+
+        <span class="cov1" title="1">r.l.Info("ListUsers completed successfully", "client_ip", c.ClientIP())
+        c.JSON(http.StatusOK, userHistory)</span>
+}
+
+// @Summary     Update user
+// @Description Update user by ID
+// @ID          update-user
+// @Tags              user
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       id path int true "User ID"
+// @Param       request body request.UpdateUser true "Update user"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/user/{id} [put]
+func (r *V1) UpdateUser(c *gin.Context) <span class="cov5" title="4">{
+        id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - updateUser")
+                errorResponse(c, http.StatusBadRequest, "invalid user id")
+                return
+        }</span>
+
+        <span class="cov4" title="3">var body request.UpdateUser
+        if err := c.ShouldBindJSON(&amp;body); err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - updateUser")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov4" title="3">if err := r.v.Struct(body); err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - updateUser")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov3" title="2">err = r.user.Update(
+                c.Request.Context(),
+                entity.User{
+                        ID:       id,
+                        Email:    body.Email,
+                        Username: body.Username,
+                        Password: body.Password,
+                },
+        )
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - updateUser")
+                errorResponse(c, http.StatusInternalServerError, "user service problems")
+                return
+        }</span>
+
+        <span class="cov1" title="1">c.JSON(http.StatusOK, gin.H{"message": "user updated successfully"})</span>
+}
+
+// @Summary     Delete user
+// @Description Delete user by ID
+// @ID          delete-user
+// @Tags              user
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       id path int true "User ID"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     404 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/user/{id} [delete]
+func (r *V1) DeleteUser(c *gin.Context) <span class="cov4" title="3">{
+        id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - deleteUser")
+                errorResponse(c, http.StatusBadRequest, "invalid user id")
+                return
+        }</span>
+
+        <span class="cov3" title="2">err = r.user.Delete(c.Request.Context(), id)
+        if err != nil </span><span class="cov1" title="1">{
+                r.l.Error(err, "http - v1 - deleteUser")
+                errorResponse(c, http.StatusInternalServerError, "user service problems")
+                return
+        }</span>
+
+        <span class="cov1" title="1">c.JSON(http.StatusOK, gin.H{"message": "user deleted successfully"})</span>
+}
+
+// @Summary     Login user
+// @Description Login user with email and password
+// @ID          login-user
+// @Tags              auth
+// @Accept      json
+// @Produce     json
+// @Param       request body request.LoginUser true "Login user"
+// @Success     200 {object} response.LoginResponse
+// @Failure     400 {object} response.Error
+// @Failure     401 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/auth/login [post]
+func (r *V1) LoginUser(c *gin.Context) <span class="cov5" title="5">{
+        var body request.LoginUser
+        if err := c.ShouldBindJSON(&amp;body); err != nil </span><span class="cov0" title="0">{
+                r.l.Error(err, "http - v1 - loginUser")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov5" title="5">if err := r.v.Struct(body); err != nil </span><span class="cov3" title="2">{
+                r.l.Error(err, "http - v1 - loginUser")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov4" title="3">token, user, err := r.user.Login(c.Request.Context(), body.Email, body.Password)
+        if err != nil </span><span class="cov3" title="2">{
+                r.l.Error(err, "http - v1 - loginUser")
+                if err.Error() == "UserUseCase - Login - bcrypt.CompareHashAndPassword: crypto/bcrypt: hashedPassword is not the hash of the given password" </span><span class="cov1" title="1">{
+                        errorResponse(c, http.StatusUnauthorized, "invalid credentials")
+                        return
+                }</span>
+                <span class="cov1" title="1">errorResponse(c, http.StatusInternalServerError, "user service problems")
+                return</span>
+        }
+
+        <span class="cov1" title="1">c.JSON(http.StatusOK, response.LoginResponse{
+                Token: token,
+                User: struct {
+                        ID       int64  `json:"id"`
+                        Email    string `json:"email"`
+                        Username string `json:"username"`
+                }{
+                        ID:       user.ID,
+                        Email:    user.Email,
+                        Username: user.Username,
+                },
+        })</span>
+}
+</pre>
+		
+		<pre class="file" id="file25" style="display: none">package v1
+
+import (
+        "net/http"
+
+        "github.com/gin-gonic/gin"
+
+        "github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+)
+
+// @Summary     Generate QR Code
+// @Description Generate a new VietQR code
+// @ID          generate-qr
+// @Tags              vietqr
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Success     200 {object} entity.VietQR
+// @Failure     500 {object} response.Error
+// @Router      /v1/vietqr/gen [post]
+func (v1 *V1) generateQR(c *gin.Context) <span class="cov0" title="0">{
+        var req request.GenerateQR
+        if err := c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - generateQR - c.ShouldBindJSON")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov0" title="0">qr, err := v1.vietqr.GenerateQR(c.Request.Context(), entity.VietQRGenerateRequest{
+                AccountNo:    req.AccountNo,
+                Amount:       req.Amount,
+                Description:  req.Description,
+                MCC:          req.MCC,
+                ReceiverName: req.ReceiverName,
+        })
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - generateQR - v1.vietqr.GenerateQR")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+        <span class="cov0" title="0">c.JSON(http.StatusOK, qr)</span>
+}
+
+// @Summary     Inquiry QR Status
+// @Description Get the status of a VietQR code
+// @ID          inquiry-qr
+// @Tags              vietqr
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       id path string true "QR ID"
+// @Success     200 {object} entity.VietQR
+// @Failure     400 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/vietqr/inquiry/{id} [get]
+func (v1 *V1) inquiryQR(c *gin.Context) <span class="cov0" title="0">{
+        id := c.Param("id")
+        qr, err := v1.vietqr.InquiryQR(c.Request.Context(), id)
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - inquiryQR - v1.vietqr.InquiryQR")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+        <span class="cov0" title="0">c.JSON(http.StatusOK, qr)</span>
+}
+
+// @Summary     Update QR Status
+// @Description Update the status of a VietQR code
+// @ID          update-qr-status
+// @Tags              vietqr
+// @Accept      json
+// @Produce     json
+// @Security    BearerAuth
+// @Param       id path string true "QR ID"
+// @Param       request body request.UpdateVietQRStatus true "Update status"
+// @Success     200 {object} response.Success
+// @Failure     400 {object} response.Error
+// @Failure     500 {object} response.Error
+// @Router      /v1/vietqr/update/{id} [put]
+func (v1 *V1) updateStatus(c *gin.Context) <span class="cov0" title="0">{
+        id := c.Param("id")
+        var req request.UpdateVietQRStatus
+        if err := c.ShouldBindJSON(&amp;req); err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - updateStatus - c.ShouldBindJSON")
+                errorResponse(c, http.StatusBadRequest, "invalid request body")
+                return
+        }</span>
+
+        <span class="cov0" title="0">status := entity.VietQRStatus(req.Status)
+        switch status </span>{
+        case entity.VietQRStatusInProcess, entity.VietQRStatusPaid, entity.VietQRStatusFail, entity.VietQRStatusTimeout:<span class="cov0" title="0"></span>
+                // valid status
+        default:<span class="cov0" title="0">
+                errorResponse(c, http.StatusBadRequest, "invalid status")
+                return</span>
+        }
+
+        <span class="cov0" title="0">err := v1.vietqr.UpdateStatus(c.Request.Context(), id, status)
+        if err != nil </span><span class="cov0" title="0">{
+                v1.l.Error(err, "http - v1 - updateStatus - v1.vietqr.UpdateStatus")
+                errorResponse(c, http.StatusInternalServerError, "internal server error")
+                return
+        }</span>
+
+        <span class="cov0" title="0">c.JSON(http.StatusOK, gin.H{"status": "ok"})</span>
+}
+</pre>
+		
+		<pre class="file" id="file26" style="display: none">package externalapi
+
+import (
+        "fmt"
+
+        translator "github.com/Conight/go-googletrans"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+)
+
+// TranslationWebAPI -.
+type TranslationWebAPI struct {
+        conf translator.Config
+}
+
+// New -.
+func New() *TranslationWebAPI <span class="cov0" title="0">{
+        conf := translator.Config{
+                UserAgent:   []string{"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1"},
+                ServiceUrls: []string{"translate.google.com"},
+        }
+
+        return &amp;TranslationWebAPI{
+                conf: conf,
+        }
+}</span>
+
+// Translate -.
+func (t *TranslationWebAPI) Translate(translation entity.Translation) (entity.Translation, error) <span class="cov0" title="0">{
+        trans := translator.New(t.conf)
+
+        result, err := trans.Translate(translation.Original, translation.Source, translation.Destination)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.Translation{}, fmt.Errorf("TranslationWebAPI - Translate - trans.Translate: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">translation.Translation = result.Text
+
+        return translation, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file27" style="display: none">package vietqr
+
+import (
+        "context"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/vietqr"
+)
+
+// VietQRRepo is the interface for the vietqr repository.
+type VietQRRepo interface {
+        GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (string, error)
+}
+
+type vietQRRepo struct {
+        // Add any dependencies here, like an HTTP client
+}
+
+// NewVietQRRepo creates a new vietqr repository.
+func NewVietQRRepo() VietQRRepo <span class="cov0" title="0">{
+        return &amp;vietQRRepo{}
+}</span>
+
+func (r *vietQRRepo) GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (string, error) <span class="cov0" title="0">{
+        qrRequest := vietqr.RequestGenerateViQR{
+                MerchantAccountInformation: vietqr.MerchantAccountInformation{
+                        AccountNo: req.AccountNo,
+                },
+                TransactionAmount: req.Amount,
+                AdditionalDataFieldTemplate: vietqr.AdditionalDataFieldTemplate{
+                        Description: req.Description,
+                },
+                Mcc:          req.MCC,
+                ReceiverName: req.ReceiverName,
+        }
+
+        return vietqr.GenerateViQR(qrRequest), nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file28" style="display: none">package persistent
+
+import (
+        "context"
+
+        "github.com/ducnpdev/godev-kit/internal/repo"
+        "github.com/ducnpdev/godev-kit/pkg/kafka"
+        "github.com/rs/zerolog"
+)
+
+// KafkaRepo -.
+type KafkaRepo struct {
+        manager *kafka.Manager
+}
+
+// NewKafkaRepo -.
+func NewKafkaRepo(brokers []string, logger zerolog.Logger) repo.KafkaRepo <span class="cov0" title="0">{
+        return &amp;KafkaRepo{
+                manager: kafka.NewManager(brokers, logger),
+        }
+}</span>
+
+// NewKafkaRepoWithConfig creates a new Kafka repository with configuration
+func NewKafkaRepoWithConfig(brokers []string, logger zerolog.Logger, producerEnabled, consumerEnabled bool) repo.KafkaRepo <span class="cov0" title="0">{
+        return &amp;KafkaRepo{
+                manager: kafka.NewManagerWithConfig(brokers, logger, producerEnabled, consumerEnabled),
+        }
+}</span>
+
+// SendMessage -.
+func (k *KafkaRepo) SendMessage(ctx context.Context, topic string, key []byte, value interface{}) error <span class="cov0" title="0">{
+        return k.manager.SendMessage(ctx, topic, key, value)
+}</span>
+
+// AddConsumer -.
+func (k *KafkaRepo) AddConsumer(topic, groupID string, handler func(ctx context.Context, key, value []byte) error) error <span class="cov0" title="0">{
+        return k.manager.AddConsumer(topic, groupID, handler)
+}</span>
+
+// StartConsumer -.
+func (k *KafkaRepo) StartConsumer(ctx context.Context, topic string) error <span class="cov0" title="0">{
+        return k.manager.StartConsumer(ctx, topic)
+}</span>
+
+// StartAllConsumers -.
+func (k *KafkaRepo) StartAllConsumers(ctx context.Context) <span class="cov0" title="0">{
+        k.manager.StartAllConsumers(ctx)
+}</span>
+
+// Close -.
+func (k *KafkaRepo) Close() error <span class="cov0" title="0">{
+        return k.manager.Close()
+}</span>
+
+// Control methods for Kafka producer and consumer
+
+// EnableProducer enables the Kafka producer
+func (k *KafkaRepo) EnableProducer() <span class="cov0" title="0">{
+        k.manager.EnableProducer()
+}</span>
+
+// DisableProducer disables the Kafka producer
+func (k *KafkaRepo) DisableProducer() <span class="cov0" title="0">{
+        k.manager.DisableProducer()
+}</span>
+
+// IsProducerEnabled returns the current producer status
+func (k *KafkaRepo) IsProducerEnabled() bool <span class="cov0" title="0">{
+        return k.manager.IsProducerEnabled()
+}</span>
+
+// EnableConsumer enables the Kafka consumer
+func (k *KafkaRepo) EnableConsumer() <span class="cov0" title="0">{
+        k.manager.EnableConsumer()
+}</span>
+
+// DisableConsumer disables the Kafka consumer
+func (k *KafkaRepo) DisableConsumer() <span class="cov0" title="0">{
+        k.manager.DisableConsumer()
+}</span>
+
+// IsConsumerEnabled returns the current consumer status
+func (k *KafkaRepo) IsConsumerEnabled() bool <span class="cov0" title="0">{
+        return k.manager.IsConsumerEnabled()
+}</span>
+
+// GetStatus returns the current status of both producer and consumer
+func (k *KafkaRepo) GetStatus() map[string]interface{} <span class="cov0" title="0">{
+        return k.manager.GetStatus()
+}</span>
+</pre>
+		
+		<pre class="file" id="file29" style="display: none">package models
+
+import (
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+)
+
+// ShipperLocationModel represents the DB model for shipper location
+// TableName: shipper_locations
+// (You may need to create a migration for this table)
+type ShipperLocationModel struct {
+        ID        int64     `json:"id" gorm:"column:id;primaryKey;autoIncrement"`
+        ShipperID string    `json:"shipper_id" gorm:"column:shipper_id;index;not null"`
+        Latitude  float64   `json:"latitude" gorm:"column:latitude;not null"`
+        Longitude float64   `json:"longitude" gorm:"column:longitude;not null"`
+        Timestamp time.Time `json:"timestamp" gorm:"column:timestamp;not null;default:CURRENT_TIMESTAMP"`
+}
+
+func (ShipperLocationModel) TableName() string <span class="cov0" title="0">{
+        return "shipper_locations"
+}</span>
+
+func ToShipperLocationEntity(model ShipperLocationModel) entity.ShipperLocation <span class="cov0" title="0">{
+        return entity.ShipperLocation{
+                ShipperID: model.ShipperID,
+                Latitude:  model.Latitude,
+                Longitude: model.Longitude,
+                Timestamp: model.Timestamp,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file30" style="display: none">package models
+
+import "time"
+
+// UserModel represents user database model
+type UserModel struct {
+        ID        int64     `json:"id" gorm:"column:id;primaryKey;autoIncrement"`
+        Email     string    `json:"email" gorm:"column:email;uniqueIndex;not null"`
+        Username  string    `json:"username" gorm:"column:username;uniqueIndex;not null"`
+        Password  string    `json:"-" gorm:"column:password;not null"`
+        CreatedAt time.Time `json:"created_at" gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP"`
+        UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP"`
+}
+
+// TableName specifies the table name for UserModel
+func (UserModel) TableName() string <span class="cov0" title="0">{
+        return "users"
+}</span> </pre>
+		
+		<pre class="file" id="file31" style="display: none">package persistent
+
+import (
+        "github.com/ducnpdev/godev-kit/internal/repo"
+        "github.com/ducnpdev/godev-kit/pkg/nats"
+        natsio "github.com/nats-io/nats.go"
+)
+
+// NatsRepo -.
+type NatsRepo struct {
+        nc *nats.NatsClient
+}
+
+// NewNatsRepo -.
+func NewNatsRepo(nc *nats.NatsClient) repo.NatsRepo <span class="cov0" title="0">{
+        return &amp;NatsRepo{nc: nc}
+}</span>
+
+// Publish -.
+func (r *NatsRepo) Publish(subject string, data []byte) error <span class="cov0" title="0">{
+        return r.nc.Publish(subject, data)
+}</span>
+
+// Subscribe -.
+func (r *NatsRepo) Subscribe(subject string, handler func(msg []byte)) (func() error, error) <span class="cov0" title="0">{
+        sub, err := r.nc.Subscribe(subject, func(m *natsio.Msg) </span><span class="cov0" title="0">{
+                handler(m.Data)
+        }</span>)
+        <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return sub.Unsubscribe, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file32" style="display: none">package persistent
+
+import (
+        "context"
+        "fmt"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/ducnpdev/godev-kit/pkg/postgres"
+        "github.com/google/uuid"
+        "github.com/jackc/pgx/v5"
+)
+
+// PaymentRepo represents payment repository
+type PaymentRepo struct {
+        *postgres.Postgres
+}
+
+// NewPaymentRepo creates new payment repository
+func NewPaymentRepo(pg *postgres.Postgres) *PaymentRepo <span class="cov0" title="0">{
+        return &amp;PaymentRepo{pg}
+}</span>
+
+// Create creates new payment
+func (r *PaymentRepo) Create(ctx context.Context, payment *entity.Payment) error <span class="cov0" title="0">{
+        // Set timestamps and transaction ID
+        now := time.Now()
+        transactionID := uuid.New().String()
+        payment.CreatedAt = now
+        payment.UpdatedAt = now
+        payment.TransactionID = transactionID
+
+        sql, args, err := r.Builder.
+                Insert("payments").
+                Columns("user_id, amount, currency, payment_type, status, meter_number, customer_code, description, transaction_id, payment_method, created_at, updated_at").
+                Values(payment.UserID, payment.Amount, payment.Currency, payment.PaymentType, payment.Status, payment.MeterNumber, payment.CustomerCode, payment.Description, transactionID, payment.PaymentMethod, now, now).
+                Suffix("RETURNING id").
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("PaymentRepo - Create - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">err = r.Pool.QueryRow(ctx, sql, args...).Scan(&amp;payment.ID)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("PaymentRepo - Create - r.Pool.QueryRow: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// GetByID gets payment by ID
+func (r *PaymentRepo) GetByID(ctx context.Context, id int64) (*entity.Payment, error) <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Select("id, user_id, amount, currency, payment_type, status, meter_number, customer_code, description, transaction_id, payment_method, created_at, updated_at").
+                From("payments").
+                Where("id = ?", id).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("PaymentRepo - GetByID - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">var payment models.Payment
+        err = r.Pool.QueryRow(ctx, sql, args...).Scan(
+                &amp;payment.ID,
+                &amp;payment.UserID,
+                &amp;payment.Amount,
+                &amp;payment.Currency,
+                &amp;payment.PaymentType,
+                &amp;payment.Status,
+                &amp;payment.MeterNumber,
+                &amp;payment.CustomerCode,
+                &amp;payment.Description,
+                &amp;payment.TransactionID,
+                &amp;payment.PaymentMethod,
+                &amp;payment.CreatedAt,
+                &amp;payment.UpdatedAt,
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                if err == pgx.ErrNoRows </span><span class="cov0" title="0">{
+                        return nil, nil
+                }</span>
+                <span class="cov0" title="0">return nil, fmt.Errorf("PaymentRepo - GetByID - r.Pool.QueryRow: %w", err)</span>
+        }
+
+        <span class="cov0" title="0">return r.toEntity(&amp;payment), nil</span>
+}
+
+// GetByUserID gets payments by user ID
+func (r *PaymentRepo) GetByUserID(ctx context.Context, userID int64) ([]*entity.Payment, error) <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Select("id, user_id, amount, currency, payment_type, status, meter_number, customer_code, description, transaction_id, payment_method, created_at, updated_at").
+                From("payments").
+                Where("user_id = ?", userID).
+                OrderBy("created_at DESC").
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("PaymentRepo - GetByUserID - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">rows, err := r.Pool.Query(ctx, sql, args...)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("PaymentRepo - GetByUserID - r.Pool.Query: %w", err)
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        var payments []*entity.Payment
+        for rows.Next() </span><span class="cov0" title="0">{
+                var payment models.Payment
+                err := rows.Scan(
+                        &amp;payment.ID,
+                        &amp;payment.UserID,
+                        &amp;payment.Amount,
+                        &amp;payment.Currency,
+                        &amp;payment.PaymentType,
+                        &amp;payment.Status,
+                        &amp;payment.MeterNumber,
+                        &amp;payment.CustomerCode,
+                        &amp;payment.Description,
+                        &amp;payment.TransactionID,
+                        &amp;payment.PaymentMethod,
+                        &amp;payment.CreatedAt,
+                        &amp;payment.UpdatedAt,
+                )
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, fmt.Errorf("PaymentRepo - GetByUserID - rows.Scan: %w", err)
+                }</span>
+                <span class="cov0" title="0">payments = append(payments, r.toEntity(&amp;payment))</span>
+        }
+
+        <span class="cov0" title="0">return payments, nil</span>
+}
+
+// UpdateStatus updates payment status
+func (r *PaymentRepo) UpdateStatus(ctx context.Context, id int64, status entity.PaymentStatus) error <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Update("payments").
+                Set("status", status).
+                Set("updated_at", time.Now()).
+                Where("id = ?", id).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("PaymentRepo - UpdateStatus - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">result, err := r.Pool.Exec(ctx, sql, args...)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("PaymentRepo - UpdateStatus - r.Pool.Exec: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">if result.RowsAffected() == 0 </span><span class="cov0" title="0">{
+                return fmt.Errorf("payment with id %d not found", id)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// CreateHistory creates payment history record
+func (r *PaymentRepo) CreateHistory(ctx context.Context, payment *entity.Payment) error <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Insert("payment_history").
+                Columns("payment_id, user_id, status, amount, currency, payment_type, meter_number, customer_code, description, transaction_id, payment_method, created_at").
+                Values(payment.ID, payment.UserID, payment.Status, payment.Amount, payment.Currency, payment.PaymentType, payment.MeterNumber, payment.CustomerCode, payment.Description, payment.TransactionID, payment.PaymentMethod, time.Now()).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("PaymentRepo - CreateHistory - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">_, err = r.Pool.Exec(ctx, sql, args...)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("PaymentRepo - CreateHistory - r.Pool.Exec: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// toEntity converts database model to entity
+func (r *PaymentRepo) toEntity(payment *models.Payment) *entity.Payment <span class="cov0" title="0">{
+        return &amp;entity.Payment{
+                ID:            payment.ID,
+                UserID:        payment.UserID,
+                Amount:        payment.Amount,
+                Currency:      payment.Currency,
+                PaymentType:   entity.PaymentType(payment.PaymentType),
+                Status:        entity.PaymentStatus(payment.Status),
+                MeterNumber:   payment.MeterNumber,
+                CustomerCode:  payment.CustomerCode,
+                Description:   payment.Description,
+                TransactionID: payment.TransactionID,
+                PaymentMethod: payment.PaymentMethod,
+                CreatedAt:     payment.CreatedAt,
+                UpdatedAt:     payment.UpdatedAt,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file33" style="display: none">package persistent
+
+import (
+        "context"
+        "encoding/json"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/ducnpdev/godev-kit/pkg/redis"
+)
+
+const _defaultTimeout = 5 * time.Second
+
+// RedisRepo -.
+type RedisRepo struct {
+        r *redis.Redis
+}
+
+// NewRedisRepo -.
+func NewRedisRepo(r *redis.Redis) *RedisRepo <span class="cov0" title="0">{
+        return &amp;RedisRepo{r: r}
+}</span>
+
+// SetValue -.
+func (r *RedisRepo) SetValue(ctx context.Context, value entity.RedisValue) error <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, _defaultTimeout)
+        defer cancel()
+
+        return r.r.Client().Set(ctx, value.Key, value.Value, 0).Err()
+}</span>
+
+// GetValue -.
+func (r *RedisRepo) GetValue(ctx context.Context, key string) (entity.RedisValue, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, _defaultTimeout)
+        defer cancel()
+
+        val, err := r.r.Client().Get(ctx, key).Result()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.RedisValue{}, err
+        }</span>
+
+        <span class="cov0" title="0">return entity.RedisValue{Key: key, Value: val}, nil</span>
+}
+
+// SetShipperLocation stores the latest shipper location in Redis.
+func (r *RedisRepo) SetShipperLocation(ctx context.Context, loc entity.ShipperLocation) error <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, _defaultTimeout)
+        defer cancel()
+        data, err := json.Marshal(loc)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">key := "shipper:location:" + loc.ShipperID
+        return r.r.Client().Set(ctx, key, data, 0).Err()</span>
+}
+
+// GetShipperLocation retrieves the latest shipper location from Redis.
+func (r *RedisRepo) GetShipperLocation(ctx context.Context, shipperID string) (entity.ShipperLocation, error) <span class="cov0" title="0">{
+        ctx, cancel := context.WithTimeout(ctx, _defaultTimeout)
+        defer cancel()
+        key := "shipper:location:" + shipperID
+        val, err := r.r.Client().Get(ctx, key).Result()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.ShipperLocation{}, err
+        }</span>
+        <span class="cov0" title="0">var loc entity.ShipperLocation
+        if err := json.Unmarshal([]byte(val), &amp;loc); err != nil </span><span class="cov0" title="0">{
+                return entity.ShipperLocation{}, err
+        }</span>
+        <span class="cov0" title="0">return loc, nil</span>
+}
+
+// Convert entity.ShipperLocation to models.ShipperLocationModel
+func ToShipperLocationModel(loc entity.ShipperLocation) models.ShipperLocationModel <span class="cov0" title="0">{
+        return models.ShipperLocationModel{
+                ShipperID: loc.ShipperID,
+                Latitude:  loc.Latitude,
+                Longitude: loc.Longitude,
+                Timestamp: loc.Timestamp,
+        }
+}</span>
+
+// Convert models.ShipperLocationModel to entity.ShipperLocation
+func ToShipperLocationEntity(model models.ShipperLocationModel) entity.ShipperLocation <span class="cov0" title="0">{
+        return entity.ShipperLocation{
+                ShipperID: model.ShipperID,
+                Latitude:  model.Latitude,
+                Longitude: model.Longitude,
+                Timestamp: model.Timestamp,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file34" style="display: none">package persistent
+
+import (
+        "context"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/ducnpdev/godev-kit/pkg/postgres"
+)
+
+type ShipperLocationRepo struct {
+        pg *postgres.Postgres
+}
+
+func NewShipperLocationRepo(pg *postgres.Postgres) *ShipperLocationRepo <span class="cov0" title="0">{
+        return &amp;ShipperLocationRepo{pg: pg}
+}</span>
+
+// Store inserts a new shipper location record into the DB
+func (r *ShipperLocationRepo) Store(ctx context.Context, loc entity.ShipperLocation) error <span class="cov0" title="0">{
+        model := models.ShipperLocationModel{
+                ShipperID: loc.ShipperID,
+                Latitude:  loc.Latitude,
+                Longitude: loc.Longitude,
+                Timestamp: loc.Timestamp,
+        }
+        sql, args, err := r.pg.Builder.
+                Insert("shipper_locations").
+                Columns("shipper_id", "latitude", "longitude", "timestamp").
+                Values(model.ShipperID, model.Latitude, model.Longitude, model.Timestamp).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">_, err = r.pg.Pool.Exec(ctx, sql, args...)
+        return err</span>
+}
+
+// GetLatestByShipperID retrieves the latest location for a shipper from the DB
+func (r *ShipperLocationRepo) GetLatestByShipperID(ctx context.Context, shipperID string) (entity.ShipperLocation, error) <span class="cov0" title="0">{
+        sql, args, err := r.pg.Builder.
+                Select("shipper_id, latitude, longitude, timestamp").
+                From("shipper_locations").
+                Where("shipper_id = ?", shipperID).
+                OrderBy("timestamp DESC").
+                Limit(1).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.ShipperLocation{}, err
+        }</span>
+        <span class="cov0" title="0">var model models.ShipperLocationModel
+        err = r.pg.Pool.QueryRow(ctx, sql, args...).Scan(
+                &amp;model.ShipperID,
+                &amp;model.Latitude,
+                &amp;model.Longitude,
+                &amp;model.Timestamp,
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.ShipperLocation{}, err
+        }</span>
+        <span class="cov0" title="0">return models.ToShipperLocationEntity(model), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file35" style="display: none">package persistent
+
+import (
+        "context"
+        "fmt"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/ducnpdev/godev-kit/pkg/postgres"
+)
+
+const _defaultEntityCap = 64
+
+// TranslationRepo -.
+type TranslationRepo struct {
+        *postgres.Postgres
+}
+
+// New -.
+func New(pg *postgres.Postgres) *TranslationRepo <span class="cov0" title="0">{
+        return &amp;TranslationRepo{pg}
+}</span>
+
+// GetHistory -.
+func (r *TranslationRepo) GetHistory(ctx context.Context) ([]entity.Translation, error) <span class="cov0" title="0">{
+        sql, _, err := r.Builder.
+                Select("source, destination, original, translation").
+                From("history").
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("TranslationRepo - GetHistory - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">rows, err := r.Pool.Query(ctx, sql)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("TranslationRepo - GetHistory - r.Pool.Query: %w", err)
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        entities := make([]entity.Translation, 0, _defaultEntityCap)
+
+        for rows.Next() </span><span class="cov0" title="0">{
+                e := entity.Translation{}
+
+                err = rows.Scan(&amp;e.Source, &amp;e.Destination, &amp;e.Original, &amp;e.Translation)
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, fmt.Errorf("TranslationRepo - GetHistory - rows.Scan: %w", err)
+                }</span>
+
+                <span class="cov0" title="0">entities = append(entities, e)</span>
+        }
+
+        <span class="cov0" title="0">return entities, nil</span>
+}
+
+// Store -.
+func (r *TranslationRepo) Store(ctx context.Context, t models.TranslationModel) error <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Insert("history").
+                Columns("source, destination, original, translation").
+                Values(t.Source, t.Destination, t.Original, t.Translation).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("TranslationRepo - Store - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">_, err = r.Pool.Exec(ctx, sql, args...)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("TranslationRepo - Store - r.Pool.Exec: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file36" style="display: none">package persistent
+
+import (
+        "context"
+        "errors"
+        "fmt"
+        "time"
+
+        "github.com/Masterminds/squirrel"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/ducnpdev/godev-kit/pkg/postgres"
+        "github.com/jackc/pgx/v5"
+        "github.com/jackc/pgx/v5/pgxpool"
+)
+
+// const _defaultEntityCap = 64
+
+// UserRepo -.
+type UserRepo struct {
+        *postgres.Postgres
+}
+
+// NewUserRepo -.
+func NewUserRepo(pg *postgres.Postgres) *UserRepo <span class="cov0" title="0">{
+        return &amp;UserRepo{pg}
+}</span>
+
+// Create -.
+func (r *UserRepo) Create(ctx context.Context, user models.UserModel) (entity.User, error) <span class="cov0" title="0">{
+        // Set timestamps
+        now := time.Now()
+        user.CreatedAt = now
+        user.UpdatedAt = now
+
+        sql, args, err := r.Builder.
+                Insert("users").
+                Columns("email, username, password, created_at, updated_at").
+                Values(user.Email, user.Username, user.Password, user.CreatedAt, user.UpdatedAt).
+                Suffix("RETURNING id").
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserRepo - Create - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">var id int64
+        err = r.Pool.QueryRow(ctx, sql, args...).Scan(&amp;id)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserRepo - Create - r.Pool.QueryRow: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return entity.User{
+                ID:        id,
+                Email:     user.Email,
+                Username:  user.Username,
+                CreatedAt: user.CreatedAt,
+                UpdatedAt: user.UpdatedAt,
+        }, nil</span>
+}
+
+// GetByID -.
+func (r *UserRepo) GetByID(ctx context.Context, id int64) (entity.User, error) <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Select("id, email, username, created_at, updated_at").
+                From("users").
+                Where("id = ?", id).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserRepo - GetByID - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">var user entity.User
+        err = r.Pool.QueryRow(ctx, sql, args...).Scan(
+                &amp;user.ID,
+                &amp;user.Email,
+                &amp;user.Username,
+                &amp;user.CreatedAt,
+                &amp;user.UpdatedAt,
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserRepo - GetByID - r.Pool.QueryRow: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return user, nil</span>
+}
+
+// Update -.
+func (r *UserRepo) Update(ctx context.Context, user models.UserModel) error <span class="cov0" title="0">{
+        // Update timestamp
+        user.UpdatedAt = time.Now()
+
+        builder := r.Builder.Update("users").
+                Set("updated_at", user.UpdatedAt)
+
+        if user.Email != "" </span><span class="cov0" title="0">{
+                builder = builder.Set("email", user.Email)
+        }</span>
+        <span class="cov0" title="0">if user.Username != "" </span><span class="cov0" title="0">{
+                builder = builder.Set("username", user.Username)
+        }</span>
+        <span class="cov0" title="0">if user.Password != "" </span><span class="cov0" title="0">{
+                builder = builder.Set("password", user.Password)
+        }</span>
+
+        <span class="cov0" title="0">sql, args, err := builder.
+                Where("id = ?", user.ID).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("UserRepo - Update - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">_, err = r.Pool.Exec(ctx, sql, args...)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("UserRepo - Update - r.Pool.Exec: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// Delete -.
+func (r *UserRepo) Delete(ctx context.Context, id int64) error <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Delete("users").
+                Where("id = ?", id).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("UserRepo - Delete - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">_, err = r.Pool.Exec(ctx, sql, args...)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("UserRepo - Delete - r.Pool.Exec: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// List -.
+func (r *UserRepo) List(ctx context.Context) ([]entity.User, error) <span class="cov0" title="0">{
+        sql, _, err := r.Builder.
+                Select("id, email, username, created_at, updated_at").
+                From("users").
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("UserRepo - List - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">rows, err := r.Pool.Query(ctx, sql)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("UserRepo - List - r.Pool.Query: %w", err)
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        users := make([]entity.User, 0, _defaultEntityCap)
+
+        for rows.Next() </span><span class="cov0" title="0">{
+                var user entity.User
+                err = rows.Scan(
+                        &amp;user.ID,
+                        &amp;user.Email,
+                        &amp;user.Username,
+                        &amp;user.CreatedAt,
+                        &amp;user.UpdatedAt,
+                )
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, fmt.Errorf("UserRepo - List - rows.Scan: %w", err)
+                }</span>
+
+                <span class="cov0" title="0">users = append(users, user)</span>
+        }
+
+        <span class="cov0" title="0">return users, nil</span>
+}
+
+// GetByEmail -.
+func (r *UserRepo) GetByEmail(ctx context.Context, email string) (entity.User, error) <span class="cov0" title="0">{
+        sql, args, err := r.Builder.
+                Select("id, email, username, password, created_at, updated_at").
+                From("users").
+                Where("email = ?", email).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserRepo - GetByEmail - r.Builder: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">var user entity.User
+        err = r.Pool.QueryRow(ctx, sql, args...).Scan(
+                &amp;user.ID,
+                &amp;user.Email,
+                &amp;user.Username,
+                &amp;user.Password,
+                &amp;user.CreatedAt,
+                &amp;user.UpdatedAt,
+        )
+        if err != nil </span><span class="cov0" title="0">{
+                if errors.Is(err, pgx.ErrNoRows) </span><span class="cov0" title="0">{
+                        return entity.User{}, errors.New("user not found")
+                }</span>
+                <span class="cov0" title="0">return entity.User{}, fmt.Errorf("UserRepo - GetByEmail - r.Pool.QueryRow: %w", err)</span>
+        }
+
+        <span class="cov0" title="0">return user, nil</span>
+}
+
+// GetBuilder returns the statement builder
+func (r *UserRepo) GetBuilder() squirrel.StatementBuilderType <span class="cov0" title="0">{
+        return r.Builder
+}</span>
+
+// GetPool returns the database pool
+func (r *UserRepo) GetPool() *pgxpool.Pool <span class="cov0" title="0">{
+        return r.Pool
+}</span>
+</pre>
+		
+		<pre class="file" id="file37" style="display: none">package persistent
+
+import (
+        "context"
+
+        "github.com/Masterminds/squirrel"
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/pkg/postgres"
+)
+
+type VietQRRepo struct {
+        pg *postgres.Postgres
+}
+
+func NewVietQRRepo(pg *postgres.Postgres) *VietQRRepo <span class="cov0" title="0">{
+        return &amp;VietQRRepo{pg}
+}</span>
+
+func (r *VietQRRepo) Store(ctx context.Context, qr entity.VietQR) error <span class="cov0" title="0">{
+        sql, args, err := r.pg.Builder.
+                Insert("vietqr").
+                Columns("id", "status", "content").
+                Values(qr.ID, qr.Status, qr.Content).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">_, err = r.pg.Pool.Exec(ctx, sql, args...)
+        return err</span>
+}
+
+func (r *VietQRRepo) FindByID(ctx context.Context, id string) (entity.VietQR, error) <span class="cov0" title="0">{
+        sql, args, err := r.pg.Builder.
+                Select("id", "status", "content").
+                From("vietqr").
+                Where(squirrel.Eq{"id": id}).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.VietQR{}, err
+        }</span>
+
+        <span class="cov0" title="0">var qr entity.VietQR
+        err = r.pg.Pool.QueryRow(ctx, sql, args...).Scan(&amp;qr.ID, &amp;qr.Status, &amp;qr.Content)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.VietQR{}, err
+        }</span>
+
+        <span class="cov0" title="0">return qr, nil</span>
+}
+
+func (r *VietQRRepo) UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error <span class="cov0" title="0">{
+        sql, args, err := r.pg.Builder.
+                Update("vietqr").
+                Set("status", status).
+                Where(squirrel.Eq{"id": id}).
+                ToSql()
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">_, err = r.pg.Pool.Exec(ctx, sql, args...)
+        return err</span>
+}
+</pre>
+		
+		<pre class="file" id="file38" style="display: none">package billing
+
+import (
+        "github.com/signintech/gopdf"
+)
+
+type InvoiceItem struct {
+        Description string
+        UnitCost    string
+        Qty         string
+        Amount      string
+}
+
+type InvoiceData struct {
+        Number      string
+        Date        string
+        BilledTo    []string
+        CompanyInfo []string
+        Items       []InvoiceItem
+        Subtotal    string
+        Discount    string
+        TaxRate     string
+        Tax         string
+        Total       string
+        Terms       string
+        BankDetails []string
+}
+
+const (
+        marginLeft     = 50.0
+        marginTop      = 50.0
+        lineHeight     = 20.0
+        pageWidth      = 595.28 // A4 width in points
+        pageHeight     = 841.89 // A4 height in points
+        tableRowHeight = 18.0
+)
+
+type UseCase struct{}
+
+func New() *UseCase <span class="cov0" title="0">{
+        return &amp;UseCase{}
+}</span>
+
+// GenerateInvoicePDF generates a PDF invoice and returns the file path
+func (uc *UseCase) GenerateInvoicePDF(data InvoiceData, outputPath string) error <span class="cov0" title="0">{
+        pdf := gopdf.GoPdf{}
+        mm6ToPx := 22.68
+
+        pdf.Start(gopdf.Config{
+                PageSize: *gopdf.PageSizeA4,
+                TrimBox:  gopdf.Box{Left: mm6ToPx, Top: mm6ToPx, Right: gopdf.PageSizeA4.W - mm6ToPx, Bottom: gopdf.PageSizeA4.H - mm6ToPx},
+        })
+        opt := gopdf.PageOption{
+                PageSize: gopdf.PageSizeA4,
+                TrimBox:  &amp;gopdf.Box{Left: mm6ToPx, Top: mm6ToPx, Right: gopdf.PageSizeA4.W - mm6ToPx, Bottom: gopdf.PageSizeA4.H - mm6ToPx},
+        }
+        pdf.AddPageWithOption(opt)
+
+        if err := pdf.AddTTFFont("roboto", "./docs/front/Roboto-Regular.ttf"); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">if err := pdf.AddTTFFont("roboto-bold", "./docs/front/Roboto-Regular.ttf"); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">headerBottomY := drawHeader(&amp;pdf, data)
+        tableBottomY := drawTable(&amp;pdf, data.Items, headerBottomY)
+        summaryBottomY := drawSummary(&amp;pdf, data, tableBottomY)
+        drawFooter(&amp;pdf, data, summaryBottomY)
+
+        if err := pdf.WritePdf(outputPath); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">return nil</span>
+}
+
+// --- PDF Drawing Functions (copied from main.go, made unexported) ---
+
+func drawHeader(pdf *gopdf.GoPdf, data InvoiceData) float64 <span class="cov0" title="0">{
+        // Title
+        pdf.SetFont("roboto-bold", "", 28) // For bold
+        pdf.SetTextColor(30, 60, 120)
+        pdf.SetX(marginLeft)
+        pdf.SetY(marginTop)
+        pdf.Cell(nil, "Invoice")
+
+        // Logo (placeholder rectangle)
+        logoSize := 80.0
+        logoX := pageWidth - marginLeft - logoSize
+        logoY := marginTop
+        pdf.SetLineWidth(0.5)
+        pdf.RectFromUpperLeftWithStyle(logoX, logoY, logoSize, logoSize, "D")
+        pdf.SetFont("roboto", "", 11)
+        pdf.SetTextColor(0, 0, 0)
+        pdf.SetX(logoX + 10)
+        pdf.SetY(logoY + logoSize/2)
+        pdf.Cell(nil, "YOUR LOGO")
+
+        // Invoice number and date of issue (2 columns)
+        topInfoY := marginTop + 45
+        col1X := marginLeft
+        col2X := marginLeft + 180
+
+        pdf.SetFont("roboto-bold", "", 11)
+        pdf.SetTextColor(30, 60, 120)
+        pdf.SetX(col1X)
+        pdf.SetY(topInfoY)
+        pdf.Cell(nil, "INVOICE NUMBER:")
+        pdf.SetX(col2X)
+        pdf.Cell(nil, "DATE OF ISSUE:")
+
+        pdf.SetFont("roboto", "", 11)
+        pdf.SetTextColor(0, 0, 0)
+        pdf.SetX(col1X)
+        pdf.SetY(topInfoY + 15)
+        pdf.Cell(nil, data.Number)
+        pdf.SetX(col2X)
+        pdf.Cell(nil, data.Date)
+
+        // Billed to, Company name, Company contact (3 columns)
+        sectionY := topInfoY + 40
+        col3X := marginLeft + 350
+
+        pdf.SetFont("roboto-bold", "", 11)
+        pdf.SetTextColor(30, 60, 120)
+        pdf.SetX(col1X)
+        pdf.SetY(sectionY)
+        pdf.Cell(nil, "BILLED TO")
+        pdf.SetX(col2X)
+        pdf.Cell(nil, "YOUR COMPANY NAME")
+        pdf.SetX(col3X)
+        pdf.Cell(nil, "")
+
+        // Details under each column
+        pdf.SetFont("roboto", "", 10)
+        pdf.SetTextColor(0, 0, 0)
+        billedTo := []string{"Client name", "123 Your Street", "City,State, Country", "Zip Code", "Phone"}
+        companyInfo := []string{"Building name", "123 Your Street", "City,State, Country", "Zip Code", "Phone"}
+        companyContact := []string{"+1-541-754-3010", "you@email.com", "yourwebsite.com"}
+
+        for i := 0; i &lt; 5; i++ </span><span class="cov0" title="0">{
+                pdf.SetX(col1X)
+                pdf.SetY(sectionY + 15 + float64(i)*13)
+                pdf.Cell(nil, billedTo[i])
+                pdf.SetX(col2X)
+                pdf.Cell(nil, companyInfo[i])
+                if i &lt; len(companyContact) </span><span class="cov0" title="0">{
+                        pdf.SetX(col3X)
+                        pdf.Cell(nil, companyContact[i])
+                }</span>
+        }
+        // Return the Y position after the last line
+        <span class="cov0" title="0">return sectionY + 15 + float64(5)*13 + 10</span> // +10 for extra spacing
+}
+
+func drawTable(pdf *gopdf.GoPdf, items []InvoiceItem, startY float64) float64 <span class="cov0" title="0">{
+        tableTop := startY
+        tableLeft := marginLeft
+        tableWidth := pageWidth - 2*marginLeft
+        tableRowHeight := 18.0
+        tableColWidths := []float64{200, 100, 100, 100}
+
+        // Table header background
+        pdf.SetFillColor(240, 245, 250)
+        pdf.RectFromUpperLeftWithStyle(tableLeft, tableTop, tableWidth, tableRowHeight, "F")
+
+        // Table headers
+        pdf.SetFont("roboto-bold", "", 11)
+        pdf.SetTextColor(30, 60, 120)
+        pdf.SetY(tableTop + 4)
+        pdf.SetX(tableLeft + 8)
+        pdf.Cell(nil, "Description")
+        pdf.SetX(tableLeft + tableColWidths[0] + 8)
+        pdf.Cell(nil, "Unit cost")
+        pdf.SetX(tableLeft + tableColWidths[0] + tableColWidths[1] + 8)
+        pdf.Cell(nil, "QTY/HR Rate")
+        pdf.SetX(tableLeft + tableColWidths[0] + tableColWidths[1] + tableColWidths[2] + 8)
+        pdf.Cell(nil, "Amount")
+
+        // Table header bottom border
+        pdf.SetStrokeColor(200, 200, 200)
+        pdf.Line(tableLeft, tableTop+tableRowHeight, tableLeft+tableWidth, tableTop+tableRowHeight)
+
+        // Table rows
+        pdf.SetFont("roboto", "", 10)
+        pdf.SetTextColor(0, 0, 0)
+        rowY := tableTop + tableRowHeight
+        for _, item := range items </span><span class="cov0" title="0">{
+                pdf.SetY(rowY + 4)
+                pdf.SetX(tableLeft + 8)
+                pdf.Cell(nil, item.Description)
+                pdf.SetX(tableLeft + tableColWidths[0] + 8)
+                pdf.Cell(nil, item.UnitCost)
+                pdf.SetX(tableLeft + tableColWidths[0] + tableColWidths[1] + 8)
+                pdf.Cell(nil, item.Qty)
+                pdf.SetX(tableLeft + tableColWidths[0] + tableColWidths[1] + tableColWidths[2] + 8)
+                pdf.Cell(nil, item.Amount)
+                rowY += tableRowHeight
+        }</span>
+
+        // Table bottom border
+        <span class="cov0" title="0">pdf.SetStrokeColor(200, 200, 200)
+        pdf.Line(tableLeft, rowY, tableLeft+tableWidth, rowY)
+
+        return rowY + 10</span> // +10 for extra spacing
+}
+
+func drawSummary(pdf *gopdf.GoPdf, data InvoiceData, startY float64) float64 <span class="cov0" title="0">{
+        summaryLeft := pageWidth - marginLeft - 200
+        summaryY := startY
+
+        pdf.SetFont("roboto-bold", "", 11)
+        pdf.SetTextColor(30, 60, 120)
+        pdf.SetX(summaryLeft)
+        pdf.SetY(summaryY)
+        pdf.Cell(nil, "Subtotal:")
+        pdf.SetX(summaryLeft + 120)
+        pdf.Cell(nil, data.Subtotal)
+
+        pdf.SetX(summaryLeft)
+        pdf.SetY(summaryY + 18)
+        pdf.Cell(nil, "Discount:")
+        pdf.SetX(summaryLeft + 120)
+        pdf.Cell(nil, data.Discount)
+
+        pdf.SetX(summaryLeft)
+        pdf.SetY(summaryY + 36)
+        pdf.Cell(nil, "Tax Rate:")
+        pdf.SetX(summaryLeft + 120)
+        pdf.Cell(nil, data.TaxRate)
+
+        pdf.SetX(summaryLeft)
+        pdf.SetY(summaryY + 54)
+        pdf.Cell(nil, "Tax:")
+        pdf.SetX(summaryLeft + 120)
+        pdf.Cell(nil, data.Tax)
+
+        pdf.SetFont("roboto-bold", "", 13)
+        pdf.SetTextColor(30, 60, 120)
+        pdf.SetX(summaryLeft)
+        pdf.SetY(summaryY + 80)
+        pdf.Cell(nil, "Total:")
+        pdf.SetX(summaryLeft + 120)
+        pdf.Cell(nil, data.Total)
+
+        return summaryY + 110 // +30 for extra spacing
+}</span>
+
+func drawFooter(pdf *gopdf.GoPdf, data InvoiceData, startY float64) <span class="cov0" title="0">{
+        footerY := startY
+        pdf.SetFont("roboto", "", 10)
+        pdf.SetTextColor(0, 0, 0)
+        pdf.SetX(marginLeft)
+        pdf.SetY(footerY)
+        pdf.Cell(nil, data.Terms)
+
+        // Bank details (if any)
+        if len(data.BankDetails) &gt; 0 </span><span class="cov0" title="0">{
+                pdf.SetY(footerY + 30)
+                pdf.SetFont("roboto-bold", "", 11)
+                pdf.SetTextColor(30, 60, 120)
+                pdf.SetX(marginLeft)
+                pdf.Cell(nil, "Bank Details:")
+                pdf.SetFont("roboto", "", 10)
+                pdf.SetTextColor(0, 0, 0)
+                for i, line := range data.BankDetails </span><span class="cov0" title="0">{
+                        pdf.SetY(footerY + 50 + float64(i)*13)
+                        pdf.SetX(marginLeft)
+                        pdf.Cell(nil, line)
+                }</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file39" style="display: none">package usecase
+
+import (
+        "context"
+
+        "github.com/ducnpdev/godev-kit/internal/repo"
+)
+
+type Kafka interface {
+        ProduceMessage(ctx context.Context, topic, key string, value interface{}) error
+        ConsumeMessage(ctx context.Context, topic, group string) (string, []byte, error)
+
+        // Control methods
+        EnableProducer()
+        DisableProducer()
+        IsProducerEnabled() bool
+        EnableConsumer()
+        DisableConsumer()
+        IsConsumerEnabled() bool
+        GetStatus() map[string]interface{}
+}
+
+type kafkaUseCase struct {
+        kafkaRepo repo.KafkaRepo
+}
+
+func NewKafkaUseCase(kafkaRepo repo.KafkaRepo) Kafka <span class="cov0" title="0">{
+        return &amp;kafkaUseCase{kafkaRepo: kafkaRepo}
+}</span>
+
+func (u *kafkaUseCase) ProduceMessage(ctx context.Context, topic, key string, value interface{}) error <span class="cov0" title="0">{
+        return u.kafkaRepo.SendMessage(ctx, topic, []byte(key), value)
+}</span>
+
+// func (u *kafkaUseCase) ConsumeMessage(ctx context.Context, topic, group string) (string, []byte, error) {
+//         msgCh := make(chan struct {
+//                 key   string
+//                 value []byte
+//         }, 1)
+//         errCh := make(chan error, 1)
+
+//         // Add a temporary consumer
+//         err := u.kafkaRepo.AddConsumer(topic, group, func(ctx context.Context, key, value []byte) error {
+//                 msgCh &lt;- struct {
+//                         key   string
+//                         value []byte
+//                 }{key: string(key), value: value}
+//                 return nil
+//         })
+//         if err != nil {
+//                 return "", nil, err
+//         }
+
+//         // Start the consumer in a goroutine
+//         if err := u.kafkaRepo.StartConsumer(ctx, topic); err != nil {
+//                 errCh &lt;- err
+//         }
+
+//         select {
+//         case msg := &lt;-msgCh:
+//                 return msg.key, msg.value, nil
+//         case err := &lt;-errCh:
+//                 return "", nil, err
+//         case &lt;-ctx.Done():
+//                 return "", nil, ctx.Err()
+//         }
+// }
+
+func (u *kafkaUseCase) ConsumeMessage(ctx context.Context, topic, group string) (string, []byte, error) <span class="cov0" title="0">{
+        msgCh := make(chan struct {
+                key   string
+                value []byte
+        }, 1)
+        errCh := make(chan error, 1)
+
+        // Create a cancellable context so we can stop the consumer after one message
+        ctx, cancel := context.WithCancel(ctx)
+        defer cancel()
+
+        // Add a temporary consumer
+        err := u.kafkaRepo.AddConsumer(topic, group, func(ctx context.Context, key, value []byte) error </span><span class="cov0" title="0">{
+                select </span>{
+                case msgCh &lt;- struct {
+                        key   string
+                        value []byte
+                }{key: string(key), value: value}:<span class="cov0" title="0">
+                        cancel()</span> // Stop the consumer after the first message
+                default:<span class="cov0" title="0"></span>
+                }
+                <span class="cov0" title="0">return nil</span>
+        })
+        <span class="cov0" title="0">if err != nil </span><span class="cov0" title="0">{
+                return "", nil, err
+        }</span>
+
+        // Start the consumer in a goroutine
+        <span class="cov0" title="0">go func() </span><span class="cov0" title="0">{
+                if err := u.kafkaRepo.StartConsumer(ctx, topic); err != nil </span><span class="cov0" title="0">{
+                        errCh &lt;- err
+                }</span>
+        }()
+
+        <span class="cov0" title="0">select </span>{
+        case msg := &lt;-msgCh:<span class="cov0" title="0">
+                return msg.key, msg.value, nil</span>
+        case err := &lt;-errCh:<span class="cov0" title="0">
+                return "", nil, err</span>
+        case &lt;-ctx.Done():<span class="cov0" title="0">
+                return "", nil, ctx.Err()</span>
+        }
+}
+
+// Control methods implementation
+
+// EnableProducer enables the Kafka producer
+func (u *kafkaUseCase) EnableProducer() <span class="cov0" title="0">{
+        u.kafkaRepo.EnableProducer()
+}</span>
+
+// DisableProducer disables the Kafka producer
+func (u *kafkaUseCase) DisableProducer() <span class="cov0" title="0">{
+        u.kafkaRepo.DisableProducer()
+}</span>
+
+// IsProducerEnabled returns the current producer status
+func (u *kafkaUseCase) IsProducerEnabled() bool <span class="cov0" title="0">{
+        return u.kafkaRepo.IsProducerEnabled()
+}</span>
+
+// EnableConsumer enables the Kafka consumer
+func (u *kafkaUseCase) EnableConsumer() <span class="cov0" title="0">{
+        u.kafkaRepo.EnableConsumer()
+}</span>
+
+// DisableConsumer disables the Kafka consumer
+func (u *kafkaUseCase) DisableConsumer() <span class="cov0" title="0">{
+        u.kafkaRepo.DisableConsumer()
+}</span>
+
+// IsConsumerEnabled returns the current consumer status
+func (u *kafkaUseCase) IsConsumerEnabled() bool <span class="cov0" title="0">{
+        return u.kafkaRepo.IsConsumerEnabled()
+}</span>
+
+// GetStatus returns the current status of both producer and consumer
+func (u *kafkaUseCase) GetStatus() map[string]interface{} <span class="cov0" title="0">{
+        return u.kafkaRepo.GetStatus()
+}</span>
+</pre>
+		
+		<pre class="file" id="file40" style="display: none">package usecase
+
+import (
+        "context"
+        "encoding/json"
+        "fmt"
+        "strconv"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo"
+        "github.com/rs/zerolog"
+)
+
+// KafkaEventUseCase -.
+type KafkaEventUseCase struct {
+        kafkaRepo repo.KafkaRepo
+        logger    zerolog.Logger
+}
+
+// NewKafkaEventUseCase -.
+func NewKafkaEventUseCase(kafkaRepo repo.KafkaRepo, logger zerolog.Logger) *KafkaEventUseCase <span class="cov0" title="0">{
+        return &amp;KafkaEventUseCase{
+                kafkaRepo: kafkaRepo,
+                logger:    logger,
+        }
+}</span>
+
+// ProduceUserEvent -.
+func (k *KafkaEventUseCase) ProduceUserEvent(ctx context.Context, eventType string, userID int64, email string, data any) error <span class="cov0" title="0">{
+        event := entity.UserEvent{
+                ID:        time.Now().UnixNano(),
+                EventType: eventType,
+                UserID:    userID,
+                Email:     email,
+                Data:      data,
+                Timestamp: time.Now(),
+        }
+
+        key := []byte(strconv.FormatInt(userID, 10))
+
+        err := k.kafkaRepo.SendMessage(ctx, "user-events", key, event)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to send user event: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">k.logger.Info().
+                Str("event_type", eventType).
+                Int64("user_id", userID).
+                Msg("user event produced")
+
+        return nil</span>
+}
+
+// ProduceTranslationEvent -.
+func (k *KafkaEventUseCase) ProduceTranslationEvent(ctx context.Context, eventType string, userID int64, source, target, original, translated string) error <span class="cov0" title="0">{
+        event := entity.TranslationEvent{
+                ID:         time.Now().UnixNano(),
+                EventType:  eventType,
+                UserID:     userID,
+                Source:     source,
+                Target:     target,
+                Original:   original,
+                Translated: translated,
+                Timestamp:  time.Now(),
+        }
+
+        key := []byte(fmt.Sprintf("%d-%s", userID, eventType))
+
+        err := k.kafkaRepo.SendMessage(ctx, "translation-events", key, event)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("failed to send translation event: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">k.logger.Info().
+                Str("event_type", eventType).
+                Int64("user_id", userID).
+                Str("source", source).
+                Str("target", target).
+                Msg("translation event produced")
+
+        return nil</span>
+}
+
+// ConsumeUserEvents -.
+func (k *KafkaEventUseCase) ConsumeUserEvents(ctx context.Context) error <span class="cov0" title="0">{
+        handler := func(ctx context.Context, key, value []byte) error </span><span class="cov0" title="0">{
+                var event entity.UserEvent
+                if err := json.Unmarshal(value, &amp;event); err != nil </span><span class="cov0" title="0">{
+                        return fmt.Errorf("failed to unmarshal user event: %w", err)
+                }</span>
+
+                <span class="cov0" title="0">k.logger.Info().
+                        Str("event_type", event.EventType).
+                        Int64("user_id", event.UserID).
+                        Str("email", event.Email).
+                        Msg("user event consumed")
+
+                // Here you can add business logic to handle different event types
+                switch event.EventType </span>{
+                case entity.UserCreatedEvent:<span class="cov0" title="0">
+                        k.handleUserCreated(ctx, event)</span>
+                case entity.UserUpdatedEvent:<span class="cov0" title="0">
+                        k.handleUserUpdated(ctx, event)</span>
+                case entity.UserDeletedEvent:<span class="cov0" title="0">
+                        k.handleUserDeleted(ctx, event)</span>
+                default:<span class="cov0" title="0">
+                        k.logger.Warn().Str("event_type", event.EventType).Msg("unknown user event type")</span>
+                }
+
+                <span class="cov0" title="0">return nil</span>
+        }
+
+        <span class="cov0" title="0">return k.kafkaRepo.AddConsumer("user-events", "user-events-consumer", handler)</span>
+}
+
+// ConsumeTranslationEvents -.
+func (k *KafkaEventUseCase) ConsumeTranslationEvents(ctx context.Context) error <span class="cov0" title="0">{
+        handler := func(ctx context.Context, key, value []byte) error </span><span class="cov0" title="0">{
+                var event entity.TranslationEvent
+                if err := json.Unmarshal(value, &amp;event); err != nil </span><span class="cov0" title="0">{
+                        return fmt.Errorf("failed to unmarshal translation event: %w", err)
+                }</span>
+
+                <span class="cov0" title="0">k.logger.Info().
+                        Str("event_type", event.EventType).
+                        Int64("user_id", event.UserID).
+                        Str("source", event.Source).
+                        Str("target", event.Target).
+                        Msg("translation event consumed")
+
+                // Here you can add business logic to handle different event types
+                switch event.EventType </span>{
+                case entity.TranslationRequestEvent:<span class="cov0" title="0">
+                        k.handleTranslationRequested(ctx, event)</span>
+                case entity.TranslationCompletedEvent:<span class="cov0" title="0">
+                        k.handleTranslationCompleted(ctx, event)</span>
+                default:<span class="cov0" title="0">
+                        k.logger.Warn().Str("event_type", event.EventType).Msg("unknown translation event type")</span>
+                }
+
+                <span class="cov0" title="0">return nil</span>
+        }
+
+        <span class="cov0" title="0">return k.kafkaRepo.AddConsumer("translation-events", "translation-events-consumer", handler)</span>
+}
+
+// handleUserCreated -.
+func (k *KafkaEventUseCase) handleUserCreated(ctx context.Context, event entity.UserEvent) <span class="cov0" title="0">{
+        k.logger.Info().
+                Int64("user_id", event.UserID).
+                Str("email", event.Email).
+                Msg("processing user created event")
+
+        // Add your business logic here
+        // For example: send welcome email, create user profile, etc.
+}</span>
+
+// handleUserUpdated -.
+func (k *KafkaEventUseCase) handleUserUpdated(ctx context.Context, event entity.UserEvent) <span class="cov0" title="0">{
+        k.logger.Info().
+                Int64("user_id", event.UserID).
+                Str("email", event.Email).
+                Msg("processing user updated event")
+
+        // Add your business logic here
+        // For example: update cache, notify other services, etc.
+}</span>
+
+// handleUserDeleted -.
+func (k *KafkaEventUseCase) handleUserDeleted(ctx context.Context, event entity.UserEvent) <span class="cov0" title="0">{
+        k.logger.Info().
+                Int64("user_id", event.UserID).
+                Str("email", event.Email).
+                Msg("processing user deleted event")
+
+        // Add your business logic here
+        // For example: cleanup user data, revoke tokens, etc.
+}</span>
+
+// handleTranslationRequested -.
+func (k *KafkaEventUseCase) handleTranslationRequested(ctx context.Context, event entity.TranslationEvent) <span class="cov0" title="0">{
+        k.logger.Info().
+                Int64("user_id", event.UserID).
+                Str("source", event.Source).
+                Str("target", event.Target).
+                Str("original", event.Original).
+                Msg("processing translation requested event")
+
+        // Add your business logic here
+        // For example: track translation requests, update metrics, etc.
+}</span>
+
+// handleTranslationCompleted -.
+func (k *KafkaEventUseCase) handleTranslationCompleted(ctx context.Context, event entity.TranslationEvent) <span class="cov0" title="0">{
+        k.logger.Info().
+                Int64("user_id", event.UserID).
+                Str("source", event.Source).
+                Str("target", event.Target).
+                Str("translated", event.Translated).
+                Msg("processing translation completed event")
+
+        // Add your business logic here
+        // For example: update translation history, send notifications, etc.
+}</span>
+</pre>
+		
+		<pre class="file" id="file41" style="display: none">package usecase
+
+import "github.com/ducnpdev/godev-kit/internal/repo"
+
+type Nats interface {
+        Publish(subject string, data []byte) error
+        Subscribe(subject string, handler func(msg []byte)) (unsubscribe func() error, err error)
+}
+
+type natsUseCase struct {
+        natsRepo repo.NatsRepo
+}
+
+func NewNatsUseCase(natsRepo repo.NatsRepo) Nats <span class="cov0" title="0">{
+        return &amp;natsUseCase{natsRepo: natsRepo}
+}</span>
+
+func (u *natsUseCase) Publish(subject string, data []byte) error <span class="cov0" title="0">{
+        return u.natsRepo.Publish(subject, data)
+}</span>
+
+func (u *natsUseCase) Subscribe(subject string, handler func(msg []byte)) (func() error, error) <span class="cov0" title="0">{
+        return u.natsRepo.Subscribe(subject, handler)
+}</span>
+</pre>
+		
+		<pre class="file" id="file42" style="display: none">package payment
+
+import (
+        "context"
+        "encoding/json"
+        "fmt"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/pkg/kafka"
+        "github.com/rs/zerolog"
+)
+
+// PaymentConsumer represents payment Kafka consumer
+type PaymentConsumer struct {
+        consumer *kafka.Consumer
+        useCase  *PaymentUseCase
+        logger   *zerolog.Logger
+}
+
+// NewPaymentConsumer creates new payment consumer
+func NewPaymentConsumer(brokers []string, groupID string, useCase *PaymentUseCase, logger *zerolog.Logger) *PaymentConsumer <span class="cov0" title="0">{
+        handler := func(ctx context.Context, key, value []byte) error </span><span class="cov0" title="0">{
+                pc := &amp;PaymentConsumer{
+                        useCase: useCase,
+                        logger:  logger,
+                }
+                return pc.handlePaymentEvent(ctx, key, value)
+        }</span>
+
+        <span class="cov0" title="0">consumer := kafka.NewConsumer(brokers, "payment-events", groupID, handler, *logger)
+        return &amp;PaymentConsumer{
+                consumer: consumer,
+                useCase:  useCase,
+                logger:   logger,
+        }</span>
+}
+
+// Start starts the payment consumer
+func (pc *PaymentConsumer) Start(ctx context.Context) error <span class="cov0" title="0">{
+        pc.logger.Info().Msg("Starting payment consumer")
+        return pc.consumer.Start(ctx)
+}</span>
+
+// handlePaymentEvent handles payment events from Kafka
+func (pc *PaymentConsumer) handlePaymentEvent(ctx context.Context, key, value []byte) error <span class="cov0" title="0">{
+        pc.logger.Info().
+                Str("key", string(key)).
+                Str("value", string(value)).
+                Msg("Received payment event from Kafka")
+
+        // Parse payment event
+        var paymentEvent entity.PaymentEvent
+        err := json.Unmarshal(value, &amp;paymentEvent)
+        if err != nil </span><span class="cov0" title="0">{
+                pc.logger.Error().Err(err).Msg("Failed to unmarshal payment event")
+                return fmt.Errorf("failed to unmarshal payment event: %w", err)
+        }</span>
+
+        // Process payment
+        <span class="cov0" title="0">err = pc.useCase.ProcessPayment(ctx, &amp;paymentEvent)
+        if err != nil </span><span class="cov0" title="0">{
+                pc.logger.Error().Err(err).Msg("Failed to process payment")
+                return fmt.Errorf("failed to process payment: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">pc.logger.Info().
+                Int64("payment_id", paymentEvent.PaymentID).
+                Str("event_type", paymentEvent.EventType).
+                Msg("Payment event processed successfully")
+
+        return nil</span>
+}
+
+// Stop stops the payment consumer
+func (pc *PaymentConsumer) Stop() error <span class="cov0" title="0">{
+        pc.logger.Info().Msg("Stopping payment consumer")
+        return pc.consumer.Close()
+}</span>
+</pre>
+		
+		<pre class="file" id="file43" style="display: none">package payment
+
+import (
+        "context"
+        "fmt"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent"
+        "github.com/ducnpdev/godev-kit/pkg/kafka"
+        "github.com/rs/zerolog"
+)
+
+// PaymentUseCase represents payment use case
+type PaymentUseCase struct {
+        paymentRepo *persistent.PaymentRepo
+        kafkaProd   *kafka.Producer
+        logger      *zerolog.Logger
+}
+
+// NewPaymentUseCase creates new payment use case
+func NewPaymentUseCase(paymentRepo *persistent.PaymentRepo, kafkaProd *kafka.Producer, logger *zerolog.Logger) *PaymentUseCase <span class="cov0" title="0">{
+        return &amp;PaymentUseCase{
+                paymentRepo: paymentRepo,
+                kafkaProd:   kafkaProd,
+                logger:      logger,
+        }
+}</span>
+
+// RegisterPayment registers a new payment and sends to Kafka
+func (uc *PaymentUseCase) RegisterPayment(ctx context.Context, req *entity.PaymentRequest) (*entity.PaymentResponse, error) <span class="cov0" title="0">{
+        // Create payment entity
+        payment := &amp;entity.Payment{
+                UserID:        req.UserID,
+                Amount:        req.Amount,
+                Currency:      req.Currency,
+                PaymentType:   req.PaymentType,
+                Status:        entity.PaymentStatusPending,
+                MeterNumber:   req.MeterNumber,
+                CustomerCode:  req.CustomerCode,
+                Description:   req.Description,
+                PaymentMethod: req.PaymentMethod,
+        }
+
+        // Save to database
+        err := uc.paymentRepo.Create(ctx, payment)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.logger.Error().Err(err).Msg("Failed to create payment in database")
+                return nil, fmt.Errorf("failed to create payment: %w", err)
+        }</span>
+
+        // Create payment event for Kafka
+        <span class="cov0" title="0">paymentEvent := &amp;entity.PaymentEvent{
+                ID:            payment.ID,
+                EventType:     entity.PaymentCreatedEvent,
+                UserID:        payment.UserID,
+                PaymentID:     payment.ID,
+                Amount:        payment.Amount,
+                Currency:      payment.Currency,
+                PaymentType:   payment.PaymentType,
+                Status:        payment.Status,
+                MeterNumber:   payment.MeterNumber,
+                CustomerCode:  payment.CustomerCode,
+                Description:   payment.Description,
+                TransactionID: payment.TransactionID,
+                PaymentMethod: payment.PaymentMethod,
+                Timestamp:     time.Now(),
+        }
+
+        // Send to Kafka if producer is available
+        if uc.kafkaProd != nil </span><span class="cov0" title="0">{
+                err = uc.kafkaProd.SendMessage(ctx, "payment-events", []byte(paymentEvent.TransactionID), paymentEvent)
+                if err != nil </span><span class="cov0" title="0">{
+                        uc.logger.Error().Err(err).Msg("Failed to send payment event to Kafka")
+                        // Note: In production, you might want to handle this differently
+                        // For now, we'll just log the error but still return success
+                }</span>
+        } else<span class="cov0" title="0"> {
+                uc.logger.Info().Msg("Kafka producer is disabled, skipping payment event publishing")
+        }</span>
+
+        <span class="cov0" title="0">uc.logger.Info().
+                Int64("payment_id", payment.ID).
+                Int64("user_id", payment.UserID).
+                Float64("amount", payment.Amount).
+                Str("status", string(payment.Status)).
+                Msg("Payment registered successfully")
+
+        return &amp;entity.PaymentResponse{
+                ID:            payment.ID,
+                UserID:        payment.UserID,
+                Amount:        payment.Amount,
+                Currency:      payment.Currency,
+                PaymentType:   payment.PaymentType,
+                Status:        payment.Status,
+                MeterNumber:   payment.MeterNumber,
+                CustomerCode:  payment.CustomerCode,
+                Description:   payment.Description,
+                TransactionID: payment.TransactionID,
+                PaymentMethod: payment.PaymentMethod,
+                CreatedAt:     payment.CreatedAt,
+        }, nil</span>
+}
+
+// ProcessPayment processes payment from Kafka message
+func (uc *PaymentUseCase) ProcessPayment(ctx context.Context, paymentEvent *entity.PaymentEvent) error <span class="cov0" title="0">{
+        uc.logger.Info().
+                Int64("payment_id", paymentEvent.PaymentID).
+                Str("event_type", paymentEvent.EventType).
+                Msg("Processing payment from Kafka")
+
+        // Update status to processing
+        err := uc.paymentRepo.UpdateStatus(ctx, paymentEvent.PaymentID, entity.PaymentStatusProcessing)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.logger.Error().Err(err).Int64("payment_id", paymentEvent.PaymentID).Msg("Failed to update payment status to processing")
+                return fmt.Errorf("failed to update payment status: %w", err)
+        }</span>
+
+        // Simulate payment processing
+        // In real implementation, this would call external payment gateway
+        <span class="cov0" title="0">success := uc.simulatePaymentProcessing(paymentEvent)
+
+        var newStatus entity.PaymentStatus
+        if success </span><span class="cov0" title="0">{
+                newStatus = entity.PaymentStatusCompleted
+                uc.logger.Info().Int64("payment_id", paymentEvent.PaymentID).Msg("Payment processed successfully")
+        }</span> else<span class="cov0" title="0"> {
+                newStatus = entity.PaymentStatusFailed
+                uc.logger.Error().Int64("payment_id", paymentEvent.PaymentID).Msg("Payment processing failed")
+        }</span>
+
+        // Update final status
+        <span class="cov0" title="0">err = uc.paymentRepo.UpdateStatus(ctx, paymentEvent.PaymentID, newStatus)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.logger.Error().Err(err).Int64("payment_id", paymentEvent.PaymentID).Msg("Failed to update payment final status")
+                return fmt.Errorf("failed to update payment final status: %w", err)
+        }</span>
+
+        // Get updated payment for history
+        <span class="cov0" title="0">payment, err := uc.paymentRepo.GetByID(ctx, paymentEvent.PaymentID)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.logger.Error().Err(err).Int64("payment_id", paymentEvent.PaymentID).Msg("Failed to get payment for history")
+                return fmt.Errorf("failed to get payment for history: %w", err)
+        }</span>
+
+        // Create history record
+        <span class="cov0" title="0">err = uc.paymentRepo.CreateHistory(ctx, payment)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.logger.Error().Err(err).Int64("payment_id", paymentEvent.PaymentID).Msg("Failed to create payment history")
+                return fmt.Errorf("failed to create payment history: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">uc.logger.Info().
+                Int64("payment_id", paymentEvent.PaymentID).
+                Str("status", string(newStatus)).
+                Msg("Payment processing completed")
+
+        return nil</span>
+}
+
+// GetPaymentByID gets payment by ID
+func (uc *PaymentUseCase) GetPaymentByID(ctx context.Context, id int64) (*entity.PaymentResponse, error) <span class="cov0" title="0">{
+        payment, err := uc.paymentRepo.GetByID(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("failed to get payment: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">if payment == nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("payment not found")
+        }</span>
+
+        <span class="cov0" title="0">return &amp;entity.PaymentResponse{
+                ID:            payment.ID,
+                UserID:        payment.UserID,
+                Amount:        payment.Amount,
+                Currency:      payment.Currency,
+                PaymentType:   payment.PaymentType,
+                Status:        payment.Status,
+                MeterNumber:   payment.MeterNumber,
+                CustomerCode:  payment.CustomerCode,
+                Description:   payment.Description,
+                TransactionID: payment.TransactionID,
+                PaymentMethod: payment.PaymentMethod,
+                CreatedAt:     payment.CreatedAt,
+        }, nil</span>
+}
+
+// GetPaymentsByUserID gets payments by user ID
+func (uc *PaymentUseCase) GetPaymentsByUserID(ctx context.Context, userID int64) ([]*entity.PaymentResponse, error) <span class="cov0" title="0">{
+        payments, err := uc.paymentRepo.GetByUserID(ctx, userID)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("failed to get payments: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">responses := make([]*entity.PaymentResponse, len(payments))
+        for i, payment := range payments </span><span class="cov0" title="0">{
+                responses[i] = &amp;entity.PaymentResponse{
+                        ID:            payment.ID,
+                        UserID:        payment.UserID,
+                        Amount:        payment.Amount,
+                        Currency:      payment.Currency,
+                        PaymentType:   payment.PaymentType,
+                        Status:        payment.Status,
+                        MeterNumber:   payment.MeterNumber,
+                        CustomerCode:  payment.CustomerCode,
+                        Description:   payment.Description,
+                        TransactionID: payment.TransactionID,
+                        PaymentMethod: payment.PaymentMethod,
+                        CreatedAt:     payment.CreatedAt,
+                }
+        }</span>
+
+        <span class="cov0" title="0">return responses, nil</span>
+}
+
+// simulatePaymentProcessing simulates payment processing
+// In real implementation, this would call external payment gateway
+func (uc *PaymentUseCase) simulatePaymentProcessing(paymentEvent *entity.PaymentEvent) bool <span class="cov0" title="0">{
+        // Simulate processing time
+        time.Sleep(2 * time.Second)
+
+        // Simulate 90% success rate
+        // In real implementation, this would be based on actual payment gateway response
+        return true // For demo purposes, always return success
+}</span>
+</pre>
+		
+		<pre class="file" id="file44" style="display: none">package redis
+
+import (
+        "context"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent"
+)
+
+// RedisUseCase -.
+type RedisUseCase struct {
+        repo repo.RedisRepo
+}
+
+// NewRedisUseCase -.
+func NewRedisUseCase(r repo.RedisRepo) *RedisUseCase <span class="cov0" title="0">{
+        return &amp;RedisUseCase{
+                repo: r,
+        }
+}</span>
+
+// SetValue -.
+func (uc *RedisUseCase) SetValue(ctx context.Context, value entity.RedisValue) error <span class="cov0" title="0">{
+        return uc.repo.SetValue(ctx, value)
+}</span>
+
+// GetValue -.
+func (uc *RedisUseCase) GetValue(ctx context.Context, key string) (entity.RedisValue, error) <span class="cov0" title="0">{
+        return uc.repo.GetValue(ctx, key)
+}</span>
+
+// ShipperLocationUseCase implements updating shipper location in Redis and DB
+type ShipperLocationUseCase struct {
+        redisRepo    *persistent.RedisRepo
+        locationRepo *persistent.ShipperLocationRepo
+}
+
+func NewShipperLocationUseCase(redisRepo *persistent.RedisRepo, locationRepo *persistent.ShipperLocationRepo) *ShipperLocationUseCase <span class="cov0" title="0">{
+        return &amp;ShipperLocationUseCase{
+                redisRepo:    redisRepo,
+                locationRepo: locationRepo,
+        }
+}</span>
+
+// UpdateLocation updates the latest location in Redis and appends to DB
+func (uc *ShipperLocationUseCase) UpdateLocation(ctx context.Context, loc entity.ShipperLocation) error <span class="cov0" title="0">{
+        if err := uc.redisRepo.SetShipperLocation(ctx, loc); err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov0" title="0">return uc.locationRepo.Store(ctx, loc)</span>
+}
+
+// GetLocation retrieves the latest location of a shipper from Redis (cache-aside pattern)
+func (uc *ShipperLocationUseCase) GetLocation(ctx context.Context, shipperID string) (entity.ShipperLocation, error) <span class="cov0" title="0">{
+        // Try Redis first
+        loc, err := uc.redisRepo.GetShipperLocation(ctx, shipperID)
+        if err == nil </span><span class="cov0" title="0">{
+                return loc, nil
+        }</span>
+        // If not found in Redis, get from DB
+        <span class="cov0" title="0">dbLoc, dbErr := uc.locationRepo.GetLatestByShipperID(ctx, shipperID)
+        if dbErr != nil </span><span class="cov0" title="0">{
+                return entity.ShipperLocation{}, dbErr
+        }</span>
+        // Update Redis for next time
+        <span class="cov0" title="0">_ = uc.redisRepo.SetShipperLocation(ctx, dbLoc)
+        return dbLoc, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file45" style="display: none">package translation
+
+import (
+        "context"
+        "fmt"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/ducnpdev/godev-kit/pkg/logger"
+)
+
+// UseCase -.
+type UseCase struct {
+        logger logger.Interface
+        //
+        repo   repo.TranslationRepo
+        webAPI repo.TranslationWebAPI
+}
+
+// New -.
+func New(
+        r repo.TranslationRepo,
+        w repo.TranslationWebAPI,
+) *UseCase <span class="cov0" title="0">{
+        return &amp;UseCase{
+                repo:   r,
+                webAPI: w,
+        }
+}</span>
+
+// History - getting translate history from store.
+func (uc *UseCase) History(ctx context.Context) (entity.TranslationHistory, error) <span class="cov0" title="0">{
+        translations, err := uc.repo.GetHistory(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.TranslationHistory{}, fmt.Errorf("TranslationUseCase - History - s.repo.GetHistory: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return entity.TranslationHistory{History: translations}, nil</span>
+}
+
+// Translate -.
+func (uc *UseCase) Translate(ctx context.Context, t entity.Translation) (entity.Translation, error) <span class="cov0" title="0">{
+        translation, err := uc.webAPI.Translate(t)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.Translation{}, fmt.Errorf("TranslationUseCase - Translate - s.webAPI.Translate: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">err = uc.repo.Store(ctx, models.TranslationModel{
+                Source:      t.Source,
+                Destination: t.Destination,
+                Original:    t.Original,
+                Translation: t.Translation,
+        })
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.Translation{}, fmt.Errorf("TranslationUseCase - Translate - s.repo.Store: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return translation, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file46" style="display: none">package user
+
+import (
+        "context"
+        "errors"
+        "fmt"
+        "time"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo"
+        "github.com/ducnpdev/godev-kit/internal/repo/persistent/models"
+        "github.com/golang-jwt/jwt/v4"
+        "github.com/jackc/pgx/v5"
+        "golang.org/x/crypto/bcrypt"
+)
+
+// UseCase -.
+type UseCase struct {
+        repo      repo.UserRepo
+        jwtSecret []byte
+}
+
+// New -.
+func New(r repo.UserRepo, jwtSecret string) *UseCase <span class="cov0" title="0">{
+        return &amp;UseCase{
+                repo:      r,
+                jwtSecret: []byte(jwtSecret),
+        }
+}</span>
+
+// hashPassword hashes a password using bcrypt
+func (uc *UseCase) hashPassword(password string) (string, error) <span class="cov0" title="0">{
+        hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+        if err != nil </span><span class="cov0" title="0">{
+                return "", fmt.Errorf("UserUseCase - hashPassword - bcrypt.GenerateFromPassword: %w", err)
+        }</span>
+        <span class="cov0" title="0">return string(hashedPassword), nil</span>
+}
+
+// Create -.
+func (uc *UseCase) Create(ctx context.Context, user entity.User) (entity.User, error) <span class="cov0" title="0">{
+        // Hash password before creating user
+        hashedPassword, err := uc.hashPassword(user.Password)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserUseCase - Create - uc.hashPassword: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">userModel := models.UserModel{
+                Email:    user.Email,
+                Username: user.Username,
+                Password: hashedPassword,
+        }
+
+        createdUser, err := uc.repo.Create(ctx, userModel)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserUseCase - Create - uc.repo.Create: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return createdUser, nil</span>
+}
+
+// GetByID -.
+func (uc *UseCase) GetByID(ctx context.Context, id int64) (entity.User, error) <span class="cov0" title="0">{
+        user, err := uc.repo.GetByID(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.User{}, fmt.Errorf("UserUseCase - GetByID - uc.repo.GetByID: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return user, nil</span>
+}
+
+// Update -.
+func (uc *UseCase) Update(ctx context.Context, user entity.User) error <span class="cov0" title="0">{
+        userModel := models.UserModel{
+                ID:       user.ID,
+                Email:    user.Email,
+                Username: user.Username,
+        }
+
+        // Only hash password if it's being updated
+        if user.Password != "" </span><span class="cov0" title="0">{
+                hashedPassword, err := uc.hashPassword(user.Password)
+                if err != nil </span><span class="cov0" title="0">{
+                        return fmt.Errorf("UserUseCase - Update - uc.hashPassword: %w", err)
+                }</span>
+                <span class="cov0" title="0">userModel.Password = hashedPassword</span>
+        }
+
+        <span class="cov0" title="0">err := uc.repo.Update(ctx, userModel)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("UserUseCase - Update - uc.repo.Update: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// Delete -.
+func (uc *UseCase) Delete(ctx context.Context, id int64) error <span class="cov0" title="0">{
+        err := uc.repo.Delete(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                return fmt.Errorf("UserUseCase - Delete - uc.repo.Delete: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+// List -.
+func (uc *UseCase) List(ctx context.Context) (entity.UserHistory, error) <span class="cov0" title="0">{
+        users, err := uc.repo.List(ctx)
+        if err != nil </span><span class="cov0" title="0">{
+                return entity.UserHistory{}, fmt.Errorf("UserUseCase - List - uc.repo.List: %w", err)
+        }</span>
+
+        <span class="cov0" title="0">return entity.UserHistory{Users: users}, nil</span>
+}
+
+// JWTClaims represents the claims in a JWT token
+type JWTClaims struct {
+        UserID int64  `json:"user_id"`
+        Email  string `json:"email"`
+        jwt.RegisteredClaims
+}
+
+// Login authenticates a user and returns a JWT token
+func (uc *UseCase) Login(ctx context.Context, email, password string) (string, entity.User, error) <span class="cov0" title="0">{
+        // Validate input
+        if email == "" </span><span class="cov0" title="0">{
+                return "", entity.User{}, fmt.Errorf("UserUseCase - Login - email is required")
+        }</span>
+        <span class="cov0" title="0">if password == "" </span><span class="cov0" title="0">{
+                return "", entity.User{}, fmt.Errorf("UserUseCase - Login - password is required")
+        }</span>
+
+        // Get user by email
+        <span class="cov0" title="0">user, err := uc.repo.GetByEmail(ctx, email)
+        if err != nil </span><span class="cov0" title="0">{
+                if errors.Is(err, pgx.ErrNoRows) </span><span class="cov0" title="0">{
+                        return "", entity.User{}, fmt.Errorf("UserUseCase - Login - invalid email or password")
+                }</span>
+                <span class="cov0" title="0">return "", entity.User{}, fmt.Errorf("UserUseCase - Login - failed to get user: %w", err)</span>
+        }
+
+        // Compare passwords
+        <span class="cov0" title="0">err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+        if err != nil </span><span class="cov0" title="0">{
+                if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) </span><span class="cov0" title="0">{
+                        return "", entity.User{}, fmt.Errorf("UserUseCase - Login - invalid email or password")
+                }</span>
+                <span class="cov0" title="0">return "", entity.User{}, fmt.Errorf("UserUseCase - Login - failed to compare passwords: %w", err)</span>
+        }
+
+        // Set token expiration (24 hours from now)
+        <span class="cov0" title="0">expirationTime := time.Now().Add(24 * time.Hour)
+
+        // Create JWT claims
+        claims := &amp;JWTClaims{
+                UserID: user.ID,
+                Email:  user.Email,
+                RegisteredClaims: jwt.RegisteredClaims{
+                        ExpiresAt: jwt.NewNumericDate(expirationTime),
+                        IssuedAt:  jwt.NewNumericDate(time.Now()),
+                        NotBefore: jwt.NewNumericDate(time.Now()),
+                        Issuer:    "godev-kit",
+                        Subject:   fmt.Sprintf("%d", user.ID),
+                },
+        }
+
+        // Create token with claims
+        token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+        // Generate encoded token
+        tokenString, err := token.SignedString(uc.jwtSecret)
+        if err != nil </span><span class="cov0" title="0">{
+                return "", entity.User{}, fmt.Errorf("UserUseCase - Login - failed to sign token: %w", err)
+        }</span>
+
+        // Clear password from user entity before returning
+        <span class="cov0" title="0">user.Password = ""
+
+        return tokenString, user, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file47" style="display: none">package vietqr
+
+import (
+        "context"
+
+        "github.com/ducnpdev/godev-kit/internal/entity"
+        "github.com/ducnpdev/godev-kit/internal/repo/externalapi/vietqr"
+        "github.com/google/uuid"
+)
+
+// VietQRUseCase is the interface for the vietqr use case.
+type VietQRUseCase interface {
+        GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error)
+        InquiryQR(ctx context.Context, id string) (*entity.VietQR, error)
+        UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error
+}
+
+// VietQRPersistentRepo is the interface for the vietqr persistent repository.
+type VietQRPersistentRepo interface {
+        Store(ctx context.Context, qr entity.VietQR) error
+        FindByID(ctx context.Context, id string) (entity.VietQR, error)
+        UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error
+}
+
+type vietQRUseCase struct {
+        repo           vietqr.VietQRRepo
+        persistentRepo VietQRPersistentRepo
+}
+
+// NewVietQRUseCase creates a new vietqr use case.
+func NewVietQRUseCase(repo vietqr.VietQRRepo, persistentRepo VietQRPersistentRepo) VietQRUseCase <span class="cov0" title="0">{
+        return &amp;vietQRUseCase{repo: repo, persistentRepo: persistentRepo}
+}</span>
+
+func (uc *vietQRUseCase) GenerateQR(ctx context.Context, req entity.VietQRGenerateRequest) (*entity.VietQR, error) <span class="cov0" title="0">{
+        content, err := uc.repo.GenerateQR(ctx, req)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">qrEntity := &amp;entity.VietQR{
+                ID:      uuid.NewString(),
+                Status:  entity.VietQRStatusGenerated,
+                Content: content,
+        }
+
+        if err := uc.persistentRepo.Store(ctx, *qrEntity); err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return qrEntity, nil</span>
+}
+
+func (uc *vietQRUseCase) InquiryQR(ctx context.Context, id string) (*entity.VietQR, error) <span class="cov0" title="0">{
+        qr, err := uc.persistentRepo.FindByID(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return &amp;qr, nil</span>
+}
+
+func (uc *vietQRUseCase) UpdateStatus(ctx context.Context, id string, status entity.VietQRStatus) error <span class="cov0" title="0">{
+        return uc.persistentRepo.UpdateStatus(ctx, id, status)
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
