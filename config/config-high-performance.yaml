@@ -1,0 +1,90 @@
+APP:
+  NAME: godev-kit
+  VERSION: 1.0.0
+  MODE: production
+
+HTTP:
+  PORT: 10000
+  READ_TIMEOUT: 5s        # Giảm từ 10s xuống 5s
+  WRITE_TIMEOUT: 10s      # Giảm từ 30s xuống 10s  
+  IDLE_TIMEOUT: 60s       # Tăng từ 30s lên 60s
+  SHUTDOWN_TIMEOUT: 10s   # Tăng từ 5s lên 10s
+  USE_PREFORK_MODE: true  # Bật prefork mode
+  API_TIMEOUT: 3s         # Giảm từ 5s xuống 3s
+
+LOG:
+  LEVEL: info             # Giảm từ debug xuống info
+  IN_COMMING_REQUEST:
+    PRINT_REQUEST: false   # Tắt trong production
+    PRINT_RESPONSE: false  # Tắt trong production
+  OUT_COMMING_REQUEST:
+    PRINT_REQUEST: false   # Tắt trong production
+    PRINT_RESPONSE: false  # Tắt trong production
+
+PG:
+  POOL_MAX: 50              # Tăng từ 10 lên 50
+  POOL_MIN: 10              # Tăng từ 2 lên 10
+  MAX_CONN_LIFETIME: 15m    # Giảm từ 30m xuống 15m
+  MAX_CONN_IDLE_TIME: 5m    # Giảm từ 10m xuống 5m
+  HEALTH_CHECK_PERIOD: 30s  # Giảm từ 1m xuống 30s
+  URL: "postgres://godevkit:1@localhost:5433/godevkit?sslmode=disable"
+
+REDIS:
+  URL: "redis://localhost:6379/0"
+  POOL_SIZE: 50
+  MIN_IDLE_CONNS: 10
+  MAX_RETRIES: 3
+  DIAL_TIMEOUT: 5s
+  READ_TIMEOUT: 3s
+  WRITE_TIMEOUT: 3s
+
+GRPC:
+  PORT: "9000"
+
+RMQ:
+  RPC_SERVER: rpc_server
+  RPC_CLIENT: rpc_client
+  URL: amqp://guest:guest@localhost:5672/
+
+KAFKA:
+  BROKERS:
+    - localhost:9092
+  GROUP_ID: godev-kit-group
+  TOPICS:
+    USER_EVENTS: dev.user-events
+    TRANSLATION_EVENTS: dev.translation-events
+  CONTROL:
+    PRODUCER_ENABLED: false
+    CONSUMER_ENABLED: false
+
+NATS:
+  URL: nats://localhost:4222
+  TIMEOUT: 3s
+  ENABLE: false
+
+METRICS:
+  ENABLED: true
+  SKIP_PATHS: "/swagger/*;/metrics;/debug/*"
+  PATH: "/metrics"
+
+PROFILING:
+  ENABLED: true
+  PATH: "/debug"
+  CPU_PROFILE_DURATION: 30
+  MEMORY_PROFILE_INTERVAL: 60
+
+SWAGGER:
+  ENABLED: false          # Tắt trong production
+
+JWT:
+  SECRET: "your-secret-key-here"
+
+# Performance tuning
+PERFORMANCE:
+  WORKER_POOL_SIZE: 100
+  BUFFER_POOL_SIZE: 1000
+  CACHE_TTL: 300s
+  RATE_LIMIT: 10000       # requests per second
+  CIRCUIT_BREAKER:
+    FAILURE_THRESHOLD: 5
+    RECOVERY_TIMEOUT: 30s 
