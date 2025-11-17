@@ -1,10 +1,8 @@
 package v1
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/request"
 	"github.com/ducnpdev/godev-kit/internal/controller/http/v1/response"
@@ -107,22 +105,22 @@ func (r *V1) GetUser(c *gin.Context) {
 func (r *V1) ListUsers(c *gin.Context) {
 	// For debugging timeout behavior, uncomment the sleep below:
 	// This will trigger the 8-second request timeout defined in middleware
-	for i := 0; i < 10; i++ {
-		fmt.Printf("[DEBUG] ListUsers processing step %d/10\n", i+1)
-		time.Sleep(1 * time.Second)
+	// for i := 0; i < 10; i++ {
+	// 	fmt.Printf("[DEBUG] ListUsers processing step %d/10\n", i+1)
+	// 	time.Sleep(1 * time.Second)
 
-		// Check if context was cancelled (timeout or client disconnect)
-		select {
-		case <-c.Request.Context().Done():
-			r.l.Warn("ListUsers request was cancelled",
-				"reason", c.Request.Context().Err().Error(),
-				"client_ip", c.ClientIP(),
-				"step", i+1)
-			return
-		default:
-			// Continue processing
-		}
-	}
+	// 	// Check if context was cancelled (timeout or client disconnect)
+	// 	select {
+	// 	case <-c.Request.Context().Done():
+	// 		r.l.Warn("ListUsers request was cancelled",
+	// 			"reason", c.Request.Context().Err().Error(),
+	// 			"client_ip", c.ClientIP(),
+	// 			"step", i+1)
+	// 		return
+	// 	default:
+	// 		// Continue processing
+	// 	}
+	// }
 
 	userHistory, err := r.user.List(c.Request.Context())
 	if err != nil {
@@ -131,7 +129,7 @@ func (r *V1) ListUsers(c *gin.Context) {
 		return
 	}
 
-	r.l.Info("ListUsers completed successfully", "client_ip", c.ClientIP())
+	r.l.Debug("ListUsers completed successfully", "client_ip", c.ClientIP())
 	c.JSON(http.StatusOK, userHistory)
 }
 

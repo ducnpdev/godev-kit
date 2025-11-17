@@ -1,0 +1,84 @@
+# Optimized PostgreSQL Configuration for Mac (8 CPU, 16GB RAM)
+# This configuration is optimized for development and moderate production workloads
+
+APP:
+  NAME: godev-kit
+  VERSION: 1.0.0
+  MODE: debug
+
+HTTP:
+  PORT: 10000
+  READ_TIMEOUT: 10s
+  WRITE_TIMEOUT: 30s
+  IDLE_TIMEOUT: 30s
+  SHUTDOWN_TIMEOUT: 5s
+  USE_PREFORK_MODE: false
+  API_TIMEOUT: 5s
+
+LOG:
+  LEVEL: debug
+  IN_COMMING_REQUEST:
+    PRINT_REQUEST: true
+    PRINT_RESPONSE: true
+  OUT_COMMING_REQUEST:
+    PRINT_REQUEST: true
+    PRINT_RESPONSE: true
+
+# Optimized PostgreSQL Configuration for 8 CPU, 16GB RAM
+PG:
+  # Connection Pool Settings (optimized for your hardware)
+  POOL_MAX: 32                    # Increased from 10 - allows more concurrent connections
+  POOL_MIN: 8                     # Increased from 2 - maintains more idle connections
+  MAX_CONN_LIFETIME: 1h           # Increased from 30m - reduces connection churn
+  MAX_CONN_IDLE_TIME: 15m         # Increased from 10m - keeps connections alive longer
+  HEALTH_CHECK_PERIOD: 30s        # Decreased from 1m - more frequent health checks
+  URL: "postgres://godevkit:1@localhost:5433/godevkit?sslmode=disable"
+  
+  # Additional PostgreSQL-specific optimizations
+  STATEMENT_TIMEOUT: 30s          # Query timeout
+  IDLE_IN_TRANSACTION_TIMEOUT: 10m # Idle transaction timeout
+  LOCK_TIMEOUT: 5s                # Lock acquisition timeout
+
+REDIS:
+  URL: "redis://localhost:6379/0"
+
+GRPC:
+  PORT: "9000"
+
+RMQ:
+  RPC_SERVER: rpc_server
+  RPC_CLIENT: rpc_client
+  URL: amqp://guest:guest@localhost:5672/
+
+KAFKA:
+  BROKERS:
+    - localhost:9092
+  GROUP_ID: godev-kit-group
+  TOPICS:
+    USER_EVENTS: dev.user-events
+    TRANSLATION_EVENTS: dev.translation-events
+  CONTROL:
+    PRODUCER_ENABLED: false
+    CONSUMER_ENABLED: false
+
+NATS:
+  URL: nats://localhost:4222
+  TIMEOUT: 3s
+  ENABLE: false
+
+METRICS:
+  ENABLED: true
+  SKIP_PATHS: "/swagger/*;/metrics;/debug/*"
+  PATH: "/metrics"
+
+PROFILING:
+  ENABLED: true
+  PATH: "/debug"
+  CPU_PROFILE_DURATION: 30
+  MEMORY_PROFILE_INTERVAL: 60
+
+SWAGGER:
+  ENABLED: true
+
+JWT:
+  SECRET: "123" 

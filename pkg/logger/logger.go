@@ -15,6 +15,7 @@ type Interface interface {
 	Warn(message string, args ...interface{})
 	Error(message interface{}, args ...interface{})
 	Fatal(message interface{}, args ...interface{})
+	Zerolog() zerolog.Logger
 }
 
 // Logger -.
