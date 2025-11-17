@@ -1,10 +1,13 @@
+# Load .env file if it exists (optional - project uses config.yaml)
 ifneq ($(wildcard .env),)
 include .env
 export
-else
-$(warning WARNING: .env file not found! Using .env.example)
+else ifneq ($(wildcard .env.example),)
+$(info INFO: Using .env.example file)
 include .env.example
 export
+else
+$(info INFO: No .env file found. Project uses config.yaml for configuration.)
 endif
 
 LOCAL_BIN:=$(CURDIR)/bin
@@ -85,6 +88,34 @@ linter-dotenv: ### check by dotenv linter
 test: ### run test
 	go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/...
 .PHONY: test
+
+test-unit: ### run unit tests only
+	go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/...
+.PHONY: test-unit
+
+test-coverage: ### run tests with coverage report
+	go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/... && \
+	go tool cover -html=coverage.txt -o coverage.html && \
+	echo "Coverage report generated: coverage.html"
+.PHONY: test-coverage
+
+test-coverage-view: ### run tests with coverage and open HTML report
+	go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/... && \
+	go tool cover -html=coverage.txt -o coverage.html && \
+	open coverage.html || xdg-open coverage.html || echo "Coverage report generated: coverage.html"
+.PHONY: test-coverage-view
+
+test-package: ### run tests for specific package (usage: make test-package PACKAGE=./internal/controller/http/v1)
+	go test -v -race -covermode atomic -coverprofile=coverage.txt $(PACKAGE)
+.PHONY: test-package
+
+test-short: ### run tests without race detector (faster)
+	go test -v -covermode atomic -coverprofile=coverage.txt ./internal/...
+.PHONY: test-short
+
+test-verbose: ### run tests with verbose output
+	go test -v -race -covermode atomic -coverprofile=coverage.txt ./internal/... -test.v
+.PHONY: test-verbose
 
 integration-test: ### run integration-test
 	go clean -testcache && go test -v ./integration-test/...

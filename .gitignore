@@ -42,3 +42,5 @@ README_RU.md
 
 # 
 cmd/app/config/config.yaml
+
+.DS_Store
